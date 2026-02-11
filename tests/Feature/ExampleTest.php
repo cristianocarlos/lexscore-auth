@@ -1,7 +1,7 @@
 <?php
 
-test('health check returns success', function () {
-    $response = $this->get('/up');
+test('the application returns a successful response', function () {
+    $response = $this->get('/');
 
     $response->assertStatus(200);
 });
