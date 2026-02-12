@@ -214,4 +214,6 @@ return [
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
 
+    'refresh_token_domain' => env('SESSION_REFRESH_COOKIE_DOMAIN'),
+
 ];

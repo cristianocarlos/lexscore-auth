@@ -20,7 +20,7 @@ class JwtHelper
             value: $value,
             minutes: $value ? 60 * 24 * static::REFRESH_COOKIE_DURATION_IN_DAYS : -1,
             path: static::REFRESH_COOKIE_PATH,
-            domain: config('session.domain'),
+            domain: config('session.refresh_token_domain'),
             secure: config('session.secure', false),
             httpOnly: true,
             raw: false,
