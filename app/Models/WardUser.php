@@ -31,8 +31,6 @@ class WardUser extends Authenticatable implements JWTSubject
     ];
     protected $hidden = [
         'user_pass',
-        'sys_audit',
-        'sys_keep_out',
     ];
 
     public function getAuthPassword(): string {
@@ -50,7 +48,6 @@ class WardUser extends Authenticatable implements JWTSubject
         if (mb_strlen($this->user_pass) === 32 && ctype_xdigit($this->user_pass)) {
             return md5($plainPassword) === $this->user_pass;
         }
-
         return Hash::check($plainPassword, $this->user_pass);
     }
 
@@ -59,7 +56,10 @@ class WardUser extends Authenticatable implements JWTSubject
     }
 
     public function getJWTCustomClaims(): array {
-        return [];
+        return [
+            'name' => $this->user_mail,
+            'email' => $this->user_mail,
+        ];
     }
 
     public static function findByUsername(string $username): ?static {

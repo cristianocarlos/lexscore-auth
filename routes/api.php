@@ -8,7 +8,7 @@ Route::prefix('ward')->group(function () {
     Route::post('/refresh', [WardAuthController::class, 'refresh']);
     Route::post('/deactivate', [WardAuthController::class, 'deactivate']);
     Route::post('/reactivate', [WardAuthController::class, 'reactivate']);
-    Route::middleware('auth:intranet')->group(function () {
+    Route::middleware('auth:ward')->group(function () {
         Route::post('/logout', [WardAuthController::class, 'logout']);
     });
 });
