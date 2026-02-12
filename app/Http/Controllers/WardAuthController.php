@@ -13,7 +13,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class WardAuthController extends Controller
 {
     const string REFRESH_TOKEN_NAME = JwtHelper::REFRESH_TOKEN_NAME;
-    const string GUARD = 'intranet';
+    const string GUARD = 'ward';
 
     public function login(Request $request): JsonResponse {
         $validator = Validator::make($request->all(), [
