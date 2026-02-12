@@ -20,7 +20,7 @@ class JwtHelper
             value: $value,
             minutes: $value ? 60 * 24 * static::REFRESH_COOKIE_DURATION_IN_DAYS : -1,
             path: static::REFRESH_COOKIE_PATH,
-            domain: config('session.refresh_token_domain'),
+            domain: config('session.domain'),
             secure: config('session.secure', false),
             httpOnly: true,
             raw: false,
@@ -80,6 +80,7 @@ class JwtHelper
         string $cookieName,
         string $guard,
     ): JsonResponse {
+        // return response()->json([$refreshToken, $cookieName]);
         $data = [
             'success' => true,
             'access_token' => $accessToken,

@@ -59,16 +59,22 @@ class WardAuthController extends Controller
 
     public function refresh(Request $request): JsonResponse {
         try {
+            $errorStatusCode = JsonResponse::HTTP_UNAUTHORIZED;
             $refreshToken = $request->cookie(static::REFRESH_TOKEN_NAME);
             if (!$refreshToken) {
-                return response()->json(['success' => false, 'message' => 'Refresh token not found'], JsonResponse::HTTP_UNAUTHORIZED);
+                return response()->json(['success' => false, 'message' => 'Refresh token not found'], $errorStatusCode);
             }
 
             $refreshPayload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
-            if (empty($refreshPayload)) return JwtHelper::respondJsonWithExpiredCookie('Invalid refresh token', static::REFRESH_TOKEN_NAME);
+            if (empty($refreshPayload)) {
+                return JwtHelper::respondJsonWithExpiredCookie('Invalid refresh token', static::REFRESH_TOKEN_NAME, $errorStatusCode);
+            }
 
             $userModel = WardUser::find($refreshPayload['sub']);
-            if (!$userModel) return JwtHelper::respondJsonWithExpiredCookie('User not found', static::REFRESH_TOKEN_NAME, JsonResponse::HTTP_NOT_FOUND);
+            if (!$userModel) {
+                return JwtHelper::respondJsonWithExpiredCookie('User not found', static::REFRESH_TOKEN_NAME, $errorStatusCode);
+            }
+
             $newAccessToken = auth(static::GUARD)->login($userModel);
             $newRefreshToken = JwtHelper::refreshTokenGenerate($userModel->user_code, static::REFRESH_TOKEN_NAME);
 
@@ -85,33 +91,9 @@ class WardAuthController extends Controller
         }
     }
 
-    public function reactivate(Request $request): JsonResponse {
-        $userModel = WardUser::find($request->input('LoginForm.username'));
-        if (!$userModel or !$userModel->validatePassword($request->input('LoginForm.password'))) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid email or password',
-            ], JsonResponse::HTTP_UNAUTHORIZED);
-        }
-        $accessToken = JWTAuth::fromUser($userModel);
-        $refreshToken = JwtHelper::refreshTokenGenerate($userModel->user_code, static::REFRESH_TOKEN_NAME);
-
-        return JwtHelper::respondJsonWithAccessTokenAndCookie(
-            $accessToken,
-            $userModel,
-            $refreshToken,
-            static::REFRESH_TOKEN_NAME,
-            static::GUARD,
-        );
-    }
-
     public function logout(): JsonResponse {
         auth(static::GUARD)->logout();
 
         return JwtHelper::respondJsonLogout('Successfully logged out', static::REFRESH_TOKEN_NAME);
-    }
-
-    public function deactivate(): JsonResponse {
-        return JwtHelper::respondJsonLogout('Successfully deactivated', static::REFRESH_TOKEN_NAME);
     }
 }
