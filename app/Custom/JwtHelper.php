@@ -14,8 +14,7 @@ class JwtHelper
     const string REFRESH_COOKIE_PATH = '/';
     const int REFRESH_COOKIE_DURATION_IN_DAYS = 14;
 
-    private static function setRefreshTokenCookie(?string $value, string $cookieName): SymfonyCookie
-    {
+    private static function setRefreshTokenCookie(?string $value, string $cookieName): SymfonyCookie {
         return cookie(
             name: $cookieName,
             value: $value,
@@ -29,8 +28,7 @@ class JwtHelper
         );
     }
 
-    public static function refreshTokenGenerate(int $userId, string $cookieName): string
-    {
+    public static function refreshTokenGenerate(int $userId, string $cookieName): string {
         return JWTAuth::getJWTProvider()->encode([
             'iss' => config('app.url'),
             'iat' => now()->timestamp,
@@ -42,8 +40,7 @@ class JwtHelper
         ]);
     }
 
-    public static function refreshTokenValidate(string $refreshToken, string $cookieName): array
-    {
+    public static function refreshTokenValidate(string $refreshToken, string $cookieName): array {
         try {
             // Tabela id, user_id, created_at, expired_at
             // $payload = RefreshToken::where('id', $refreshToken)->first();
@@ -61,16 +58,14 @@ class JwtHelper
         }
     }
 
-    public static function respondJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse
-    {
+    public static function respondJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse {
         return response()->json([
             'success' => false,
             'message' => $message,
         ], $httpStatusCode)->withCookie(JwtHelper::setRefreshTokenCookie(null, $cookieName));
     }
 
-    public static function respondJsonLogout(string $message, string $cookieName): JsonResponse
-    {
+    public static function respondJsonLogout(string $message, string $cookieName): JsonResponse {
         // JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json([
             'success' => true,

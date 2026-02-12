@@ -15,8 +15,7 @@ class WardAuthController extends Controller
     const string REFRESH_TOKEN_NAME = JwtHelper::REFRESH_TOKEN_NAME;
     const string GUARD = 'intranet';
 
-    public function login(Request $request): JsonResponse
-    {
+    public function login(Request $request): JsonResponse {
         $validator = Validator::make($request->all(), [
             'LoginForm.cf_turnstile_response' => ['required', new CloudflareTurnstileWardValidate],
             'LoginForm.username' => 'required',
@@ -58,8 +57,7 @@ class WardAuthController extends Controller
         );
     }
 
-    public function refresh(Request $request): JsonResponse
-    {
+    public function refresh(Request $request): JsonResponse {
         try {
             $refreshToken = $request->cookie(static::REFRESH_TOKEN_NAME);
             if (!$refreshToken) {
@@ -87,8 +85,7 @@ class WardAuthController extends Controller
         }
     }
 
-    public function reactivate(Request $request): JsonResponse
-    {
+    public function reactivate(Request $request): JsonResponse {
         $userModel = WardUser::find($request->input('LoginForm.username'));
         if (!$userModel or !$userModel->validatePassword($request->input('LoginForm.password'))) {
             return response()->json([
@@ -108,15 +105,13 @@ class WardAuthController extends Controller
         );
     }
 
-    public function logout(): JsonResponse
-    {
+    public function logout(): JsonResponse {
         auth(static::GUARD)->logout();
 
         return JwtHelper::respondJsonLogout('Successfully logged out', static::REFRESH_TOKEN_NAME);
     }
 
-    public function deactivate(): JsonResponse
-    {
+    public function deactivate(): JsonResponse {
         return JwtHelper::respondJsonLogout('Successfully deactivated', static::REFRESH_TOKEN_NAME);
     }
 }

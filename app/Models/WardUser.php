@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\ModuleEnum;
 use App\Enums\PhpGenEnum;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,19 +35,16 @@ class WardUser extends Authenticatable implements JWTSubject
         'sys_keep_out',
     ];
 
-    public function getAuthPassword(): string
-    {
+    public function getAuthPassword(): string {
         return $this->user_pass;
     }
 
     // Override the default password field name
-    public function getAuthPasswordName(): string
-    {
+    public function getAuthPasswordName(): string {
         return 'user_pass';
     }
 
-    public function validatePassword($plainPassword): string
-    {
+    public function validatePassword($plainPassword): string {
         // return response()->json(CustomUser::find(2));
         // If password is stored as MD5 (32 chars hex)
         if (mb_strlen($this->user_pass) === 32 && ctype_xdigit($this->user_pass)) {
@@ -58,22 +54,18 @@ class WardUser extends Authenticatable implements JWTSubject
         return Hash::check($plainPassword, $this->user_pass);
     }
 
-    public function getJWTIdentifier()
-    {
+    public function getJWTIdentifier() {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims(): array
-    {
+    public function getJWTCustomClaims(): array {
         return [];
     }
 
-    public static function findByUsername(string $username): ?static
-    {
+    public static function findByUsername(string $username): ?static {
         $columnName = str_contains($username, '@') ? 'user_mail' : 'user_code';
         return static::where([
             $columnName => $username,
-            'user_modu' => ModuleEnum::ADMIN_USER->value,
             'user_stat' => PhpGenEnum::STATUS_OK->value,
         ])->first();
     }

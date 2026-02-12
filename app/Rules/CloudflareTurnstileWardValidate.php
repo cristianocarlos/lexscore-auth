@@ -15,8 +15,7 @@ class CloudflareTurnstileWardValidate implements ValidationRule
      *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
+    public function validate(string $attribute, mixed $value, Closure $fail): void {
         if (app()->environment('testing') || app()->runningUnitTests()) {
             return;
         }

@@ -8,8 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CorsMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
-    {
+    public function handle(Request $request, Closure $next): Response {
         // Handle preflight requests
         if ($request->isMethod('OPTIONS')) {
             return response('', 200)
@@ -32,8 +31,7 @@ class CorsMiddleware
         return $response;
     }
 
-    private function getAllowedOrigin(Request $request): string
-    {
+    private function getAllowedOrigin(Request $request): string {
         $allowedOrigins = config('cors.allowed_origins', []);
         $origin = $request->headers->get('Origin');
 

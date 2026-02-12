@@ -3,6 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "pint": "./vendor/bin/pint --test -v",
+        "pifix": "./vendor/bin/pint",
         "build": "vite build",
         "dev": "vite"
     },
