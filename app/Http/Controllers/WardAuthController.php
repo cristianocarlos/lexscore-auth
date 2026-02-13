@@ -17,11 +17,11 @@ class WardAuthController extends Controller
 
     public function login(Request $request): JsonResponse {
         $validator = Validator::make($request->all(), [
-            'LoginForm.cf_turnstile_response' => ['required', new CloudflareTurnstileWardValidate],
+            // 'LoginForm.cf_turnstile_response' => ['required', new CloudflareTurnstileWardValidate],
             'LoginForm.username' => 'required',
             'LoginForm.password' => 'required',
         ], [
-            'LoginForm.cf_turnstile_response.required' => 'Captcha verification empty. Please try again',
+            // 'LoginForm.cf_turnstile_response.required' => 'Captcha verification empty. Please try again',
         ]);
 
         if ($validator->fails()) {
