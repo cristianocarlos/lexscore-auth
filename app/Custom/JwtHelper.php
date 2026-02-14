@@ -11,16 +11,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class JwtHelper
 {
     const string REFRESH_TOKEN_NAME = 'refresh-token';
-    const string REFRESH_COOKIE_PATH = '/';
-    const int REFRESH_COOKIE_DURATION_IN_DAYS = 14;
+    private const string REFRESH_TOKEN_COOKIE_PATH = '/';
+    private const int REFRESH_TOKEN_COOKIE_DURATION_IN_DAYS = 14;
 
     private static function setRefreshTokenCookie(?string $value, string $cookieName): SymfonyCookie {
         return cookie(
             name: $cookieName,
             value: $value,
-            minutes: $value ? 60 * 24 * static::REFRESH_COOKIE_DURATION_IN_DAYS : -1,
-            path: static::REFRESH_COOKIE_PATH,
-            domain: config('session.domain'),
+            minutes: $value ? 60 * 24 * static::REFRESH_TOKEN_COOKIE_DURATION_IN_DAYS : -1,
+            path: static::REFRESH_TOKEN_COOKIE_PATH,
+            domain: config('session.refresh_token_domain'), // para poder acessar o tokem em outro subdomínio
             secure: config('session.secure', false),
             httpOnly: true,
             raw: false,
@@ -32,7 +32,7 @@ class JwtHelper
         return JWTAuth::getJWTProvider()->encode([
             'iss' => config('app.url'),
             'iat' => now()->timestamp,
-            'exp' => now()->addDays(static::REFRESH_COOKIE_DURATION_IN_DAYS)->timestamp,
+            'exp' => now()->addDays(static::REFRESH_TOKEN_COOKIE_DURATION_IN_DAYS)->timestamp,
             'sub' => $userId,
             'type' => $cookieName,
             'jti' => bin2hex(random_bytes(16)),
@@ -62,7 +62,7 @@ class JwtHelper
         return response()->json([
             'success' => false,
             'message' => $message,
-        ], $httpStatusCode)->withCookie(JwtHelper::setRefreshTokenCookie(null, $cookieName));
+        ], $httpStatusCode)->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }
 
     public static function respondJsonLogout(string $message, string $cookieName): JsonResponse {
@@ -70,7 +70,7 @@ class JwtHelper
         return response()->json([
             'success' => true,
             'message' => $message,
-        ])->withCookie(JwtHelper::setRefreshTokenCookie(null, $cookieName));
+        ])->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }
 
     public static function respondJsonWithAccessTokenAndCookie(
@@ -95,6 +95,6 @@ class JwtHelper
             ]);
         }
 
-        return response()->json($data)->withCookie(JwtHelper::setRefreshTokenCookie($refreshToken, $cookieName));
+        return response()->json($data)->withCookie(static::setRefreshTokenCookie($refreshToken, $cookieName));
     }
 }

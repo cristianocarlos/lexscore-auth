@@ -93,7 +93,6 @@ class WardAuthController extends Controller
 
     public function logout(): JsonResponse {
         auth(static::GUARD)->logout();
-
         return JwtHelper::respondJsonLogout('Successfully logged out', static::REFRESH_TOKEN_NAME);
     }
 }

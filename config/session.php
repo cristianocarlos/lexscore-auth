@@ -213,4 +213,11 @@ return [
     */
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+
+    /*
+     * Permite que o cookie seja acessado de outro subdomínio
+     * Caso de uso: no subdomínio da aplicação, ao expirar jwt no JwtMiddleware torna possível dar um refresh pelo servidor
+     */
+    'refresh_token_domain' => env('SESSION_REFRESH_TOKEN_DOMAIN'),
+
 ];
