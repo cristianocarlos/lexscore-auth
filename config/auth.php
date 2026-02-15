@@ -40,7 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'ward' => [
+        \App\Models\WardUser::AUTH_GUARD => [
             'driver' => 'jwt',
             'provider' => 'ward_users',
         ],

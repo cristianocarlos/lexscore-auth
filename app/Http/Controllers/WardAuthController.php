@@ -13,7 +13,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class WardAuthController extends Controller
 {
     const string REFRESH_TOKEN_NAME = JwtHelper::REFRESH_TOKEN_NAME;
-    const string GUARD = 'ward';
 
     public function login(Request $request): JsonResponse {
         $validator = Validator::make($request->all(), [
@@ -53,7 +52,7 @@ class WardAuthController extends Controller
             $userModel,
             $refreshToken,
             static::REFRESH_TOKEN_NAME,
-            static::GUARD,
+            WardUser::AUTH_GUARD,
         );
     }
 
@@ -75,7 +74,7 @@ class WardAuthController extends Controller
                 return JwtHelper::respondJsonWithExpiredCookie('User not found', static::REFRESH_TOKEN_NAME, $errorStatusCode);
             }
 
-            $newAccessToken = auth(static::GUARD)->login($userModel);
+            $newAccessToken = auth(WardUser::AUTH_GUARD)->login($userModel);
             $newRefreshToken = JwtHelper::refreshTokenGenerate($userModel->user_code, static::REFRESH_TOKEN_NAME);
 
             return JwtHelper::respondJsonWithAccessTokenAndCookie(
@@ -83,7 +82,7 @@ class WardAuthController extends Controller
                 $userModel,
                 $newRefreshToken,
                 static::REFRESH_TOKEN_NAME,
-                static::GUARD,
+                WardUser::AUTH_GUARD,
             );
 
         } catch (\Exception $e) {
@@ -92,7 +91,7 @@ class WardAuthController extends Controller
     }
 
     public function logout(): JsonResponse {
-        auth(static::GUARD)->logout();
+        auth(WardUser::AUTH_GUARD)->logout();
         return JwtHelper::respondJsonLogout('Successfully logged out', static::REFRESH_TOKEN_NAME);
     }
 }

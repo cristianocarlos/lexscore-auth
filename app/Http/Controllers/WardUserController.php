@@ -12,7 +12,7 @@ class WardUserController extends Controller
     public function create(UserCreateRequest $request): JsonResponse {
         $request->validated();
         $model = new WardUser;
-        $model->resolveAttributes();
+        $model->resolveAttributes(request());
         $model->save();
         return response()->json([
             'success' => true,
@@ -35,7 +35,7 @@ class WardUserController extends Controller
     }
 
     public function update(WardUser $model): JsonResponse {
-        $model->resolveAttributes();
+        $model->resolveAttributes(request());
         $model->save();
         return response()->json([
             'success' => true,

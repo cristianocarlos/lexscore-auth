@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PhpGenEnum;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -14,6 +15,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class WardUser extends Authenticatable implements JWTSubject
 {
+    const string AUTH_GUARD = 'ward';
+
     protected $table = 'admin.user';
     protected $primaryKey = 'user_code';
     public $timestamps = false;
@@ -76,17 +79,16 @@ class WardUser extends Authenticatable implements JWTSubject
         ])->first();
     }
 
-    public function resolveAttributes(): void {
-        $this->user_mail = request()->input('email');
-        $this->user_stat = request()->input('status_id');
-        $this->user_code = request()->input('id');
-        if (request()->input('password')) {
-            // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
-            $this->user_pass = request()->input('password');
-            $this->resolveSysLog([
-                'password_last_update_date_hour' => now()->format('Y-m-d H:i:sT'),
-            ]);
-        }
+    public function resolveAttributes(Request $request): void {
+        $this->user_code = $request->input('id');
+        $this->user_mail = $request->input('email');
+        $this->user_stat = $request->input('status_id');
+        $this->resolvePasswordAttributes($request);
+    }
+
+    public function resolveProfileAttributes(Request $request): void {
+        $this->user_mail = $request->input('email');
+        $this->resolvePasswordAttributes($request);
     }
 
     public function getNextSequence(): ?int {
@@ -95,7 +97,17 @@ class WardUser extends Authenticatable implements JWTSubject
         return null;
     }
 
-    public function resolveSysLog (array $newProps): void {
+    public function resolveSysLog(array $newProps): void {
         $this->sys_log = array_merge((array) $this->sys_log, $newProps);
+    }
+
+    public function resolvePasswordAttributes(Request $request): void {
+        if ($request->input('password')) {
+            // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
+            $this->user_pass = $request->input('password');
+            $this->resolveSysLog([
+                'password_last_update_date_hour' => now()->format('Y-m-d H:i:sT'),
+            ]);
+        }
     }
 }
