@@ -38,9 +38,9 @@ class WardAuthController extends Controller
                 'errors' => ['LoginForm.password' => ['Credenciais de acesso incorretas']],
             ], JsonResponse::HTTP_UNAUTHORIZED);
         } else {
-            $userModel->sys_log = array_merge((array) $userModel->sys_log, [
-                'last_login_date_hour' => now()->format('Y-m-d H:i:sT'),
+            $userModel->resolveSysLog([
                 'login_count' => ($userModel->sys_log['login_count'] ?? 0) + 1,
+                'login_last_date_hour' => now()->format('Y-m-d H:i:sT'),
             ]);
             $userModel->save();
         }

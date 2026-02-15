@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'preferences' => $this->whenNotNull($this->user_pref_data),
             'status_id' => $this->user_stat,
             'status_name' => Type::getName($this->user_stat),
+            'sys_log' => $this->sys_log ?: literal(),
         ];
     }
 }

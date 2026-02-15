@@ -31,6 +31,7 @@ class WardUser extends Authenticatable implements JWTSubject
         'user_mail',
         'user_pass',
         'user_stat',
+        'user_pref_data',
         //
         'sys_log',
     ];
@@ -75,13 +76,16 @@ class WardUser extends Authenticatable implements JWTSubject
         ])->first();
     }
 
-    public function requestFill(): void {
+    public function resolveAttributes(): void {
         $this->user_mail = request()->input('email');
         $this->user_stat = request()->input('status_id');
         $this->user_code = request()->input('id');
         if (request()->input('password')) {
             // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
             $this->user_pass = request()->input('password');
+            $this->resolveSysLog([
+                'password_last_update_date_hour' => now()->format('Y-m-d H:i:sT'),
+            ]);
         }
     }
 
@@ -89,5 +93,9 @@ class WardUser extends Authenticatable implements JWTSubject
         $rows = DB::select("SELECT NEXTVAL('public.main_code_seq')");
         if (!empty($rows)) return $rows[0]->nextval;
         return null;
+    }
+
+    public function resolveSysLog (array $newProps): void {
+        $this->sys_log = array_merge((array) $this->sys_log, $newProps);
     }
 }
