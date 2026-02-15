@@ -73,3 +73,28 @@ namespace App\Models{
 	class IdeHelperWardUser {}
 }
 
+namespace App\Models\misc{
+/**
+ * @property int $type_code Code
+ * @property string $type_name Name
+ * @property string $type_flag Flag
+ * @property string $type_cons Constant
+ * @property string $type_name_en Name (en)
+ * @property int $type_orde Order
+ * @property string $type_name_es Name (es)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeCons($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeFlag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeNameEs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Type whereTypeOrde($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperType {}
+}
+

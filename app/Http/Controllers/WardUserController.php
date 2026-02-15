@@ -2,28 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Resources\UserResource;
+use App\Models\WardUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class WardUserController extends Controller
 {
-    public function create(Request $request): JsonResponse {
-        return response()->json([]);
+    public function create(UserCreateRequest $request): JsonResponse {
+        $request->validated();
+        $model = new WardUser;
+        $model->fill(request()->post());
+        $model->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'User created successfully',
+        ]);
     }
 
-    public function delete(Request $request): JsonResponse {
-        return response()->json([]);
+    public function delete(WardUser $model): JsonResponse {
+        $model->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully',
+        ]);
     }
 
-    public function index(Request $request): JsonResponse {
-        return response()->json([]);
+    public function index(): JsonResponse {
+        return response()->json(UserResource::collection(WardUser::all()));
     }
 
-    public function update(Request $request): JsonResponse {
-        return response()->json([]);
+    public function update(WardUser $model): JsonResponse {
+        $model->fill(request()->post());
+        $model->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'User updated successfully',
+        ]);
     }
 
-    public function view(Request $request): JsonResponse {
-        return response()->json([]);
+    public function view(WardUser $model): JsonResponse {
+        return response()->json(UserResource::make($model));
     }
 }

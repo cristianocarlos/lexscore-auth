@@ -19,6 +19,7 @@ class WardUser extends Authenticatable implements JWTSubject
     protected $casts = [
         'sys_log' => AsArrayObject::class,
         'user_pref_data' => AsArrayObject::class,
+        'user_pass' => 'hashed',
     ];
 
     // Custom column names
