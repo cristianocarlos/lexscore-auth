@@ -77,9 +77,12 @@ class WardUser extends Authenticatable implements JWTSubject
 
     public function requestFill(): void {
         $this->user_mail = request()->input('email');
-        $this->user_pass = request()->input('password');
         $this->user_stat = request()->input('status_id');
         $this->user_code = request()->input('id');
+        if (request()->input('password')) {
+            // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
+            $this->user_pass = request()->input('password');
+        }
     }
 
     public function getNextSequence(): ?int {
