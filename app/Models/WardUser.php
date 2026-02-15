@@ -70,4 +70,9 @@ class WardUser extends Authenticatable implements JWTSubject
             'user_stat' => PhpGenEnum::STATUS_OK->value,
         ])->first();
     }
+
+    public function requestFill(): void {
+        $this->user_mail = request()->input('email');
+        $this->user_pass = request()->input('password');
+    }
 }
