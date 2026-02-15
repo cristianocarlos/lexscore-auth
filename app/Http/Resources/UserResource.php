@@ -14,8 +14,9 @@ class UserResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [
-            'id' => $this->user_code,
-            'email' => $this->user_mail,
+            'id' => $this->user_code ?: $this->getNextSequence(),
+            'email' => $this->whenNotNull($this->user_mail),
+            'has_password' => (bool) $this->user_pass,
             'preferences' => $this->whenNotNull($this->user_pref_data),
             'status_id' => $this->user_stat,
             'status_name' => Type::getName($this->user_stat),

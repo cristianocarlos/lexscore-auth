@@ -14,6 +14,6 @@ Route::prefix('ward')->group(function () {
         Route::delete('/user/delete/{model}', [WardUserController::class, 'delete']);
         Route::get('/user/index', [WardUserController::class, 'index']);
         Route::put('/user/update/{model}', [WardUserController::class, 'update']);
-        Route::get('/user/view/{model}', [WardUserController::class, 'view']);
+        Route::get('/user/view/{model?}', [WardUserController::class, 'view']);
     });
 });

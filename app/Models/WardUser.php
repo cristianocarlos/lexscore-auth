@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PhpGenEnum;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -20,6 +21,9 @@ class WardUser extends Authenticatable implements JWTSubject
         'sys_log' => AsArrayObject::class,
         'user_pref_data' => AsArrayObject::class,
         'user_pass' => 'hashed',
+    ];
+    protected $attributes = [
+        'user_stat' => PhpGenEnum::STATUS_OK->value,
     ];
 
     // Custom column names
@@ -74,5 +78,13 @@ class WardUser extends Authenticatable implements JWTSubject
     public function requestFill(): void {
         $this->user_mail = request()->input('email');
         $this->user_pass = request()->input('password');
+        $this->user_stat = request()->input('status_id');
+        $this->user_code = request()->input('id');
+    }
+
+    public function getNextSequence(): ?int {
+        $rows = DB::select("SELECT NEXTVAL('public.main_code_seq')");
+        if (!empty($rows)) return $rows[0]->nextval;
+        return null;
     }
 }
