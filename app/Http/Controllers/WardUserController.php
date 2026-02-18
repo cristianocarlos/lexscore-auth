@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Resources\JsonResponseResource;
 use App\Http\Resources\UserResource;
 use App\Models\WardUser;
 use Illuminate\Http\JsonResponse;
@@ -14,36 +15,25 @@ class WardUserController extends Controller
         $model = new WardUser;
         $model->resolveAttributes(request());
         $model->save();
-        return response()->json([
-            'success' => true,
-            'message' => 'User created successfully',
-            'post' => request()->post(),
-            'model' => $model,
-        ]);
+        return response()->json(new JsonResponseResource($model, message: 'create'));
     }
 
     public function delete(WardUser $model): JsonResponse {
         $model->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'User deleted successfully',
-        ]);
+        return response()->json(new JsonResponseResource(null, message: 'delete'));
     }
 
     public function index(): JsonResponse {
-        return response()->json(UserResource::collection(WardUser::all()));
+        return response()->json(new JsonResponseResource(UserResource::collection(WardUser::all())));
     }
 
     public function update(WardUser $model): JsonResponse {
         $model->resolveAttributes(request());
         $model->save();
-        return response()->json([
-            'success' => true,
-            'message' => 'User updated successfully',
-        ]);
+        return response()->json(new JsonResponseResource($model, message: 'update'));
     }
 
     public function view(WardUser $model): JsonResponse {
-        return response()->json(UserResource::make($model));
+        return response()->json(new JsonResponseResource(UserResource::make($model)));
     }
 }
