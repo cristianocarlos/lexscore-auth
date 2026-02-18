@@ -2,6 +2,7 @@
 
 namespace App\Custom;
 
+use App\Http\Resources\JsonResponseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Cookie as SymfonyCookie;
@@ -51,50 +52,52 @@ class JwtHelper
             if (array_any(['iss', 'sub', 'jti', 'rot'], fn ($claim) => !isset($payload[$claim]))) {
                 return [];
             }
-
             return $payload;
         } catch (JWTException $e) {
             return [];
         }
     }
 
-    public static function respondJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse {
-        return response()->json([
-            'success' => false,
-            'message' => $message,
-        ], $httpStatusCode)->withCookie(static::setRefreshTokenCookie(null, $cookieName));
+    public static function responseJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse {
+        return response()->json(new JsonResponseResource(
+            null,
+            message: $message,
+            success: false,
+        ), $httpStatusCode)
+            ->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }
 
-    public static function respondJsonLogout(string $message, string $cookieName): JsonResponse {
+    public static function responseJsonLogout(string $message, string $cookieName): JsonResponse {
         // JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json([
-            'success' => true,
-            'message' => $message,
-        ])->withCookie(static::setRefreshTokenCookie(null, $cookieName));
+        return response()->json(new JsonResponseResource(
+            null,
+            message: $message,
+            success: true,
+        ))
+            ->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }
 
-    public static function respondJsonWithAccessTokenAndCookie(
+    public static function responseJsonWithAccessTokenAndCookie(
         string $accessToken,
         Model $userModel,
         string $refreshToken,
         string $cookieName,
         string $guard,
     ): JsonResponse {
-        // return response()->json([$refreshToken, $cookieName]);
-        $data = [
-            'success' => true,
+        $content = [
             'access_token' => $accessToken,
             'token_type' => 'bearer',
             'expires_in' => auth($guard)->factory()->getTTL() * 60,
             'user_data' => $userModel,
         ];
         if (!app()->isProduction()) {
-            $data = array_merge($data, [
+            $content = array_merge($content, [
                 '__debug__new_refresh-token' => substr($refreshToken, -8),
                 '__debug__old_refresh-token' => substr(request()->cookie($cookieName), -8),
             ]);
         }
 
-        return response()->json($data)->withCookie(static::setRefreshTokenCookie($refreshToken, $cookieName));
+        return response()->json(new JsonResponseResource($content))
+            ->withCookie(static::setRefreshTokenCookie($refreshToken, $cookieName));
     }
 }

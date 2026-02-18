@@ -9,11 +9,13 @@ class JsonResponseResource extends JsonResource
 {
     private string $message;
     private bool $success;
+    private array $errors;
 
-    public function __construct($resource, $message = '=^.^=', $success = true) {
+    public function __construct($resource, $message = '=^.^=', $success = true, $errors = []) {
         parent::__construct($resource);
         $this->message = $message;
-        $this->success = $success;
+        $this->success = empty($errors) ? $success : false;
+        $this->errors = $errors;
     }
 
     /**
@@ -25,6 +27,7 @@ class JsonResponseResource extends JsonResource
         return [
             'additional' => $this->whenNotNull($this->additional ?: null),
             'content' => $this->whenNotNull($this->resource),
+            'errors' => $this->whenNotNull($this->errors ?: null),
             'message' => $this->getMessage(),
             'success' => $this->success,
         ];
