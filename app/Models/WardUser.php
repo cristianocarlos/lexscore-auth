@@ -52,11 +52,6 @@ class WardUser extends Authenticatable implements JWTSubject
     }
 
     public function validatePassword($plainPassword): string {
-        // return response()->json(CustomUser::find(2));
-        // If password is stored as MD5 (32 chars hex)
-        if (mb_strlen($this->user_pass) === 32 && ctype_xdigit($this->user_pass)) {
-            return md5($plainPassword) === $this->user_pass;
-        }
         return Hash::check($plainPassword, $this->user_pass);
     }
 

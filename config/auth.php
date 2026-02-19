@@ -69,8 +69,7 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
         'ward_users' => [
-            // 'driver' => 'eloquent',
-            'driver' => 'md5-eloquent',
+            'driver' => 'eloquent',
             'model' => App\Models\WardUser::class,
             'table' => 'admin.user',
         ],
