@@ -2475,7 +2475,8 @@ namespace PHPSTORM_META {
 'tinker.commands','tinker.alias','tinker.dont_alias','tinker.trust_project',);
         registerArgumentsSet('middleware', 
 'web','api',);
-        registerArgumentsSet('routes', 'storage.local','scramble.docs.ui','scramble.docs.document',);
+        registerArgumentsSet('routes', 'storage.local','storage.local.upload','scramble.docs.ui',
+'scramble.docs.document',);
         registerArgumentsSet('views', 
 'welcome','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',
