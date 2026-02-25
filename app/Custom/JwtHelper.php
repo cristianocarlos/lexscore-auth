@@ -100,4 +100,18 @@ class JwtHelper
         return response()->json(new JsonResponseResource($content))
             ->withCookie(static::setRefreshTokenCookie($refreshToken, $cookieName));
     }
+
+    public static function getRefreshTokenUserId(): int {
+        $refreshToken = request()->cookie(static::REFRESH_TOKEN_NAME);
+        if (!$refreshToken) {
+            throw new \Exception('Refresh token not found');
+        }
+
+        $refreshPayload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
+        if (empty($refreshPayload)) {
+            throw new \Exception('Invalid refresh token');
+        }
+
+        return (int) $refreshPayload['sub'];
+    }
 }

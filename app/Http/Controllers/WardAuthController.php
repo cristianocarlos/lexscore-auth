@@ -7,7 +7,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\JsonResponseResource;
 use App\Models\WardUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class WardAuthController extends Controller
@@ -42,29 +41,12 @@ class WardAuthController extends Controller
         );
     }
 
-    public function refresh(Request $request): JsonResponse {
+    public function refresh(): JsonResponse {
         try {
-            $errorStatusCode = JsonResponse::HTTP_UNAUTHORIZED;
-            $refreshToken = $request->cookie(static::REFRESH_TOKEN_NAME);
-            if (!$refreshToken) {
-                return response()->json(new JsonResponseResource(null, message: 'Refresh token not found', success: false), $errorStatusCode);
-            }
-
-            $refreshPayload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
-            if (empty($refreshPayload)) {
-                return JwtHelper::responseJsonWithExpiredCookie(
-                    'Invalid refresh token',
-                    static::REFRESH_TOKEN_NAME,
-                    $errorStatusCode,
-                );
-            }
-
-            $userModel = WardUser::find($refreshPayload['sub']);
+            $userId = JwtHelper::getRefreshTokenUserId();
+            $userModel = WardUser::find($userId);
             if (!$userModel) {
-                return JwtHelper::responseJsonWithExpiredCookie(
-                    'User not found',
-                    static::REFRESH_TOKEN_NAME, $errorStatusCode,
-                );
+                throw new \Exception('User not found');
             }
 
             $newAccessToken = auth(WardUser::AUTH_GUARD)->login($userModel);
