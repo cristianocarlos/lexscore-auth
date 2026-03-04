@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\PhpGenEnum;
+use App\Enums\YiiEnum;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class WardUser extends Authenticatable implements JWTSubject
         'user_pass' => 'hashed',
     ];
     protected $attributes = [
-        'user_stat' => PhpGenEnum::STATUS_OK->value,
+        'user_stat' => YiiEnum::STATUS_OK->value,
     ];
 
     // Custom column names
@@ -70,7 +70,7 @@ class WardUser extends Authenticatable implements JWTSubject
         $columnName = str_contains($username, '@') ? 'user_mail' : 'user_code';
         return static::where([
             $columnName => $username,
-            'user_stat' => PhpGenEnum::STATUS_OK->value,
+            'user_stat' => YiiEnum::STATUS_OK->value,
         ])->first();
     }
 

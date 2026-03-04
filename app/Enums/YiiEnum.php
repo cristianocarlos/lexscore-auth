@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PhpGenEnum: int
+enum YiiEnum: int
 {
     case STATUS_OK = 2;
 }
