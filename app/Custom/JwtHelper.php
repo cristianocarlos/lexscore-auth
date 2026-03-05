@@ -6,8 +6,8 @@ use App\Http\Resources\JsonResponseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Cookie as SymfonyCookie;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Payload;
 
 class JwtHelper
 {
@@ -41,21 +41,20 @@ class JwtHelper
         ]);
     }
 
-    public static function refreshTokenValidate(string $refreshToken, string $cookieName): array {
-        try {
-            // Tabela id, user_id, created_at, expired_at
-            // $payload = RefreshToken::where('id', $refreshToken)->first();
-            // if (($payload->exp ?? 0) < now()->timestamp) return [];
-            $payload = JWTAuth::getJWTProvider()->decode($refreshToken);
-            if (($payload['exp'] ?? 0) < now()->timestamp) return [];
-            if (($payload['type'] ?? '') !== $cookieName) return [];
-            if (array_any(['iss', 'sub', 'jti', 'rot'], fn ($claim) => !isset($payload[$claim]))) {
-                return [];
-            }
-            return $payload;
-        } catch (JWTException $e) {
-            return [];
+    private static function refreshTokenValidate(string $refreshToken, string $cookieName): Payload {
+        $payload = JWTAuth::setToken($refreshToken)->check(true);
+        if (($payload->get('exp') ?: 0) < now()->timestamp) {
+            throw new \Exception('Expired');
+        };
+        if ($payload->get('type')  !== $cookieName) {
+            throw new \Exception('Unknown');
+        };
+        $requiredKeys = ['iss', 'sub', 'jti', 'rot'];
+        $requiredKeysOnToken = array_intersect(array_keys($payload->toArray()), $requiredKeys);
+        if (count($requiredKeysOnToken) < count($requiredKeys)) {
+            throw new \Exception('Missing keys');
         }
+        return $payload;
     }
 
     public static function responseJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse {
@@ -101,17 +100,30 @@ class JwtHelper
             ->withCookie(static::setRefreshTokenCookie($refreshToken, $cookieName));
     }
 
-    public static function getRefreshTokenUserId(): int {
+    public static function getRefreshTokenPayload(): Payload {
         $refreshToken = request()->cookie(static::REFRESH_TOKEN_NAME);
         if (!$refreshToken) {
             throw new \Exception('Refresh token not found');
         }
-
-        $refreshPayload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
-        if (empty($refreshPayload)) {
-            throw new \Exception('Invalid refresh token');
+        try {
+            $payload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
+        } catch (\Exception $e) {
+            throw new \Exception('Invalid refresh token. ' . $e->getMessage());
         }
+        return $payload;
+    }
 
-        return (int) $refreshPayload['sub'];
+    public static function getRefreshTokenUserId(): int {
+        $payload = static::getRefreshTokenPayload();
+        return (int) $payload->get('sub');
+    }
+
+    public static function getAuthUser(): array {
+        $payload = static::getRefreshTokenPayload();
+        return [
+            'id' => $payload->get('sub'),
+            'name' => $payload->get('name'),
+            'email' => $payload->get('email'),
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\SysLogCast;
 use App\Enums\YiiEnum;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,7 +22,7 @@ class WardUser extends Authenticatable implements JWTSubject
     protected $primaryKey = 'user_code';
     public $timestamps = false;
     protected $casts = [
-        'sys_log' => AsArrayObject::class,
+        'sys_log' => SysLogCast::class,
         'user_pref_data' => AsArrayObject::class,
         'user_pass' => 'hashed',
     ];
@@ -35,7 +36,6 @@ class WardUser extends Authenticatable implements JWTSubject
         'user_pass',
         'user_stat',
         'user_pref_data',
-        //
         'sys_log',
     ];
     protected $hidden = [
@@ -77,6 +77,7 @@ class WardUser extends Authenticatable implements JWTSubject
     public function resolveAttributes(Request $request): void {
         $this->user_code = $request->input('id');
         $this->user_mail = $request->input('email');
+        $this->user_name = $request->input('name');
         $this->user_stat = $request->input('status_id');
         $this->resolvePasswordAttributes($request);
     }

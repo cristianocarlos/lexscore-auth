@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\WardUserRequest;
 use App\Http\Resources\JsonResponseResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\WardUserResource;
 use App\Models\WardUser;
 use Illuminate\Http\JsonResponse;
 
 class WardUserController extends Controller
 {
-    public function create(UserCreateRequest $request): JsonResponse {
+    public function create(WardUserRequest $request): JsonResponse {
         $request->validated();
         $model = new WardUser;
         $model->resolveAttributes(request());
@@ -24,7 +24,7 @@ class WardUserController extends Controller
     }
 
     public function index(): JsonResponse {
-        return response()->json(new JsonResponseResource(UserResource::collection(WardUser::all())));
+        return response()->json(new JsonResponseResource(WardUserResource::collection(WardUser::all())));
     }
 
     public function update(WardUser $model): JsonResponse {
@@ -34,6 +34,6 @@ class WardUserController extends Controller
     }
 
     public function view(WardUser $model): JsonResponse {
-        return response()->json(new JsonResponseResource(UserResource::make($model)));
+        return response()->json(new JsonResponseResource(WardUserResource::make($model)));
     }
 }

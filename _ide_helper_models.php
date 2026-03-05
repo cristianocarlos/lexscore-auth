@@ -43,12 +43,40 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $role_code Main sequential code
+ * @property string $role_name Name
+ * @property int|null $role_user User (FK) every user is also a role
+ * @property string|null $role_desc Description
+ * @property array|null $sys_log JSON log: {
+ *         insert_date_hour: timestamp,
+ *         insert_who_id: number,
+ *         insert_who_name: string,
+ *         last_update_date_hour: timestamp,
+ *         last_update_who_id: number,
+ *         last_update_who_name: string
+ *       }
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereSysLog($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperWardRole {}
+}
+
+namespace App\Models{
+/**
  * @property int $user_code Main sequential
  * @property string|null $user_mail E-mail
  * @property string|null $user_pass Password
  * @property int $user_stat Status (type: status)
  * @property \Illuminate\Database\Eloquent\Casts\ArrayObject<array-key, mixed>|null $user_pref_data
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject<array-key, mixed>|null $sys_log JSON log: {
+ * @property array|null $sys_log JSON log: {
  *         insert_date_hour: timestamp,
  *         insert_who_id: number,
  *         insert_who_name: string,
@@ -58,12 +86,14 @@ namespace App\Models{
  *         last_update_who_name: string,
  *         login_count: number
  *       }
+ * @property string $user_name Name
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereSysLog($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserMail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserPass($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserPrefData($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserStat($value)
@@ -73,15 +103,15 @@ namespace App\Models{
 	class IdeHelperWardUser {}
 }
 
-namespace App\Models\misc{
+namespace App\Models\misc{use App\Models\Type;
 /**
  * @property int $type_code Code
  * @property string $type_name Name
  * @property string $type_flag Flag
  * @property string $type_cons Constant
- * @property string $type_name_en Name (en)
+ * @property string|null $type_name_en Name (en)
  * @property int $type_orde Order
- * @property string $type_name_es Name (es)
+ * @property string|null $type_name_es Name (es)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Type newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Type newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Type query()

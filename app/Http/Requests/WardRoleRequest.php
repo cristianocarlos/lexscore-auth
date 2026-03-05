@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateRequest extends FormRequest
+class WardRoleRequest extends FormRequest
 {
     public function authorize(): bool {
         return true;
@@ -12,8 +12,8 @@ class UserCreateRequest extends FormRequest
 
     public function rules(): array {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
         ];
     }
 }
