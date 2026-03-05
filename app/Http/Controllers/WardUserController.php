@@ -27,7 +27,8 @@ class WardUserController extends Controller
         return response()->json(new JsonResponseResource(WardUserResource::collection(WardUser::all())));
     }
 
-    public function update(WardUser $model): JsonResponse {
+    public function update(WardUserRequest $request, WardUser $model): JsonResponse {
+        $request->validated();
         $model->resolveAttributes(request());
         $model->save();
         return response()->json(new JsonResponseResource($model, message: 'update'));

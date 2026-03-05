@@ -28,7 +28,8 @@ class WardRoleController extends Controller
         return response()->json(new JsonResponseResource(WardRoleResource::collection(WardRole::all())));
     }
 
-    public function update(WardRole $model): JsonResponse {
+    public function update(WardRoleRequest $request, WardRole $model): JsonResponse {
+        $request->validated();
         $model->role_name = request()->post('name');
         $model->role_desc = request()->post('description');
         $model->save();
