@@ -2475,8 +2475,8 @@ namespace PHPSTORM_META {
 'tinker.commands','tinker.alias','tinker.dont_alias','tinker.trust_project',);
         registerArgumentsSet('middleware', 
 'web','api',);
-        registerArgumentsSet('routes', 'storage.local','storage.local.upload','scramble.docs.ui',
-'scramble.docs.document',);
+        registerArgumentsSet('routes', 'storage.local','storage.local.upload',
+'scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
 'welcome','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',
@@ -2533,8 +2533,8 @@ namespace PHPSTORM_META {
 'REDIS_PASSWORD','REDIS_PORT','MAIL_MAILER','MAIL_SCHEME','MAIL_HOST',
 'MAIL_PORT','MAIL_USERNAME','MAIL_PASSWORD','MAIL_FROM_ADDRESS','MAIL_FROM_NAME',
 'MAIL_ENCRYPTION','AWS_ACCESS_KEY_ID','AWS_SECRET_ACCESS_KEY','AWS_DEFAULT_REGION','AWS_BUCKET',
-'AWS_USE_PATH_STYLE_ENDPOINT','CLOUDFLARE_TURNSTILE_WARD_SECRET_KEY','CLOUDFLARE_TURNSTILE_WARD_VERIFY_URL','JWT_SECRET','JWT_TTL',
-'JWT_REFRESH_TTL','VITE_APP_NAME',);
+'AWS_USE_PATH_STYLE_ENDPOINT','AUTH_API_URL','APP_LOGIN_PATH','CLOUDFLARE_TURNSTILE_WARD_SECRET_KEY','CLOUDFLARE_TURNSTILE_WARD_VERIFY_URL',
+'JWT_SECRET','JWT_TTL','JWT_REFRESH_TTL','VITE_APP_NAME',);
         
                 expectedArguments(\Illuminate\Support\Facades\Gate::has(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::allows(), 0, argumentsSet('auth'));

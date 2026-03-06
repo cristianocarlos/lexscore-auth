@@ -17,6 +17,7 @@ class WardRoleResource extends JsonResource
             'name' => $this->role_name,
             'description' => $this->whenNotNull($this->role_desc),
             'sys_log' => $this->sys_log ?: literal(),
+            'user_id' => $this->whenNotNull($this->role_user),
         ];
     }
 }

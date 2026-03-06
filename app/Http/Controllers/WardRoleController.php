@@ -24,8 +24,14 @@ class WardRoleController extends Controller
         return response()->json(new JsonResponseResource(null, message: 'delete'));
     }
 
-    public function index(): JsonResponse {
-        return response()->json(new JsonResponseResource(WardRoleResource::collection(WardRole::all())));
+    public function groupIndex(): JsonResponse {
+        $query = WardRole::query()->whereNull('role_user');
+        return response()->json(new JsonResponseResource(WardRoleResource::collection($query->get())));
+    }
+
+    public function userIndex(): JsonResponse {
+        $query = WardRole::query()->whereNotNull('role_user');
+        return response()->json(new JsonResponseResource(WardRoleResource::collection($query->get())));
     }
 
     public function update(WardRoleRequest $request, WardRole $model): JsonResponse {
