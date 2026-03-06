@@ -43,8 +43,8 @@ class WardAuthController extends Controller
 
     public function refresh(): JsonResponse {
         try {
-            $userId = JwtHelper::getRefreshTokenUserId();
-            $userModel = WardUser::find($userId);
+            $payload = JwtHelper::getRefreshTokenPayload();
+            $userModel = WardUser::find($payload->get('sub'));
             if (!$userModel) {
                 throw new \Exception('User not found');
             }

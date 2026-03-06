@@ -25,8 +25,8 @@ trait ModelSysLogTrait
         if ($this->exists) {
             $this->sys_log = array_merge($this->sys_log ?: [], [
                 'update_last_date_hour' => now()->format('Y-m-d H:i:sT'),
-                'update_last_user_id' => $authUser['id'] ?? null,
-                'update_last_user_name' => $authUser['name'] ?? null,
+                'update_last_user_id' => $authUser?->id ,
+                'update_last_user_name' => $authUser?->name,
                 'tracking_remote_addr' => request()->ip(),
                 'tracking_user_agent' => request()->userAgent(),
             ]);
@@ -34,8 +34,8 @@ trait ModelSysLogTrait
         }
         $this->sys_log = [
             'insert_date_hour' => now()->format('Y-m-d H:i:sT'),
-            'insert_user_id' => $authUser['id'] ?? null,
-            'insert_user_name' => $authUser['name'] ?? null,
+            'insert_user_id' => $authUser?->id ,
+            'insert_user_name' => $authUser?->name,
             'tracking_remote_addr' => request()->ip(),
             'tracking_user_agent' => request()->userAgent(),
         ];

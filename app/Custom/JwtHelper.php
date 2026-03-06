@@ -2,6 +2,7 @@
 
 namespace App\Custom;
 
+use App\DTOs\AuthUserDTO;
 use App\Http\Resources\JsonResponseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -45,10 +46,10 @@ class JwtHelper
         $payload = JWTAuth::setToken($refreshToken)->check(true);
         if (($payload->get('exp') ?: 0) < now()->timestamp) {
             throw new \Exception('Expired');
-        };
-        if ($payload->get('type')  !== $cookieName) {
+        }
+        if ($payload->get('type') !== $cookieName) {
             throw new \Exception('Unknown');
-        };
+        }
         $requiredKeys = ['iss', 'sub', 'jti', 'rot'];
         $requiredKeysOnToken = array_intersect(array_keys($payload->toArray()), $requiredKeys);
         if (count($requiredKeysOnToken) < count($requiredKeys)) {
@@ -113,17 +114,21 @@ class JwtHelper
         return $payload;
     }
 
-    public static function getRefreshTokenUserId(): int {
-        $payload = static::getRefreshTokenPayload();
-        return (int) $payload->get('sub');
+    private static function getAccessTokenPayload(): ?Payload {
+        try {
+            return JWTAuth::setToken(request()->bearerToken())->check(true) ?: null;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    public static function getAuthUser(): array {
-        $payload = static::getRefreshTokenPayload();
-        return [
-            'id' => $payload->get('sub'),
-            'name' => $payload->get('name'),
-            'email' => $payload->get('email'),
-        ];
+    public static function getAuthUser(): ?AuthUserDTO {
+        $payload = static::getAccessTokenPayload();
+        if (empty($payload)) return null;
+        return new AuthUserDTO(
+            id: $payload->get('sub'),
+            name: $payload->get('name'),
+            email: $payload->get('email'),
+        );
     }
 }
