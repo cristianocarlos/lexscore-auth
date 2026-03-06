@@ -66,7 +66,7 @@ namespace App\Models{
 	class IdeHelperUser {}
 }
 
-namespace App\Models{
+namespace App\Models\ward{
 /**
  * @property int $role_code Main sequential code
  * @property string $role_name Name
@@ -81,49 +81,37 @@ namespace App\Models{
  *         last_update_who_id: number,
  *         last_update_who_name: string
  *       }
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleShty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereRoleUser($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRole whereSysLog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereRoleCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereRoleDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereRoleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereRoleShty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereRoleUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRole whereSysLog($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperWardRole {}
+	class IdeHelperRbacRole {}
 }
 
-namespace App\Models{
+namespace App\Models\ward{
 /**
- * @property int $rout_code Sequential code
- * @property string $rout_path Path exactly as declared on server (aka /api/controller/action/{id})
- * @property string $rout_name Name (a clear way to identification on maintenance screen)
- * @property string $rout_ctrl Controller: portion before action (aka /api/controller)
- * @property int $rout_type Type (type: route)
- * @property bool $rout_lock If restrict (only sysadmin can do it)
- * @property int $rout_vers Version
- * @property int $rout_acpl AccountPlan (FK)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutAcpl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutCtrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutLock($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutPath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardRoute whereRoutVers($value)
+ * @property int $roro_role RbacRole (FK)
+ * @property int $roro_rout RbacRoute (FK)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoleRoute newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoleRoute newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoleRoute query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoleRoute whereRoroRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoleRoute whereRoroRout($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperWardRoute {}
+	class IdeHelperRbacRoleRoute {}
 }
 
-namespace App\Models{
+namespace App\Models\ward{
 /**
  * @property int $user_code Main sequential
  * @property string|null $user_mail E-mail
@@ -141,19 +129,19 @@ namespace App\Models{
  *         login_count: number
  *       }
  * @property string $user_name Name
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereSysLog($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserMail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserPass($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserPrefData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WardUser whereUserStat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSysLog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserMail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPrefData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserStat($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperWardUser {}
+	class IdeHelperUser {}
 }
 

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ward;
 
-use App\Http\Resources\ward\WardRoleRouteCollection;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ward\RoleRouteRowsResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-class WardRouteController extends Controller
+class RouteController extends Controller
 {
     public function roleRows(int $userId): JsonResponse {
         $sql = '
@@ -19,6 +20,6 @@ class WardRouteController extends Controller
                AND roro_role = :usro_role
         ';
         $rows = DB::select($sql, ['usro_role' => $userId]);
-        return response()->json(new WardRoleRouteCollection($rows));
+        return response()->json(new RoleRouteRowsResource($rows));
     }
 }

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ward;
 
 use App\Custom\JwtHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\JsonResponseResource;
-use App\Models\WardUser;
+use App\Models\ward\User as WardUser;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class WardAuthController extends Controller
+class AuthController extends Controller
 {
     const string REFRESH_TOKEN_NAME = JwtHelper::REFRESH_TOKEN_NAME;
 

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ward;
 
+use App\Models\IdeHelperWardRole;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperWardRole
+ * @mixin IdeHelperRbacRoleRoute
  */
-class WardRoleRoute extends Model
+class RbacRoleRoute extends Model
 {
     protected $table = 'admin.rbac_role_route';
     protected $primaryKey = 'roro_code';

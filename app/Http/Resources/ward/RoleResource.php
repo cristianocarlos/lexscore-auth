@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources\ward;
 
-use App\Models\WardRole;
+use App\Models\ward\RbacRole;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin WardRole
+ * @mixin RbacRole
  */
-class WardRoleResource extends JsonResource
+class RoleResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
+use App\Models\IdeHelperWardRole;
 use App\Traits\ModelSysLogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperWardRole
+ * @mixin IdeHelperRbacRole
  */
-class WardRole extends Model
+class RbacRole extends Model
 {
     use ModelSysLogTrait;
 
@@ -28,12 +29,12 @@ class WardRole extends Model
     ];
 
     public function permissionsSave(?array $values): void {
-        WardRoleRoute::where('roro_role', $this->role_code)->delete();
+        RbacRoleRoute::where('roro_role', $this->role_code)->delete();
         if (empty($values)) return;
         $batch = [];
         foreach ($values as $value) {
             $batch[] = ['roro_role' => $this->role_code, 'roro_rout' => $value];
         }
-        WardRoleRoute::insert($batch);
+        RbacRoleRoute::insert($batch);
     }
 }

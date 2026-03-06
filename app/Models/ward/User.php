@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
 use App\Enums\YiiEnum;
+use App\Models\IdeHelperWardUser;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -12,9 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @mixin IdeHelperWardUser
+ * @mixin IdeHelperUser
  */
-class WardUser extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject
 {
     const string AUTH_GUARD = 'ward';
 

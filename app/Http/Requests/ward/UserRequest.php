@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ward;
 
 use App\Rules\FullNameValidate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WardUserRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     public function authorize(): bool {
         return true;

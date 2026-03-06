@@ -3,6 +3,7 @@
 namespace App\Custom;
 
 use App\DTOs\AuthUserDTO;
+use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\JsonResponseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -61,8 +62,7 @@ class JwtHelper
     public static function responseJsonWithExpiredCookie(string $message, string $cookieName, int $httpStatusCode = JsonResponse::HTTP_UNAUTHORIZED): JsonResponse {
         return response()->json(new JsonResponseResource(
             null,
-            message: $message,
-            success: false,
+            new FeedbackResource(message: $message, success: false),
         ), $httpStatusCode)
             ->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }
@@ -71,8 +71,7 @@ class JwtHelper
         // JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(new JsonResponseResource(
             null,
-            message: $message,
-            success: true,
+            new FeedbackResource(message: $message),
         ))
             ->withCookie(static::setRefreshTokenCookie(null, $cookieName));
     }

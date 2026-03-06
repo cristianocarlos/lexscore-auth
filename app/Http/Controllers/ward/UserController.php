@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers\ward;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ward\UserRequest;
+use App\Http\Resources\DeleteResource;
+use App\Http\Resources\ward\UserRowsResource;
+use App\Http\Resources\ward\UserSaveResource;
+use App\Http\Resources\ward\UserViewResource;
+use App\Models\ward\User as WardUser;
+use Illuminate\Http\JsonResponse;
+
+class UserController extends Controller
+{
+    public function create(UserRequest $request): JsonResponse {
+        $request->validated();
+        $model = new WardUser;
+        $model->resolveAttributes(request());
+        $model->save();
+        return response()->json(new UserSaveResource($model));
+    }
+
+    public function delete(WardUser $model): JsonResponse {
+        $model->delete();
+        return response()->json(new DeleteResource(null));
+    }
+
+    public function index(): JsonResponse {
+        return response()->json(new UserRowsResource(WardUser::all()));
+    }
+
+    public function update(UserRequest $request, WardUser $model): JsonResponse {
+        $request->validated();
+        $model->resolveAttributes(request());
+        $model->save();
+        return response()->json(new UserSaveResource($model));
+    }
+
+    public function view(WardUser $model): JsonResponse {
+        return response()->json(new UserViewResource($model));
+    }
+}

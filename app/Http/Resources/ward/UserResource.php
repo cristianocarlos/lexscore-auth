@@ -3,14 +3,14 @@
 namespace App\Http\Resources\ward;
 
 use App\Models\Type;
-use App\Models\WardUser;
+use App\Models\ward\User as WardUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @mixin WardUser
  */
-class WardUserResource extends JsonResource
+class UserResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [

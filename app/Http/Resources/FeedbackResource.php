@@ -32,9 +32,8 @@ class FeedbackResource extends JsonResource
     public function getMessage(): string {
         $message = $this->resource;
         return match ($message) {
-            'create' => 'Registro criado com sucesso!',
             'delete' => 'Registro excluído com sucesso!',
-            'update' => 'Registro atualizado com sucesso!',
+            'save' => 'Registro salvo com sucesso!',
             default => $message,
         };
     }

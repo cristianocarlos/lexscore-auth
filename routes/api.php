@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\WardAuthController;
-use App\Http\Controllers\WardProfileController;
-use App\Http\Controllers\WardRoleController;
-use App\Http\Controllers\WardRouteController;
-use App\Http\Controllers\WardUserController;
-use App\Models\WardUser;
+use App\Http\Controllers\ward\AuthController as WardAuthController;
+use App\Http\Controllers\ward\ProfileController as WardProfileController;
+use App\Http\Controllers\ward\RoleController as WardRoleController;
+use App\Http\Controllers\ward\RouteController as WardRouteController;
+use App\Http\Controllers\ward\UserController as WardUserController;
+use App\Models\ward\User as WardUser;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('ward')->group(function () {

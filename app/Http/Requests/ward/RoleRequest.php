@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ward;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WardRoleRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     public function authorize(): bool {
         return true;
