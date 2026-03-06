@@ -10,15 +10,20 @@ use App\Http\Resources\ward\WardRoleDataResource;
 use App\Http\Resources\ward\WardRoleResource;
 use App\Models\WardRole;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class WardRoleController extends Controller
 {
     public function create(WardRoleRequest $request): JsonResponse {
         $request->validated();
-        $model = new WardRole;
-        $model->role_name = request()->post('name');
-        $model->role_desc = request()->post('description');
-        $model->save();
+        $model = DB::transaction(function () {
+            $model = new WardRole;
+            $model->role_name = request()->post('name');
+            $model->role_desc = request()->post('description');
+            $model->save();
+            $model->permissionsSave(request()->post('permissions'));
+            return $model;
+        });
         return response()->json(new WardRoleDataResource($model, new FeedbackResource(message: 'create')));
     }
 
@@ -39,9 +44,13 @@ class WardRoleController extends Controller
 
     public function update(WardRoleRequest $request, WardRole $model): JsonResponse {
         $request->validated();
-        $model->role_name = request()->post('name');
-        $model->role_desc = request()->post('description');
-        $model->save();
+        $model = DB::transaction(function () use ($model) {
+            $model->role_name = request()->post('name');
+            $model->role_desc = request()->post('description');
+            $model->save();
+            $model->permissionsSave(request()->post('permissions'));
+            return $model;
+        });
         return response()->json(new WardRoleDataResource($model, new FeedbackResource(message: 'update')));
     }
 

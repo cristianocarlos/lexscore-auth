@@ -10,6 +10,6 @@ class BaseResource extends JsonResource
 
     public function __construct($resource, ?FeedbackResource $feedbackResource = null) {
         parent::__construct($resource);
-        $this->feedbackResource = $feedbackResource ?: new FeedbackResource();
+        $this->feedbackResource = $feedbackResource ?: new FeedbackResource;
     }
 }

@@ -26,4 +26,14 @@ class WardRole extends Model
         'role_desc',
         'sys_log',
     ];
+
+    public function permissionsSave(?array $values): void {
+        WardRoleRoute::where('roro_role', $this->role_code)->delete();
+        if (empty($values)) return;
+        $batch = [];
+        foreach ($values as $value) {
+            $batch[] = ['roro_role' => $this->role_code, 'roro_rout' => $value];
+        }
+        WardRoleRoute::insert($batch);
+    }
 }

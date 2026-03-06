@@ -21,7 +21,7 @@ Route::prefix('ward')->group(function () {
         Route::put('/role/update/{model}', [WardRoleController::class, 'update']);
         Route::get('/role/view/{model?}', [WardRoleController::class, 'view']);
         //
-        Route::get('/route/user-rows/{userId}', [WardRouteController::class, 'userRows']);
+        Route::get('/route/role-rows/{roleId}', [WardRouteController::class, 'roleRows']);
         //
         Route::post('/user/create', [WardUserController::class, 'create']);
         Route::delete('/user/delete/{model}', [WardUserController::class, 'delete']);

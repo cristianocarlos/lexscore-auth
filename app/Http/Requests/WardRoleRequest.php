@@ -14,6 +14,8 @@ class WardRoleRequest extends FormRequest
         return [
             'name' => 'required|string',
             'description' => 'nullable|string',
+            // 'permissions' => 'required', // Não é obrigatorio
+            'permissions.*' => 'required|integer', // Quando existir precisa ser no formato [1=>1]
         ];
     }
 }
