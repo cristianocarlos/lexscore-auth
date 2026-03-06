@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\ward;
 
 use App\Models\Type;
 use App\Models\WardUser;

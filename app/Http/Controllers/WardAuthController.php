@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Custom\JwtHelper;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\JsonResponseResource;
 use App\Models\WardUser;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,7 @@ class WardAuthController extends Controller
         if (!$userModel or !$userModel->validatePassword($request->input('LoginForm.password'))) {
             return response()->json(new JsonResponseResource(
                 null,
-                errors: ['LoginForm.password' => ['Credenciais de acesso incorretas']],
+                new FeedbackResource(errors: ['LoginForm.password' => ['Credenciais de acesso incorretas']]),
             ), JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         } else {
             $userModel->resolveSysLog([

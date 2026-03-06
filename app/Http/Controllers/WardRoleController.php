@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WardRoleRequest;
-use App\Http\Resources\JsonResponseResource;
-use App\Http\Resources\WardRoleResource;
+use App\Http\Resources\DeleteResource;
+use App\Http\Resources\FeedbackResource;
+use App\Http\Resources\ward\WardRoleCollection;
+use App\Http\Resources\ward\WardRoleDataResource;
+use App\Http\Resources\ward\WardRoleResource;
 use App\Models\WardRole;
 use Illuminate\Http\JsonResponse;
 
@@ -16,22 +19,22 @@ class WardRoleController extends Controller
         $model->role_name = request()->post('name');
         $model->role_desc = request()->post('description');
         $model->save();
-        return response()->json(new JsonResponseResource($model, message: 'create'));
+        return response()->json(new WardRoleDataResource($model, new FeedbackResource(message: 'create')));
     }
 
     public function delete(WardRole $model): JsonResponse {
         $model->delete();
-        return response()->json(new JsonResponseResource(null, message: 'delete'));
+        return response()->json(new DeleteResource(null));
     }
 
     public function groupIndex(): JsonResponse {
         $query = WardRole::query()->whereNull('role_user');
-        return response()->json(new JsonResponseResource(WardRoleResource::collection($query->get())));
+        return response()->json(new WardRoleCollection($query->get()));
     }
 
     public function userIndex(): JsonResponse {
         $query = WardRole::query()->whereNotNull('role_user');
-        return response()->json(new JsonResponseResource(WardRoleResource::collection($query->get())));
+        return response()->json(new WardRoleCollection($query->get()));
     }
 
     public function update(WardRoleRequest $request, WardRole $model): JsonResponse {
@@ -39,10 +42,10 @@ class WardRoleController extends Controller
         $model->role_name = request()->post('name');
         $model->role_desc = request()->post('description');
         $model->save();
-        return response()->json(new JsonResponseResource($model, message: 'update'));
+        return response()->json(new WardRoleDataResource($model, new FeedbackResource(message: 'update')));
     }
 
     public function view(WardRole $model): JsonResponse {
-        return response()->json(new JsonResponseResource(WardRoleResource::make($model)));
+        return response()->json(new WardRoleDataResource(WardRoleResource::make($model)));
     }
 }
