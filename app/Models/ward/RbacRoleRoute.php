@@ -2,7 +2,6 @@
 
 namespace App\Models\ward;
 
-use App\Models\IdeHelperWardRole;
 use Illuminate\Database\Eloquent\Model;
 
 /**

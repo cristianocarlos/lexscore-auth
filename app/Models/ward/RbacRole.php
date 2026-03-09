@@ -3,7 +3,6 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
-use App\Models\IdeHelperWardRole;
 use App\Traits\ModelSysLogTrait;
 use Illuminate\Database\Eloquent\Model;
 

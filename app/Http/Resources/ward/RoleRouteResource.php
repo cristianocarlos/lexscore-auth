@@ -11,6 +11,9 @@ class RoleRouteResource extends JsonResource
         return [
             'id' => $this->id,
             'path' => $this->path,
+            'name' => $this->name,
+            'controller_path' => $this->controller_path,
+            'controller_name' => $this->controller_name,
             'is_checked' => $this->is_checked,
         ];
     }

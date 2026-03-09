@@ -4,7 +4,6 @@ namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
 use App\Enums\YiiEnum;
-use App\Models\IdeHelperWardUser;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;

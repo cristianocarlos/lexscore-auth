@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\misc\IdeHelperType;
 use Illuminate\Database\Eloquent\Model;
 
 /**
