@@ -68,6 +68,29 @@ namespace App\Models{
 
 namespace App\Models\ward{
 /**
+ * @property int $menu_code Sequential code
+ * @property string $menu_name Name
+ * @property int|null $menu_rout RbacRoute (FK) sem constraint por causa do refatoramento action/route
+ * @property int $menu_orde Order
+ * @property int|null $menu_menu Menu (FK) sem constraint because chato pra caralho
+ * @property string|null $menu_shcu_data Shortcut data: {icon_name: text, name: text}
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuMenu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuOrde($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuRout($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereMenuShcuData($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperMenu {}
+}
+
+namespace App\Models\ward{
+/**
  * @property int $role_code Main sequential code
  * @property string $role_name Name
  * @property int|null $role_user User (FK) every user is also a role

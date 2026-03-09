@@ -3,8 +3,10 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
+use App\Http\Requests\ward\RoleRequest;
 use App\Traits\ModelSysLogTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * @mixin IdeHelperRbacRole
@@ -26,6 +28,11 @@ class RbacRole extends Model
         'role_desc',
         'sys_log',
     ];
+
+    public function resolveAttributes(Request $request): void {
+        $this->role_name = $request->post('name');
+        $this->role_desc = $request->post('description');
+    }
 
     public function routeAssignmentSave(?array $values): void {
         RbacRoleRoute::where('roro_role', $this->role_code)->delete();

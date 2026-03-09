@@ -5,7 +5,6 @@ namespace App\Http\Controllers\ward;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\RoleRequest;
 use App\Http\Resources\DeleteResource;
-use App\Http\Resources\ward\RoleResource;
 use App\Http\Resources\ward\RoleRowsResource;
 use App\Http\Resources\ward\RoleSaveResource;
 use App\Http\Resources\ward\RoleViewResource;
@@ -18,10 +17,9 @@ class RoleController extends Controller
 {
     public function create(RoleRequest $request): JsonResponse {
         $request->validated();
-        $model = DB::transaction(function () {
+        $model = DB::transaction(function () use ($request) {
             $model = new RbacRole;
-            $model->role_name = request()->post('name');
-            $model->role_desc = request()->post('description');
+            $model->resolveAttributes($request);
             $model->save();
             $model->routeAssignmentSave(request()->post('route_assignment'));
             $model->roleAssignmentSave(request()->post('role_assignment'));
@@ -67,9 +65,8 @@ class RoleController extends Controller
 
     public function update(RoleRequest $request, RbacRole $model): JsonResponse {
         $request->validated();
-        $model = DB::transaction(function () use ($model) {
-            $model->role_name = request()->post('name');
-            $model->role_desc = request()->post('description');
+        $model = DB::transaction(function () use ($request, $model) {
+            $model->resolveAttributes($request);
             $model->save();
             $model->routeAssignmentSave(request()->post('route_assignment'));
             $model->roleAssignmentSave(request()->post('role_assignment'));
@@ -79,6 +76,6 @@ class RoleController extends Controller
     }
 
     public function view(RbacRole $model): JsonResponse {
-        return response()->json(new RoleViewResource(RoleResource::make($model)));
+        return response()->json(new RoleViewResource($model));
     }
 }

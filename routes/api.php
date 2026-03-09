@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ward\AuthController as WardAuthController;
+use App\Http\Controllers\ward\MenuController as WardMenuController;
 use App\Http\Controllers\ward\ProfileController as WardProfileController;
 use App\Http\Controllers\ward\RoleController as WardRoleController;
 use App\Http\Controllers\ward\RouteController as WardRouteController;
@@ -13,6 +14,12 @@ Route::prefix('ward')->group(function () {
     Route::post('/refresh', [WardAuthController::class, 'refresh']);
     Route::middleware('auth:' . WardUser::AUTH_GUARD)->group(function () {
         Route::post('/logout', [WardAuthController::class, 'logout']);
+        //
+        Route::post('/menu/create', [WardMenuController::class, 'create']);
+        Route::delete('/menu/delete/{model}', [WardMenuController::class, 'delete']);
+        Route::get('/menu/index', [WardMenuController::class, 'index']);
+        Route::put('/menu/update/{model}', [WardMenuController::class, 'update']);
+        Route::get('/menu/view/{model?}', [WardMenuController::class, 'view']);
         //
         Route::post('/role/create', [WardRoleController::class, 'create']);
         Route::delete('/role/delete/{model}', [WardRoleController::class, 'delete']);
