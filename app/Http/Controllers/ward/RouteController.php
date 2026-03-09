@@ -12,6 +12,7 @@ class RouteController extends Controller
     public function roleRows(int $userId): JsonResponse {
         $sql = <<<SQL
             SELECT rout_code AS id
+                 , rout_path AS label
                  , rout_name AS name
                  , rout_path AS path
                  , rout_ctrl_path AS controller_path

@@ -10,6 +10,7 @@ class RoleRouteResource extends JsonResource
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
+            'label' => $this->path,
             'path' => $this->path,
             'name' => $this->name,
             'controller_path' => $this->controller_path,
