@@ -16,13 +16,14 @@ class RouteController extends Controller
         $sql = <<<SQL
             WITH cte_role_assigned AS (
                 SELECT roro_rout AS assigned_route_id
-                     , role_name AS assigned_by
+                     , STRING_AGG(role_name, '; ') AS assigned_by
                   FROM admin.rbac_user_role
                      , admin.rbac_role_route
                      , admin.rbac_role
                  WHERE usro_user = :usro_user
                    AND roro_role = usro_role
                    AND role_code = roro_role
+                 GROUP BY roro_rout
             ), cte_assigned AS (
                 -- cte diferente para desconsiderar as atribuições pelo grupo nas atribuições manuais
                 SELECT assigned_route_id, assigned_by FROM cte_role_assigned
