@@ -18,6 +18,7 @@ Route::prefix('ward')->group(function () {
         Route::delete('/role/delete/{model}', [WardRoleController::class, 'delete']);
         Route::get('/role/group-index', [WardRoleController::class, 'groupIndex']);
         Route::get('/role/user-index', [WardRoleController::class, 'userIndex']);
+        Route::get('/role/group-role-rows/{roleId}', [WardRoleController::class, 'groupRoleRows']);
         Route::put('/role/update/{model}', [WardRoleController::class, 'update']);
         Route::get('/role/view/{model?}', [WardRoleController::class, 'view']);
         //

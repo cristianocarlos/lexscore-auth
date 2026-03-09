@@ -5,16 +5,16 @@ namespace App\Models\ward;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperRbacRoleRoute
+ * @mixin IdeHelperRbacUserRole
  */
-class RbacRoleRoute extends Model
+class RbacUserRole extends Model
 {
-    protected $table = 'admin.rbac_role_route';
+    protected $table = 'admin.rbac_user_role';
     public $timestamps = false;
 
     // Custom column names
     protected $fillable = [
-        'roro_role',
-        'roro_rout',
+        'usro_user',
+        'usro_role',
     ];
 }

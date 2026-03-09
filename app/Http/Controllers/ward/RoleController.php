@@ -9,6 +9,7 @@ use App\Http\Resources\ward\RoleResource;
 use App\Http\Resources\ward\RoleRowsResource;
 use App\Http\Resources\ward\RoleSaveResource;
 use App\Http\Resources\ward\RoleViewResource;
+use App\Http\Resources\ward\UserRoleRowsResource;
 use App\Models\ward\RbacRole;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,8 @@ class RoleController extends Controller
             $model->role_name = request()->post('name');
             $model->role_desc = request()->post('description');
             $model->save();
-            $model->permissionsSave(request()->post('permissions'));
+            $model->routeAssignmentSave(request()->post('route_assignment'));
+            $model->roleAssignmentSave(request()->post('role_assignment'));
             return $model;
         });
         return response()->json(new RoleSaveResource($model));
@@ -38,6 +40,26 @@ class RoleController extends Controller
         return response()->json(new RoleRowsResource($query->get()));
     }
 
+    /**
+     * Lista das grupos com as respectivas atribuições a role
+     */
+    public function groupRoleRows(int $roleId): JsonResponse {
+        $sql = <<<SQL
+            SELECT role_code AS id
+                 , role_name AS name
+                 , role_desc AS description
+                 , usro_user IS NOT NULL AS is_assigned
+              FROM admin.rbac_role
+              LEFT OUTER JOIN admin.rbac_user_role
+                ON usro_role = role_code
+               AND usro_user = :usro_user
+             WHERE role_user IS NULL
+             ORDER BY F_CI(role_name)
+        SQL;
+        $rows = DB::select($sql, ['usro_user' => $roleId]);
+        return response()->json(new UserRoleRowsResource($rows));
+    }
+
     public function userIndex(): JsonResponse {
         $query = RbacRole::query()->whereNotNull('role_user');
         return response()->json(new RoleRowsResource($query->get()));
@@ -49,7 +71,8 @@ class RoleController extends Controller
             $model->role_name = request()->post('name');
             $model->role_desc = request()->post('description');
             $model->save();
-            $model->permissionsSave(request()->post('permissions'));
+            $model->routeAssignmentSave(request()->post('route_assignment'));
+            $model->roleAssignmentSave(request()->post('role_assignment'));
             return $model;
         });
         return response()->json(new RoleSaveResource($model));

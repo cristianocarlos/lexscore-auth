@@ -113,6 +113,21 @@ namespace App\Models\ward{
 
 namespace App\Models\ward{
 /**
+ * @property int $usro_user User (FK)
+ * @property int $usro_role RbacRole (FK)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacUserRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacUserRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacUserRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacUserRole whereUsroRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacUserRole whereUsroUser($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperRbacUserRole {}
+}
+
+namespace App\Models\ward{
+/**
  * @property int $user_code Main sequential
  * @property string|null $user_mail E-mail
  * @property string|null $user_pass Password

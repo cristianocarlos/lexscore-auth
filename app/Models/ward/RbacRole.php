@@ -27,7 +27,7 @@ class RbacRole extends Model
         'sys_log',
     ];
 
-    public function permissionsSave(?array $values): void {
+    public function routeAssignmentSave(?array $values): void {
         RbacRoleRoute::where('roro_role', $this->role_code)->delete();
         if (empty($values)) return;
         $batch = [];
@@ -35,5 +35,15 @@ class RbacRole extends Model
             $batch[] = ['roro_role' => $this->role_code, 'roro_rout' => $value];
         }
         RbacRoleRoute::insert($batch);
+    }
+
+    public function roleAssignmentSave(?array $values): void {
+        RbacUserRole::where('usro_user', $this->role_code)->delete();
+        if (empty($values)) return;
+        $batch = [];
+        foreach ($values as $value) {
+            $batch[] = ['usro_user' => $this->role_code, 'usro_role' => $value];
+        }
+        RbacUserRole::insert($batch);
     }
 }
