@@ -57,4 +57,36 @@ class MenuQuery extends \App\Queries\Query
         );
         return DB::select($sql, $bindings);
     }
+
+    public static function getSuggestOptions(
+        ?string $term,
+        int $limit,
+        int $offset,
+    ): array {
+        $filters = [];
+        $bindings = [];
+        if (!is_null($term)) {
+            $term = trim($term);
+            $resolvedLikeTerm = parent::resolveLikeTerm($term, true);
+            $filters[] = 'label_ci LIKE :label_ci';
+            $bindings['label_ci'] = $resolvedLikeTerm;
+        }
+        $sql = <<<SQL
+          SELECT * FROM (
+              SELECT menu_code AS id
+                   , menu_name AS label
+                   , F_CI(menu_name) AS label_ci
+                FROM admin.menu
+               WHERE menu_menu IS NULL
+          ) AS derived
+        SQL;
+        $sql .= parent::resolveAdditionalSql(
+            filters: $filters,
+            orderBy: 'label_ci',
+            limit: $limit,
+            offset: $offset,
+            filterPrefix: 'WHERE',
+        );
+        return DB::select($sql, $bindings);
+    }
 }

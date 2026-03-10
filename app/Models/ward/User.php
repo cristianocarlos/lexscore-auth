@@ -29,8 +29,6 @@ class User extends Authenticatable implements JWTSubject
     protected $attributes = [
         'user_stat' => YiiEnum::STATUS_OK->value,
     ];
-
-    // Custom column names
     protected $fillable = [
         'user_mail',
         'user_pass',

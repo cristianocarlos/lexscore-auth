@@ -45,4 +45,38 @@ class RbacRouteQuery extends \App\Queries\Query
         SQL;
         return DB::select($sql, ['usro_user' => $roleId, 'roro_role' => $roleId]);
     }
+
+    public static function getSuggestOptions(
+        ?string $term,
+        int $limit,
+        int $offset,
+        ?int $roleId,
+    ): array {
+        $filters = [];
+        $bindings = [];
+        if (!is_null($term)) {
+            $term = trim($term);
+            $filters[] = 'label LIKE :label';
+            $bindings['label'] = $term;
+        }
+        if ($roleId) {
+            $filters[] = 'EXISTS (SELECT * FROM admin.rbac_role_route WHERE roro_role = :roro_role AND roro_rout = id)';
+            $bindings['roro_role'] = $roleId;
+        }
+        $sql = <<<SQL
+          SELECT * FROM (
+              SELECT rout_code AS id
+                   , rout_path AS label
+                FROM admin.rbac_route
+          ) AS derived
+        SQL;
+        $sql .= parent::resolveAdditionalSql(
+            filters: $filters,
+            orderBy: 'label',
+            limit: $limit,
+            offset: $offset,
+            filterPrefix: 'WHERE',
+        );
+        return DB::select($sql, $bindings);
+    }
 }

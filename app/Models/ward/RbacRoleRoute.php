@@ -11,8 +11,6 @@ class RbacRoleRoute extends Model
 {
     protected $table = 'admin.rbac_role_route';
     public $timestamps = false;
-
-    // Custom column names
     protected $fillable = [
         'roro_role',
         'roro_rout',

@@ -13,6 +13,10 @@ class MenuRequest extends FormRequest
     public function rules(): array {
         return [
             'name' => 'required|string',
+            'parent_id' => 'nullable|integer',
+            'route_id' => 'nullable|integer',
+            'shortcut_data.name' => 'nullable|string',
+            'shortcut_data.icon_name' => 'nullable|string',
         ];
     }
 }

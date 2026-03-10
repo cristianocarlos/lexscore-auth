@@ -19,6 +19,7 @@ Route::prefix('ward')->group(function () {
         Route::delete('/menu/delete/{model}', [WardMenuController::class, 'delete']);
         Route::get('/menu/index', [WardMenuController::class, 'index']);
         Route::put('/menu/reorder', [WardMenuController::class, 'reorder']);
+        Route::get('/menu/suggest', [WardMenuController::class, 'suggest']);
         Route::put('/menu/update/{model}', [WardMenuController::class, 'update']);
         Route::get('/menu/view/{model?}', [WardMenuController::class, 'view']);
         //
@@ -31,6 +32,7 @@ Route::prefix('ward')->group(function () {
         Route::get('/role/view/{model?}', [WardRoleController::class, 'view']);
         //
         Route::get('/route/role-rows/{roleId}', [WardRouteController::class, 'roleRows']);
+        Route::get('/route/suggest', [WardRouteController::class, 'suggest']);
         //
         Route::post('/user/create', [WardUserController::class, 'create']);
         Route::delete('/user/delete/{model}', [WardUserController::class, 'delete']);

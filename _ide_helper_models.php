@@ -73,7 +73,8 @@ namespace App\Models\ward{
  * @property int|null $menu_rout RbacRoute (FK) sem constraint por causa do refatoramento action/route
  * @property int $menu_orde Order
  * @property int|null $menu_menu Menu (FK) sem constraint because chato pra caralho
- * @property string|null $menu_shcu_data Shortcut data: {icon_name: text, name: text}
+ * @property array|null $menu_shcu_data Shortcut data: {icon_name: text, name: text}
+ * @property-read mixed $menu_menu_desc
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu query()
@@ -132,6 +133,35 @@ namespace App\Models\ward{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperRbacRoleRoute {}
+}
+
+namespace App\Models\ward{
+/**
+ * @property int $rout_code Sequential code
+ * @property string $rout_path Path exactly as declared on server (aka /api/controller/action/{id})
+ * @property string|null $rout_name Name (a clear way to identification on maintenance screen)
+ * @property string $rout_ctrl_path Controller path: portion before action (aka /api/controller)
+ * @property int $rout_type Type (type: route)
+ * @property bool $rout_lock If restrict (only sysadmin can do it)
+ * @property int $rout_vers Version
+ * @property int $rout_plan Plan (FK)
+ * @property string|null $rout_ctrl_name Controller name
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutCtrlName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutCtrlPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutLock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutPlan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RbacRoute whereRoutVers($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperRbacRoute {}
 }
 
 namespace App\Models\ward{

@@ -15,6 +15,11 @@ class MenuResource extends JsonResource
         return [
             'id' => $this->menu_code,
             'name' => $this->menu_name,
+            'parent_id' => $this->menu_menu,
+            'parent_id_desc' => $this->menu_menu_desc,
+            'route_id' => $this->menu_rout,
+            'route_id_desc' => $this->menu_rout_desc,
+            'shortcut_data' => $this->menu_shcu_data,
         ];
     }
 }

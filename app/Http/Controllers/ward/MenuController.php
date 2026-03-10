@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ward;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\MenuRequest;
 use App\Http\Resources\JsonFeedbackResource;
+use App\Http\Resources\JsonResponseResource;
 use App\Http\Resources\ward\MenuSaveResource;
 use App\Http\Resources\ward\MenuTreeResource;
 use App\Http\Resources\ward\MenuViewResource;
@@ -13,7 +14,6 @@ use App\Queries\Query;
 use App\Queries\ward\MenuQuery;
 use App\Rules\RecursiveTreeRule;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
@@ -35,8 +35,8 @@ class MenuController extends Controller
         return response()->json(new MenuTreeResource(MenuQuery::getTree()));
     }
 
-    public function reorder(Request $request): JsonResponse {
-        $request->validate([
+    public function reorder(): JsonResponse {
+        request()->validate([
             'items' => ['required', 'array', new RecursiveTreeRule([
                 'id' => 'required|integer',
                 'name' => 'required|string',
@@ -53,6 +53,19 @@ class MenuController extends Controller
             });
         });
         return response()->json(new JsonFeedbackResource);
+    }
+
+    public function suggest(): JsonResponse {
+        request()->validate([
+            'term' => 'sometimes|string',
+            'limit' => 'integer',
+            'offset' => 'integer',
+        ]);
+        return response()->json(new JsonResponseResource(MenuQuery::getSuggestOptions(
+            term: request()->query('term'),
+            limit: request()->query('limit'),
+            offset: request()->query('offset'),
+        )));
     }
 
     public function update(MenuRequest $request, Menu $model): JsonResponse {

@@ -20,8 +20,6 @@ class RbacRole extends Model
     protected $casts = [
         'sys_log' => SysLogCast::class,
     ];
-
-    // Custom column names
     protected $fillable = [
         'role_name',
         'role_desc',
