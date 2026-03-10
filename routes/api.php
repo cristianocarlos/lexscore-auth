@@ -18,14 +18,15 @@ Route::prefix('ward')->group(function () {
         Route::post('/menu/create', [WardMenuController::class, 'create']);
         Route::delete('/menu/delete/{model}', [WardMenuController::class, 'delete']);
         Route::get('/menu/index', [WardMenuController::class, 'index']);
+        Route::put('/menu/reorder', [WardMenuController::class, 'reorder']);
         Route::put('/menu/update/{model}', [WardMenuController::class, 'update']);
         Route::get('/menu/view/{model?}', [WardMenuController::class, 'view']);
         //
         Route::post('/role/create', [WardRoleController::class, 'create']);
         Route::delete('/role/delete/{model}', [WardRoleController::class, 'delete']);
         Route::get('/role/group-index', [WardRoleController::class, 'groupIndex']);
-        Route::get('/role/user-index', [WardRoleController::class, 'userIndex']);
         Route::get('/role/group-role-rows/{roleId}', [WardRoleController::class, 'groupRoleRows']);
+        Route::get('/role/user-index', [WardRoleController::class, 'userIndex']);
         Route::put('/role/update/{model}', [WardRoleController::class, 'update']);
         Route::get('/role/view/{model?}', [WardRoleController::class, 'view']);
         //

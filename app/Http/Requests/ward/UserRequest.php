@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\ward;
 
-use App\Rules\FullNameValidate;
+use App\Rules\FullNameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -14,12 +14,12 @@ class UserRequest extends FormRequest
     public function rules(): array {
         if ($this->method() == 'PUT') {
             return [
-                'name' => ['required', new FullNameValidate],
+                'name' => ['required', new FullNameRule],
                 'email' => 'required|email',
             ];
         }
         return [
-            'name' => ['required', new FullNameValidate],
+            'name' => ['required', new FullNameRule],
             'email' => 'required|email',
             'password' => 'required',
         ];

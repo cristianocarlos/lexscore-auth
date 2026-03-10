@@ -44,7 +44,7 @@ class MenuQuery extends \App\Queries\Query
                , menu_name
                , menu_shcu_data->>'icon_name' AS shortcut_icon_name
                , menu_shcu_data->>'name' AS shortcut_name
-               , menu_rout AS url_path
+               , rout_path AS url_path
             FROM admin.menu
             LEFT OUTER
             JOIN admin.rbac_route

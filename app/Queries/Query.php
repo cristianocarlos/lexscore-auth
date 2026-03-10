@@ -68,4 +68,13 @@ class Query
     public static function seedRandom(): bool {
         return DB::statement('SELECT SETSEED(' . (request()->query('pg_random_seed') ?: session('pg_random_seed') ?: '0.5') . ')');
     }
+
+    public static function recursiveItemsReorder(array $items, callable $update): void {
+        foreach ($items as $index => $data) {
+            if (!empty($data['items'])) {
+                static::recursiveItemsReorder($data['items'], $update);
+            }
+            $update($data, $index);
+        }
+    }
 }

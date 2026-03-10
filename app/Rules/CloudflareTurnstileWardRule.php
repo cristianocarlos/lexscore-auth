@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-class CloudflareTurnstileWardValidate implements ValidationRule
+class CloudflareTurnstileWardRule implements ValidationRule
 {
     /**
      * Run the validation rule.

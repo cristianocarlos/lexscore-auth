@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CloudflareTurnstileWardValidate;
+use App\Rules\CloudflareTurnstileWardRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -13,7 +13,7 @@ class LoginRequest extends FormRequest
 
     public function rules(): array {
         return [
-            'LoginForm.cf_turnstile_response' => ['required', new CloudflareTurnstileWardValidate],
+            'LoginForm.cf_turnstile_response' => ['required', new CloudflareTurnstileWardRule],
             'LoginForm.username' => 'required',
             'LoginForm.password' => 'required',
         ];
