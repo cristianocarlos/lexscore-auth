@@ -5,10 +5,14 @@ namespace App\Http\Controllers\ward;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\MenuRequest;
 use App\Http\Resources\DeleteResource;
-use App\Http\Resources\ward\MenuRowsResource;
+use App\Http\Resources\ward\MenuTreeResource;
 use App\Http\Resources\ward\MenuSaveResource;
 use App\Http\Resources\ward\MenuViewResource;
 use App\Models\ward\Menu;
+use App\Queries\ward\MenuQuery;
+use Dedoc\Scramble\Attributes\Response;
+use Dedoc\Scramble\Support\Type\ObjectType;
+use Dedoc\Scramble\Support\Type\Type;
 use Illuminate\Http\JsonResponse;
 
 class MenuController extends Controller
@@ -27,7 +31,7 @@ class MenuController extends Controller
     }
 
     public function index(): JsonResponse {
-        return response()->json(new MenuRowsResource(Menu::all()));
+        return response()->json(new MenuTreeResource(MenuQuery::getTree()));
     }
 
     public function update(MenuRequest $request, Menu $model): JsonResponse {

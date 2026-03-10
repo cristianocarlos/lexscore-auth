@@ -3,7 +3,6 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
-use App\Http\Requests\ward\RoleRequest;
 use App\Traits\ModelSysLogTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
