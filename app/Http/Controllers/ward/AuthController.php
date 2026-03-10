@@ -5,8 +5,7 @@ namespace App\Http\Controllers\ward;
 use App\Custom\JwtHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Http\Resources\FeedbackResource;
-use App\Http\Resources\JsonResponseResource;
+use App\Http\Resources\JsonFeedbackResource;
 use App\Models\ward\User as WardUser;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -19,10 +18,10 @@ class AuthController extends Controller
         $request->validated(); // nem precisaria, o LoginRequest já resolve
         $userModel = WardUser::findByUsername($request->input('LoginForm.username'));
         if (!$userModel or !$userModel->validatePassword($request->input('LoginForm.password'))) {
-            return response()->json(new JsonResponseResource(
-                null,
-                new FeedbackResource(errors: ['LoginForm.password' => ['Credenciais de acesso incorretas']]),
-            ), JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json(
+                new JsonFeedbackResource(errors: ['LoginForm.password' => ['Credenciais de acesso incorretas']]),
+                JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
+            );
         } else {
             $userModel->resolveSysLog([
                 'login_count' => ($userModel->sys_log['login_count'] ?? 0) + 1,

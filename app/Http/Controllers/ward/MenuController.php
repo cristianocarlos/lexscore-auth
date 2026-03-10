@@ -4,8 +4,7 @@ namespace App\Http\Controllers\ward;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\MenuRequest;
-use App\Http\Resources\DeleteResource;
-use App\Http\Resources\FeedbackResource;
+use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\ward\MenuSaveResource;
 use App\Http\Resources\ward\MenuTreeResource;
 use App\Http\Resources\ward\MenuViewResource;
@@ -29,7 +28,7 @@ class MenuController extends Controller
 
     public function delete(Menu $model): JsonResponse {
         $model->delete();
-        return response()->json(new DeleteResource(null));
+        return response()->json(new JsonFeedbackResource('delete'));
     }
 
     public function index(): JsonResponse {
@@ -53,7 +52,7 @@ class MenuController extends Controller
                 Menu::where('menu_code', $data['id'])->update(['menu_orde' => $index + 1]);
             });
         });
-        return response()->json(new FeedbackResource);
+        return response()->json(new JsonFeedbackResource);
     }
 
     public function update(MenuRequest $request, Menu $model): JsonResponse {

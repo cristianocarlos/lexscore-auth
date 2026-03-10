@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ward;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\RoleRequest;
-use App\Http\Resources\DeleteResource;
+use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\ward\RoleRowsResource;
 use App\Http\Resources\ward\RoleSaveResource;
 use App\Http\Resources\ward\RoleViewResource;
@@ -30,7 +30,7 @@ class RoleController extends Controller
 
     public function delete(RbacRole $model): JsonResponse {
         $model->delete();
-        return response()->json(new DeleteResource(null));
+        return response()->json(new JsonFeedbackResource('delete'));
     }
 
     public function groupIndex(): JsonResponse {

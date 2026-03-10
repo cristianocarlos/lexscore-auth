@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ward;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\UserRequest;
-use App\Http\Resources\DeleteResource;
+use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\ward\UserRowsResource;
 use App\Http\Resources\ward\UserSaveResource;
 use App\Http\Resources\ward\UserViewResource;
@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function delete(WardUser $model): JsonResponse {
         $model->delete();
-        return response()->json(new DeleteResource(null));
+        return response()->json(new JsonFeedbackResource('delete'));
     }
 
     public function index(): JsonResponse {

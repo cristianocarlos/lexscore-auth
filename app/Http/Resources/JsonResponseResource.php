@@ -7,16 +7,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class JsonResponseResource extends JsonResource
 {
-    public FeedbackResource $feedbackResource;
+    public JsonFeedbackResource $feedbackResource;
 
-    public function __construct($resource, ?FeedbackResource $feedbackResource = null) {
+    public function __construct(array|object $resource, ?JsonFeedbackResource $feedbackResource = null) {
         parent::__construct($resource);
-        $this->feedbackResource = $feedbackResource ?: new FeedbackResource;
+        $this->feedbackResource = $feedbackResource ?: new JsonFeedbackResource;
     }
 
     public function toArray(Request $request): array {
         return array_merge($this->feedbackResource->toArray($request), [
-            'content' => $this->whenNotNull($this->resource),
+            'content' => $this->resource,
         ]);
     }
 }
