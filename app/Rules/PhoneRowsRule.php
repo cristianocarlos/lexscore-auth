@@ -29,13 +29,12 @@ class PhoneRowsRule implements ValidationRule, ValidatorAwareRule
         $shouldValidate = !$this->itemEssentialEmpty($itemValue) || $index === 0; // Primeiro precisa validar sempre
         if ($shouldValidate) {
             $validator = Validator::make($itemValue, [
-                'country_data' => 'sometimes|array',
-                'extension' => 'required|string',
-                'is_main' => 'required|integer',
-                'is_restrict' => 'required|integer',
+                'extension' => 'nullable|string',
+                'is_main' => 'integer',
+                'is_restrict' => 'integer',
                 'number' => 'required|string',
-                'type' => 'required|integer',
-                'type_desc' => 'required|string',
+                'type' => 'nullable|integer',
+                'type_desc' => 'nullable|string',
             ]);
             if ($validator->fails()) {
                 foreach ($validator->errors()->getMessages() as $errorKeyPath => $errorMessages) {
@@ -49,10 +48,10 @@ class PhoneRowsRule implements ValidationRule, ValidatorAwareRule
     }
 
     private function essentialEmpty(array $value): bool {
-        return array_any($value, fn ($itemValue) => $this->itemEssentialEmpty($itemValue));
+        return array_all($value, fn ($itemValue) => $this->itemEssentialEmpty($itemValue));
     }
 
     private function itemEssentialEmpty(array $itemValue): bool {
-        return empty($itemValue['number']);
+        return empty($itemValue['number']) && empty($itemValue['type_desc']);
     }
 }

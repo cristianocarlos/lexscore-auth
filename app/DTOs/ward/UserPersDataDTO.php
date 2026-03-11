@@ -5,6 +5,7 @@ namespace App\DTOs\ward;
 use App\Custom\DbCast;
 use App\DTOs\AddressDTO;
 use App\DTOs\PhoneDTO;
+use Carbon\Carbon;
 
 final class UserPersDataDTO
 {
@@ -25,11 +26,18 @@ final class UserPersDataDTO
         );
     }
 
+    public function toForm(): ?array {
+        return array_filter(array_merge((array) $this, [
+            'birth_date' => Carbon::parse($this->birth_date)->format('d/m/Y'),
+            'phone_rows' => PhoneDTO::collectionToForm($this->phone_rows),
+        ])) ?: null;
+    }
+
     public function toDb(): ?array {
         return array_filter([
             'address' => $this->address?->toDb(),
             'birth_date' => DbCast::date($this->birth_date),
-            'gender' => DbCast::integer($this->birth_date),
+            'gender' => DbCast::integer($this->gender),
             'phone_rows' => PhoneDTO::collectionToDb($this->phone_rows),
         ]) ?: null;
     }

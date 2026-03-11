@@ -43,7 +43,7 @@ final class AddressDTO
             'line1' => DbCast::textLine($this->line1),
             'line2' => DbCast::textLine($this->line2),
             'number' => DbCast::textLine($this->number),
-            'zip_code' => DbCast::numeric($this->zip_code),
+            'zip_code' => DbCast::stripNonNumber($this->zip_code),
         ]) ?: null;
     }
 }

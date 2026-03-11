@@ -22,19 +22,26 @@ class UserRequest extends FormRequest
             // Com o campo na tela
             // nullable -- só roda o validator seguinte se tiver valor
             // sometimes // [nada] -- roda os validators seguintes
-            // TODO: retornar erros ao form
             return [
                 'name' => ['required', new FullNameRule],
                 'email' => 'required|email',
                 'cpf' => ['nullable', new CpfRule],
                 'personal_data' => 'array',
+                'personal_data.address' => ['nullable', 'array', new PtBrAddressRule],
                 'personal_data.birth_date' => ['nullable', new PtBrDateRule],
                 'personal_data.gender' => 'nullable|integer',
-                'personal_data.address' => ['nullable', 'array', new PtBrAddressRule],
-                'personal_data.phone_rows' => ['array', new PhoneRowsRule],
+                'personal_data.phone_rows' => ['nullable', 'array', new PhoneRowsRule],
             ];
         }
         return [
+            'name' => ['required', new FullNameRule],
+            'email' => 'required|email',
+            'cpf' => ['nullable', new CpfRule],
+            'personal_data' => 'array',
+            'personal_data.address' => ['nullable', 'array', new PtBrAddressRule],
+            'personal_data.birth_date' => ['nullable', new PtBrDateRule],
+            'personal_data.gender' => 'nullable|integer',
+            'personal_data.phone_rows' => ['nullable', 'array', new PhoneRowsRule],
             'password' => 'required',
         ];
     }

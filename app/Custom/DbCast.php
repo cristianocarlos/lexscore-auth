@@ -12,7 +12,7 @@ class DbCast
     public static function integer(?string $value, bool $shouldCast = true): string|int|null {
         // O número pode ser um bigint e o php não tem suporte pra isso, por isso não usa o cast sempre
         if (blank($value)) return null;
-        $number = static::numeric($value);
+        $number = static::stripNonNumber($value);
         if (blank($number)) return null;
         if ($shouldCast) {
             return $number >= static::POSTGRES_INT_MIN && $number <= static::POSTGRES_INT_MAX ? (int) $number : $number;
@@ -43,7 +43,7 @@ class DbCast
         return trim($value);
     }
 
-    public static function numeric(?string $value): ?string {
+    public static function stripNonNumber(?string $value): ?string {
         if (blank($value)) return null;
         return preg_replace('/[^0-9]/', '', $value);
     }

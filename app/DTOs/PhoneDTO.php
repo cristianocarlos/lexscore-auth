@@ -3,13 +3,16 @@
 namespace App\DTOs;
 
 use App\Custom\DbCast;
+use App\Custom\Mask;
 
 final class PhoneDTO
 {
     public function __construct(
         public ?CountryDTO $country_data,
+        public ?string $extension,
         public int $id,
-        public ?bool $main,
+        public ?bool $is_main,
+        public ?bool $is_restrict,
         public string $number,
         public ?int $type,
         public ?string $type_desc,
@@ -18,20 +21,30 @@ final class PhoneDTO
     public static function fromArray(array $data): self {
         return new self(
             country_data: CountryDTO::fromArray($data['country_data'] ?? null),
-            id: $data['id'] ?? null,
-            main: $data['main'] ?? null,
+            extension: $data['extension'] ?? null,
+            id: $data['id'] ?? now()->timestamp,
+            is_main: $data['is_main'] ?? null,
+            is_restrict: $data['is_restrict'] ?? null,
             number: $data['number'] ?? null,
             type: $data['type'] ?? null,
             type_desc: $data['type_desc'] ?? null,
         );
     }
 
+    public function toForm(): ?array {
+        return array_filter(array_merge((array) $this, [
+            'number' => Mask::formatPhoneNumber($this->number),
+        ])) ?: null;
+    }
+
     public function toDb(): ?array {
         return array_filter([
             'country_data' => $this->country_data?->toDb(),
+            'extension' => DbCast::textLine($this->extension),
             'id' => DbCast::integer($this->id),
-            'main' => DbCast::boolTrueOnly($this->main),
-            'number' => DbCast::textLine($this->number),
+            'is_main' => DbCast::boolTrueOnly($this->is_main),
+            'is_restrict' => DbCast::boolTrueOnly($this->is_restrict),
+            'number' => DbCast::stripNonNumber($this->number),
             'type' => DbCast::integer($this->type),
             'type_desc' => DbCast::textLine($this->type_desc),
         ]) ?: null;
@@ -43,6 +56,14 @@ final class PhoneDTO
     public static function collectionFromArray(?array $rows): ?array {
         if (empty($rows)) return null;
         return array_map(fn ($data) => self::fromArray($data), $rows);
+    }
+
+    /**
+     * @param  array<PhoneDTO>|null  $rows
+     */
+    public static function collectionToForm(?array $rows): ?array {
+        if (empty($rows)) return null;
+        return array_map(fn ($data) => $data?->toForm(), $rows);
     }
 
     /**

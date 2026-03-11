@@ -10,7 +10,8 @@ class UserPersDataCast implements CastsAttributes
 {
     public function get(Model $model, string $key, mixed $value, array $attributes): ?array {
         if (is_null($value)) return null;
-        return json_decode($value, true);
+        $data = json_decode($value, true);
+        return UserPersDataDTO::fromArray($data)->toForm();
     }
 
     public function set(Model $model, string $key, mixed $value, array $attributes): ?string {

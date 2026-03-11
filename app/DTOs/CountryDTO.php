@@ -12,7 +12,9 @@ final class CountryDTO
         public string $iso2_id,
     ) {}
 
-    public static function fromArray(array $data): self {
+    public static function fromArray(?array $data): ?self {
+        if (empty($data)) return null;
+        if (empty(array_filter($data))) return null;
         return new self(
             dialing_code: $data['dialing_code'] ?? null,
             id: $data['id'] ?? null,

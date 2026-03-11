@@ -2,12 +2,12 @@
 
 namespace App\Models\ward;
 
+use App\Casts\CpfCast;
 use App\Casts\SysLogCast;
 use App\Casts\ward\UserPersDataCast;
 use App\Custom\DbCast;
 use App\Enums\YiiEnum;
 use App\Traits\ModelSysLogTrait;
-use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +28,8 @@ class User extends Authenticatable implements JWTSubject
     public $timestamps = false;
     protected $casts = [
         'sys_log' => SysLogCast::class,
+        'user_cpf' => CpfCast::class,
         'user_pers_data' => UserPersDataCast::class,
-        'user_pref_data' => AsArrayObject::class,
         'user_pass' => 'hashed',
     ];
     protected $attributes = [
@@ -86,6 +86,8 @@ class User extends Authenticatable implements JWTSubject
         $this->user_mail = $request->input('email');
         $this->user_name = $request->input('name');
         $this->user_stat = $request->input('status_id');
+        $this->user_pers_data = $request->input('personal_data');
+        $this->user_cpf = $request->input('cpf');
         $this->resolvePasswordAttributes($request);
     }
 

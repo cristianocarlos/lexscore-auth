@@ -75,6 +75,7 @@ namespace App\Models\ward{
  * @property int|null $menu_menu Menu (FK) sem constraint because chato pra caralho
  * @property array|null $menu_shcu_data Shortcut data: {icon_name: text, name: text}
  * @property-read mixed $menu_menu_desc
+ * @property-read mixed $menu_rout_desc
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu query()
@@ -185,7 +186,7 @@ namespace App\Models\ward{
  * @property string|null $user_mail E-mail
  * @property string|null $user_pass Password
  * @property int $user_stat Status (type: status)
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject<array-key, mixed>|null $user_pref_data
+ * @property string|null $user_pref_data
  * @property array|null $sys_log JSON log: {
  *         insert_date_hour: timestamp,
  *         insert_who_id: number,
@@ -197,14 +198,23 @@ namespace App\Models\ward{
  *         login_count: number
  *       }
  * @property string $user_name Name
+ * @property string|null $user_cpf CPF number
+ * @property array|null $user_pers_data Personal data: {
+ *   gender: number;
+ *   address: AddressDTO;
+ *   birth_date: string;
+ *   phone_rows: Array<PhoneDTO>;
+ * }
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSysLog($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserCpf($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserMail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPersData($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPrefData($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserStat($value)
  * @mixin \Eloquent

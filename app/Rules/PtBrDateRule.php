@@ -13,7 +13,7 @@ class PtBrDateRule implements ValidationRule
         if (!preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $value)) {
             $fail('The :attribute must be in the format XX/XX/XXXX.');
         } elseif ($this->isValid($value)) {
-            $fail('The :attribute is invalid.');
+            // $fail('The :attribute is invalid.');
         }
     }
 
