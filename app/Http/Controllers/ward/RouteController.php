@@ -19,7 +19,7 @@ class RouteController extends Controller
             'term' => 'sometimes|string',
             'limit' => 'integer',
             'offset' => 'integer',
-            'roleId' => 'nullable|integer',
+            'roleId' => 'integer',
         ]);
         return response()->json(new JsonResponseResource(RbacRouteQuery::getSuggestOptions(
             term: request()->query('term'),

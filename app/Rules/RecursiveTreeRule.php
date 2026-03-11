@@ -31,14 +31,8 @@ class RecursiveTreeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void {
         $items = $value;
-
-        if (!is_array($items)) {
-            $fail("The {$attribute} must be an array.");
-            return;
-        }
-
         foreach ($items as $index => $item) {
-            $basePath = "items.{$index}";
+            $basePath = "items.{$index}"; // TODO: como saber o nome do atributo items? usar no resto todo
             $this->validateNode($item, $basePath, 0, $fail);
         }
     }
@@ -47,7 +41,6 @@ class RecursiveTreeRule implements ValidationRule
      * Recursively validate a node and its children
      */
     protected function validateNode(array $node, string $basePath, int $depth, Closure $fail): bool {
-        // Check depth limit
         if ($depth > $this->maxDepth) {
             $fail("{$basePath} exceeds maximum recursion depth of {$this->maxDepth}.");
             return false;

@@ -2,8 +2,6 @@
 
 namespace App\DTOs;
 
-use App\Custom\Helper;
-
 final class SysLogDTO
 {
     public function __construct(
@@ -41,6 +39,6 @@ final class SysLogDTO
     }
 
     public function toDb(): ?array {
-        return Helper::resolveArrayValue((array) $this);
+        return array_filter((array) $this) ?: null;
     }
 }

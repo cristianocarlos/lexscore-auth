@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Custom\DbCast;
+
 trait ModelSysLogTrait
 {
     protected static function booted(): void {
@@ -24,7 +26,7 @@ trait ModelSysLogTrait
         $authUser = \App\Custom\JwtHelper::getAuthUser();
         if ($this->exists) {
             $this->sys_log = array_merge($this->sys_log ?: [], [
-                'update_last_date_hour' => now()->format('Y-m-d H:i:sT'),
+                'update_last_date_hour' => DbCast::nowTimestamp(),
                 'update_last_user_id' => $authUser?->id,
                 'update_last_user_name' => $authUser?->name,
                 'tracking_remote_addr' => request()->ip(),
@@ -33,7 +35,7 @@ trait ModelSysLogTrait
             return;
         }
         $this->sys_log = [
-            'insert_date_hour' => now()->format('Y-m-d H:i:sT'),
+            'insert_date_hour' => DbCast::nowTimestamp(),
             'insert_user_id' => $authUser?->id,
             'insert_user_name' => $authUser?->name,
             'tracking_remote_addr' => request()->ip(),

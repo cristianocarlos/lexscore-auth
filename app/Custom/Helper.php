@@ -8,8 +8,6 @@ class Helper
 {
     const string DB_CONNECTION = 'pgsql';
     const string BOM_CHAR = "\xEF\xBB\xBF"; // Byte-order mark char. Precisa ser com aspas duplas
-    const int POSTGRES_INT_MAX = 2147483647;
-    const int POSTGRES_INT_MIN = -2147483648;
 
     public static function camelCaseToSnakeCase(string $camelCase): string {
         $result = '';
@@ -52,24 +50,6 @@ class Helper
         return $constants;
     }
 
-    public static function integerToDb(?string $value, bool $shouldCast = true): string|int|null {
-        // O número pode ser um bigint e o php não tem suporte pra isso, por isso não usa o cast sempre
-        if (blank($value)) return null;
-        $number = static::stripNonNumber($value);
-        if (blank($number)) return null;
-        if ($shouldCast) {
-            return $number >= static::POSTGRES_INT_MIN && $number <= static::POSTGRES_INT_MAX ? (int) $number : $number;
-        }
-        return $value;
-    }
-
-    /**
-     * Apenas salva quanto for true como 1
-     */
-    public static function boolTrueOnlyToDb(?string $value, bool $shouldCast = true): string|bool|null {
-        return $value === '1' ? ($shouldCast ? true : '1') : null;
-    }
-
     public static function removeAccents(string $value): string {
         return Str::ascii($value);
     }
@@ -88,27 +68,6 @@ class Helper
 
     public static function snakeCaseToCamelCase(string $value): string {
         return ucfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $value))));
-    }
-
-    public static function stripNonNumber(?string $value): ?string {
-        if (blank($value)) return null;
-        return preg_replace('/[^0-9]/', '', $value);
-    }
-
-    public static function textLineToDb(?string $value, ?int $maxLength = null): ?string {
-        if (blank($value)) return null;
-        return static::cleanUpText($value, $maxLength);
-    }
-
-    /**
-     * Limpa caracteres "estranhos" de um texto
-     */
-    public static function textToDb(?string $value): ?string {
-        if (blank($value)) return null;
-        $value = str_replace(["\r\n", "\r", "\n"], ['_EOL_', '_EOL_', '_EOL_'], $value); // para o cleanUpText não substituir as quebras por espaço
-        $value = static::cleanUpText($value);
-        $value = str_replace('_EOL_', PHP_EOL, $value); // devolve as quebras após a limpeza do texto
-        return trim($value);
     }
 
     public static function zeroFill(int $value, int $length): string {

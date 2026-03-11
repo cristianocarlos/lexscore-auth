@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ward;
 
+use App\Custom\DbCast;
 use App\Custom\JwtHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -25,7 +26,7 @@ class AuthController extends Controller
         } else {
             $userModel->resolveSysLog([
                 'login_count' => ($userModel->sys_log['login_count'] ?? 0) + 1,
-                'login_last_date_hour' => now()->format('Y-m-d H:i:sT'),
+                'login_last_date_hour' => DbCast::nowTimestamp(),
             ]);
             $userModel->save();
         }

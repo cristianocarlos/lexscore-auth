@@ -3,7 +3,10 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
+use App\Casts\ward\UserPersDataCast;
+use App\Custom\DbCast;
 use App\Enums\YiiEnum;
+use App\Traits\ModelSysLogTrait;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -16,6 +19,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
+    use ModelSysLogTrait;
+
     const string AUTH_GUARD = 'ward';
 
     protected $table = 'admin.user';
@@ -23,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
     public $timestamps = false;
     protected $casts = [
         'sys_log' => SysLogCast::class,
+        'user_pers_data' => UserPersDataCast::class,
         'user_pref_data' => AsArrayObject::class,
         'user_pass' => 'hashed',
     ];
@@ -30,9 +36,12 @@ class User extends Authenticatable implements JWTSubject
         'user_stat' => YiiEnum::STATUS_OK->value,
     ];
     protected $fillable = [
+        'user_cpf',
         'user_mail',
+        'user_name',
         'user_pass',
         'user_stat',
+        'user_pers_data',
         'user_pref_data',
         'sys_log',
     ];
@@ -100,7 +109,7 @@ class User extends Authenticatable implements JWTSubject
             // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
             $this->user_pass = $request->input('password');
             $this->resolveSysLog([
-                'password_last_update_date_hour' => now()->format('Y-m-d H:i:sT'),
+                'password_last_update_date_hour' => DbCast::nowTimestamp(),
             ]);
         }
     }
