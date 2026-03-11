@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use App\Custom\DbCast;
+use App\Custom\CastHelper;
 use App\Custom\Mask;
 
 final class PhoneDTO
@@ -40,13 +40,13 @@ final class PhoneDTO
     public function toDb(): ?array {
         return array_filter([
             'country_data' => $this->country_data?->toDb(),
-            'extension' => DbCast::textLine($this->extension),
-            'id' => DbCast::integer($this->id),
-            'is_main' => DbCast::boolTrueOnly($this->is_main),
-            'is_restrict' => DbCast::boolTrueOnly($this->is_restrict),
-            'number' => DbCast::stripNonNumber($this->number),
-            'type' => DbCast::integer($this->type),
-            'type_desc' => DbCast::textLine($this->type_desc),
+            'extension' => CastHelper::textLine($this->extension),
+            'id' => CastHelper::integer($this->id),
+            'is_main' => CastHelper::boolTrueOnly($this->is_main),
+            'is_restrict' => CastHelper::boolTrueOnly($this->is_restrict),
+            'number' => CastHelper::stripNonNumber($this->number),
+            'type' => CastHelper::integer($this->type),
+            'type_desc' => CastHelper::textLine($this->type_desc),
         ]) ?: null;
     }
 

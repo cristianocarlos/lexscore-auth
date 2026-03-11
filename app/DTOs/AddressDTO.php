@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use App\Custom\DbCast;
+use App\Custom\CastHelper;
 use App\Custom\Mask;
 
 final class AddressDTO
@@ -37,13 +37,13 @@ final class AddressDTO
 
     public function toDb(): ?array {
         return array_filter([
-            'city' => DbCast::integer($this->city),
-            'city_desc' => DbCast::textLine($this->city_desc),
-            'complement' => DbCast::textLine($this->complement),
-            'line1' => DbCast::textLine($this->line1),
-            'line2' => DbCast::textLine($this->line2),
-            'number' => DbCast::textLine($this->number),
-            'zip_code' => DbCast::stripNonNumber($this->zip_code),
+            'city' => CastHelper::integer($this->city),
+            'city_desc' => CastHelper::textLine($this->city_desc),
+            'complement' => CastHelper::textLine($this->complement),
+            'line1' => CastHelper::textLine($this->line1),
+            'line2' => CastHelper::textLine($this->line2),
+            'number' => CastHelper::textLine($this->number),
+            'zip_code' => CastHelper::stripNonNumber($this->zip_code),
         ]) ?: null;
     }
 }

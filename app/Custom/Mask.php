@@ -2,6 +2,8 @@
 
 namespace App\Custom;
 
+use Carbon\Carbon;
+
 class Mask
 {
     public static function formatCnpj(?string $value): ?string {
@@ -61,5 +63,13 @@ class Mask
         if (!is_numeric($value)) return $value;
         $value = str_pad($value, 8, '0', STR_PAD_LEFT);
         return mb_substr($value, 0, 5) . '-' . mb_substr($value, 5, 3); // pt_br
+    }
+
+    public static function formatDate(?string $value): ?string {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    public static function formatDateHour(?string $value): ?string {
+        return Carbon::parse($value)->format('d/m/Y H:i');
     }
 }
