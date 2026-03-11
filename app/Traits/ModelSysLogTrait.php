@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 
 trait ModelSysLogTrait
 {
@@ -26,7 +26,7 @@ trait ModelSysLogTrait
         $authUser = \App\Custom\JwtHelper::getAuthUser();
         if ($this->exists) {
             $this->sys_log = array_merge($this->sys_log ?: [], [
-                'update_last_date_hour' => CastHelper::nowTimestamp(),
+                'update_last_date_hour' => Cast::nowTimestamp(),
                 'update_last_user_id' => $authUser?->id,
                 'update_last_user_name' => $authUser?->name,
                 'tracking_remote_addr' => request()->ip(),
@@ -35,7 +35,7 @@ trait ModelSysLogTrait
             return;
         }
         $this->sys_log = [
-            'insert_date_hour' => CastHelper::nowTimestamp(),
+            'insert_date_hour' => Cast::nowTimestamp(),
             'insert_user_id' => $authUser?->id,
             'insert_user_name' => $authUser?->name,
             'tracking_remote_addr' => request()->ip(),

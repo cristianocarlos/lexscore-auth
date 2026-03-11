@@ -6,35 +6,35 @@ use Carbon\Carbon;
 
 class Mask
 {
-    public static function formatCnpj(?string $value): ?string {
+    public static function cnpj(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         $value = str_pad($value, 14, '0', STR_PAD_LEFT);
         return preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $value);
     }
 
-    public static function formatCpf(?string $value): ?string {
+    public static function cpf(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         $value = str_pad($value, 11, '0', STR_PAD_LEFT);
         return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $value);
     }
 
-    public static function formatCurrency(?string $value): ?string {
+    public static function currency(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         return number_format($value, 2, ',', '.'); // pt_br
     }
 
     // Number::currency($value, in: 'BRL', locale: 'pt_BR')
-    public static function formatFloat(?string $value): ?string {
+    public static function float(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         return str_replace('.', ',', (string) $value); // pt_br
     }
 
-    public static function formatInteger(?string $value): ?string {
+    public static function Integer(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         return number_format($value, 0, '', '.'); // pt_br
     }
 
-    public static function formatPhoneNumber(?string $value): ?string {
+    public static function phoneNumber(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         $resolvedValue = (string) $value;
         if (mb_strlen($resolvedValue) == 10) {
@@ -59,17 +59,17 @@ class Mask
         return $resolvedValue; // pt_br
     }
 
-    public static function formatZipCode(?string $value): ?string {
+    public static function zipCode(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         $value = str_pad($value, 8, '0', STR_PAD_LEFT);
         return mb_substr($value, 0, 5) . '-' . mb_substr($value, 5, 3); // pt_br
     }
 
-    public static function formatDate(?string $value): ?string {
+    public static function date(?string $value): ?string {
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public static function formatDateHour(?string $value): ?string {
+    public static function dateHour(?string $value): ?string {
         return Carbon::parse($value)->format('d/m/Y H:i');
     }
 }

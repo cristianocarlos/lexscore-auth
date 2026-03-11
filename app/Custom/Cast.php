@@ -4,7 +4,7 @@ namespace App\Custom;
 
 use Carbon\Carbon;
 
-class CastHelper
+class Cast
 {
     const int POSTGRES_INT_MAX = 2147483647;
     const int POSTGRES_INT_MIN = -2147483648;

@@ -5,7 +5,7 @@ namespace App\Models\ward;
 use App\Casts\CpfCast;
 use App\Casts\SysLogCast;
 use App\Casts\ward\UserPersDataCast;
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 use App\Enums\YiiEnum;
 use App\Traits\ModelSysLogTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -111,7 +111,7 @@ class User extends Authenticatable implements JWTSubject
             // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
             $this->user_pass = $request->input('password');
             $this->resolveSysLog([
-                'password_last_update_date_hour' => CastHelper::nowTimestamp(),
+                'password_last_update_date_hour' => Cast::nowTimestamp(),
             ]);
         }
     }

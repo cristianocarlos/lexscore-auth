@@ -2,7 +2,7 @@
 
 namespace App\DTOs\ward;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 
 final class MenuShcuDataDTO
 {
@@ -20,8 +20,8 @@ final class MenuShcuDataDTO
 
     public function toDb(): ?array {
         return array_filter([
-            'name' => CastHelper::textLine($this->name),
-            'icon_name' => CastHelper::textLine($this->icon_name),
+            'name' => Cast::textLine($this->name),
+            'icon_name' => Cast::textLine($this->icon_name),
         ]) ?: null;
     }
 }

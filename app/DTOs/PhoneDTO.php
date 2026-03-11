@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 use App\Custom\Mask;
 
 final class PhoneDTO
@@ -33,20 +33,20 @@ final class PhoneDTO
 
     public function toForm(): ?array {
         return array_filter(array_merge((array) $this, [
-            'number' => Mask::formatPhoneNumber($this->number),
+            'number' => Mask::phoneNumber($this->number),
         ])) ?: null;
     }
 
     public function toDb(): ?array {
         return array_filter([
             'country_data' => $this->country_data?->toDb(),
-            'extension' => CastHelper::textLine($this->extension),
-            'id' => CastHelper::integer($this->id),
-            'is_main' => CastHelper::boolTrueOnly($this->is_main),
-            'is_restrict' => CastHelper::boolTrueOnly($this->is_restrict),
-            'number' => CastHelper::stripNonNumber($this->number),
-            'type' => CastHelper::integer($this->type),
-            'type_desc' => CastHelper::textLine($this->type_desc),
+            'extension' => Cast::textLine($this->extension),
+            'id' => Cast::integer($this->id),
+            'is_main' => Cast::boolTrueOnly($this->is_main),
+            'is_restrict' => Cast::boolTrueOnly($this->is_restrict),
+            'number' => Cast::stripNonNumber($this->number),
+            'type' => Cast::integer($this->type),
+            'type_desc' => Cast::textLine($this->type_desc),
         ]) ?: null;
     }
 

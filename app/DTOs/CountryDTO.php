@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 
 final class CountryDTO
 {
@@ -24,9 +24,9 @@ final class CountryDTO
 
     public function toDb(): ?array {
         return array_filter([
-            'dialing_code' => CastHelper::textLine($this->dialing_code),
-            'id' => CastHelper::textLine($this->id),
-            'iso2_id' => CastHelper::textLine($this->iso2_id),
+            'dialing_code' => Cast::textLine($this->dialing_code),
+            'id' => Cast::textLine($this->id),
+            'iso2_id' => Cast::textLine($this->iso2_id),
         ]) ?: null;
     }
 }

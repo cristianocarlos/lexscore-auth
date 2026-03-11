@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 use App\Custom\Mask;
 
 final class AddressDTO
@@ -31,19 +31,19 @@ final class AddressDTO
 
     public function toForm(): ?array {
         return array_filter(array_merge((array) $this, [
-            'zip_code' => Mask::formatZipCode($this->zip_code),
+            'zip_code' => Mask::zipCode($this->zip_code),
         ])) ?: null;
     }
 
     public function toDb(): ?array {
         return array_filter([
-            'city' => CastHelper::integer($this->city),
-            'city_desc' => CastHelper::textLine($this->city_desc),
-            'complement' => CastHelper::textLine($this->complement),
-            'line1' => CastHelper::textLine($this->line1),
-            'line2' => CastHelper::textLine($this->line2),
-            'number' => CastHelper::textLine($this->number),
-            'zip_code' => CastHelper::stripNonNumber($this->zip_code),
+            'city' => Cast::integer($this->city),
+            'city_desc' => Cast::textLine($this->city_desc),
+            'complement' => Cast::textLine($this->complement),
+            'line1' => Cast::textLine($this->line1),
+            'line2' => Cast::textLine($this->line2),
+            'number' => Cast::textLine($this->number),
+            'zip_code' => Cast::stripNonNumber($this->zip_code),
         ]) ?: null;
     }
 }

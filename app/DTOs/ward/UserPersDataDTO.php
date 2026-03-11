@@ -2,7 +2,7 @@
 
 namespace App\DTOs\ward;
 
-use App\Custom\CastHelper;
+use App\Custom\Cast;
 use App\Custom\Mask;
 use App\DTOs\AddressDTO;
 use App\DTOs\PhoneDTO;
@@ -28,7 +28,8 @@ final class UserPersDataDTO
 
     public function toForm(): ?array {
         return array_filter(array_merge((array) $this, [
-            'birth_date' => Mask::formatDate($this->birth_date),
+            'address' => $this->address?->toForm(),
+            'birth_date' => Mask::date($this->birth_date),
             'phone_rows' => PhoneDTO::collectionToForm($this->phone_rows),
         ])) ?: null;
     }
@@ -36,8 +37,8 @@ final class UserPersDataDTO
     public function toDb(): ?array {
         return array_filter([
             'address' => $this->address?->toDb(),
-            'birth_date' => CastHelper::date($this->birth_date),
-            'gender' => CastHelper::integer($this->gender),
+            'birth_date' => Cast::date($this->birth_date),
+            'gender' => Cast::integer($this->gender),
             'phone_rows' => PhoneDTO::collectionToDb($this->phone_rows),
         ]) ?: null;
     }
