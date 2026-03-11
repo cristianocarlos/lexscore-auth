@@ -30,8 +30,12 @@ class PhoneRowsRule implements ValidationRule, ValidatorAwareRule
         if ($shouldValidate) {
             $validator = Validator::make($itemValue, [
                 'country_data' => 'sometimes|array',
+                'extension' => 'required|string',
+                'is_main' => 'required|integer',
+                'is_restrict' => 'required|integer',
                 'number' => 'required|string',
-                'main' => 'required|integer',
+                'type' => 'required|integer',
+                'type_desc' => 'required|string',
             ]);
             if ($validator->fails()) {
                 foreach ($validator->errors()->getMessages() as $errorKeyPath => $errorMessages) {
