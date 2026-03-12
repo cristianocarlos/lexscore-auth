@@ -27,8 +27,8 @@ class RbacRole extends Model
     ];
 
     public function resolveAttributes(Request $request): void {
-        $this->role_name = $request->post('name');
-        $this->role_desc = $request->post('description');
+        $this->role_name = $request->input('name');
+        $this->role_desc = $request->input('description');
     }
 
     public function routeAssignmentSave(?array $values): void {

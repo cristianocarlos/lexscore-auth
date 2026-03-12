@@ -48,7 +48,7 @@ class MenuController extends Controller
             ])],
         ]);
         DB::transaction(function () {
-            Query::recursiveItemsReorder(request()->post('items'), function ($data, $index) {
+            Query::recursiveItemsReorder(request()->input('items'), function ($data, $index) {
                 Menu::where('menu_code', $data['id'])->update(['menu_orde' => $index + 1]);
             });
         });

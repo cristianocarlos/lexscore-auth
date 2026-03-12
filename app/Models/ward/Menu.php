@@ -25,10 +25,10 @@ class Menu extends Model
     ];
 
     public function resolveAttributes(Request $request): void {
-        $this->menu_name = $request->post('name');
-        $this->menu_rout = $request->post('route_id');
-        $this->menu_menu = $request->post('parent_id');
-        $this->menu_shcu_data = $request->post('shortcut_data');
+        $this->menu_name = $request->input('name');
+        $this->menu_rout = $request->input('route_id');
+        $this->menu_menu = $request->input('parent_id');
+        $this->menu_shcu_data = $request->input('shortcut_data');
     }
 
     protected $appends = ['menu_menu_desc', 'menu_rout_desc'];

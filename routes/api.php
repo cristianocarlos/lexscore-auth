@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('ward')->group(function () {
     Route::post('/login', [WardAuthController::class, 'login'])->middleware('throttle:6,1');
     Route::post('/refresh', [WardAuthController::class, 'refresh']);
+    Route::patch('/user-token/email-change-confirm/{token}', [WardUserTokenController::class, 'emailChangeConfirm']);
+    Route::get('/user-token/password-reset-ask', [WardUserTokenController::class, 'passwordResetAsk']);
+    Route::patch('/user-token/password-reset-confirm/{token}', [WardUserTokenController::class, 'passwordResetConfirm']);
+    Route::patch('/user-token/password-reset-send/{token}', [WardUserTokenController::class, 'passwordResetSend']);
     Route::middleware('auth:' . WardUser::AUTH_GUARD)->group(function () {
         Route::post('/logout', [WardAuthController::class, 'logout']);
         //
@@ -23,6 +27,10 @@ Route::prefix('ward')->group(function () {
         Route::get('/menu/suggest', [WardMenuController::class, 'suggest']);
         Route::put('/menu/update/{model}', [WardMenuController::class, 'update']);
         Route::get('/menu/view/{model?}', [WardMenuController::class, 'view']);
+        //
+        Route::put('/profile/personal-info-update', [WardProfileController::class, 'personalInfoUpdate']);
+        Route::put('/profile/preferences-update', [WardProfileController::class, 'preferencesUpdate']);
+        Route::get('/profile/view', [WardProfileController::class, 'view']);
         //
         Route::post('/role/create', [WardRoleController::class, 'create']);
         Route::delete('/role/delete/{model}', [WardRoleController::class, 'delete']);
@@ -41,14 +49,6 @@ Route::prefix('ward')->group(function () {
         Route::put('/user/update/{model}', [WardUserController::class, 'update']);
         Route::get('/user/view/{model?}', [WardUserController::class, 'view']);
         //
-        Route::post('/user-token/email-change-resend', [WardUserTokenController::class, 'emailChangeResend']);
-        Route::post('/user-token/email-change-confirm', [WardUserTokenController::class, 'emailChangeConfirm']);
-        Route::post('/user-token/password-reset-ask', [WardUserTokenController::class, 'passwordResetAsk']);
-        Route::post('/user-token/password-reset-confirm', [WardUserTokenController::class, 'passwordResetConfirm']);
-        Route::post('/user-token/password-reset-send', [WardUserTokenController::class, 'passwordResetSend']);
-        //
-        Route::put('/profile/personal-info-update', [WardProfileController::class, 'personalInfoUpdate']);
-        Route::put('/profile/preferences-update', [WardProfileController::class, 'preferencesUpdate']);
-        Route::get('/profile/view', [WardProfileController::class, 'view']);
+        Route::patch('/user-token/email-change-resend', [WardUserTokenController::class, 'emailChangeResend']);
     });
 });

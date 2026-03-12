@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request()->input('email')) {
             // Não salva o novo email enquanto
-            UserToken::tokenSave(userId: $authUser->id, email: request()->input('email'));
+            UserToken::tokenSave(userId: $model->user_code, email: request()->input('email'));
         }
         $model->save();
         return response()->json(new UserSaveResource($model));
