@@ -3,8 +3,10 @@
 namespace App\Models\ward;
 
 use App\Custom\Cast;
+use App\Mail\EmailChangeMailable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 /**
@@ -32,13 +34,19 @@ class UserToken extends Model
         return static::where('ustk_daho', '>', UserToken::getExpiryTimestamp());
     }
 
-    public static function tokenSave(int $userId, ?string $email): static {
+    public static function tokenSaveAndMail(int $userId, ?string $email): static {
         $model = new static;
         $model->ustk_user = $userId;
         $model->ustk_daho = Cast::nowTimestamp();
         $model->ustk_toke = Str::random(60);
         $model->ustk_mail = $email;
         $model->save();
+        $mailable = new EmailChangeMailable([
+            'email' => $model->ustk_mail,
+            'link' => "http://ward.lexscore-com.test/email-change-confirm/{$model->ustk_toke}", // TODO: hardcoded
+            'subject' => 'Agora vai',
+        ]);
+        Mail::to($model->ustk_mail)->send($mailable);
         return $model;
     }
 }

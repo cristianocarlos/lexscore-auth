@@ -11,14 +11,17 @@ use Illuminate\Http\JsonResponse;
 
 class UserTokenController extends Controller
 {
-    public function emailChangeResend(): JsonResponse { // TODO: rate limit
+    public function emailChangeResend(): JsonResponse {
         request()->validate([
-                'email' => 'required|email',
-            ]);
+            'email' => 'required|email',
+        ]);
         $authUser = JwtHelper::getAuthUser();
-        UserToken::tokenSave(userId: $authUser->id, email: request()->input('email'));
-        // TODO: enviar e-mail
-        return response()->json(new JsonFeedbackResource);
+        try {
+            UserToken::tokenSaveAndMail(userId: $authUser->id, email: request()->input('email'));
+            return response()->json(new JsonFeedbackResource);
+        } catch (\Exception $e) {
+            return response()->json(new JsonFeedbackResource($e->getMessage(), false), JsonResponse::HTTP_SERVICE_UNAVAILABLE);
+        }
     }
 
     public function emailChangeConfirm(string $token): JsonResponse {

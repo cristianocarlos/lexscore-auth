@@ -9,11 +9,13 @@ class JsonFeedbackResource extends JsonResource
 {
     private bool $success;
     private array $errors;
+    private mixed $exception;
 
-    public function __construct(string $message = '=^.^=', $success = true, $errors = []) {
+    public function __construct(string $message = '=^.^=', $success = true, $errors = [], mixed $exception = null) {
         parent::__construct($message);
         $this->success = empty($errors) ? $success : false;
         $this->errors = $errors;
+        $this->exception = $exception;
     }
 
     /**
@@ -24,6 +26,7 @@ class JsonFeedbackResource extends JsonResource
     public function toArray(Request $request): array {
         return [
             'errors' => $this->whenNotNull($this->errors ?: null),
+            'exception' => $this->whenNotNull($this->exception),
             'message' => $this->getMessage(),
             'success' => $this->success,
         ];

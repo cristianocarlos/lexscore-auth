@@ -6,8 +6,6 @@ use Illuminate\Support\Str;
 
 class Helper
 {
-    const int HTTP_CODE_PAGE_EXPIRED = 419;
-
     const string DB_CONNECTION = 'pgsql';
     const string BOM_CHAR = "\xEF\xBB\xBF"; // Byte-order mark char. Precisa ser com aspas duplas
 
