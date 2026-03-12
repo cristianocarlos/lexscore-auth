@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models\ward;
+
+use App\Custom\Cast;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @mixin IdeHelperUserToken
+ */
+class UserToken extends Model
+{
+    protected $table = 'admin.user_token';
+    protected $primaryKey = 'ustk_code';
+    public $timestamps = false;
+    protected $casts = [];
+    protected $attributes = [];
+    protected $fillable = [
+        'ustk_toke',
+        'ustk_daho',
+        'ustk_mail',
+    ];
+    protected $hidden = [];
+
+    public static function getExpiryTimestamp(int $days = -1): string {
+        return Cast::timestamp(now()->addDays($days));
+    }
+
+    public static function notExpiredModel(int $userId): static {
+        return static::find('ustk_user', $userId)->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
+    }
+
+    public static function tokenSave(int $userId, ?string $email): static {
+        $model = new static;
+        $model->ustk_user = $userId;
+        $model->ustk_daho = Cast::nowTimestamp();
+        $model->ustk_toke = '1'; // TODO: Como gerar token?
+        $model->ustk_mail = $email;
+        $model->save();
+        return $model;
+    }
+}

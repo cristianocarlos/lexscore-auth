@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\user;
 
 use App\Http\Resources\JsonFeedbackResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MenuTreeResource extends JsonResource
+class UserViewResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [...new JsonFeedbackResource()->toArray($request), ...[
-            'content' => $this->resource, // TODO: não sei como fazer usar o Resource pra items recursivos
+            'content' => UserResource::make($this->resource),
         ]];
     }
 }

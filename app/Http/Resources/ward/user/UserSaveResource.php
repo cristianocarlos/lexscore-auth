@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\user;
 
 use App\Http\Resources\JsonFeedbackResource;
 use Illuminate\Http\Request;

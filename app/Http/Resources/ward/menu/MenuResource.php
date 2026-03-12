@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\menu;
 
 use App\Models\ward\Menu;
 use Illuminate\Http\Request;

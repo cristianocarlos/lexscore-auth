@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\userRole;
 
 use App\Http\Resources\JsonFeedbackResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RoleRouteRowsResource extends JsonResource
+class UserRoleRowsResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [...new JsonFeedbackResource()->toArray($request), ...[
-            'content' => RoleRouteResource::collection($this->resource),
+            'content' => UserRoleResource::collection($this->resource),
         ]];
     }
 }

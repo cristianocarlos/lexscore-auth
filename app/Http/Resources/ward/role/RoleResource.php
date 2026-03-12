@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\role;
 
 use App\Models\ward\RbacRole;
 use Illuminate\Http\Request;

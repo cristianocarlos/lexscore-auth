@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\user;
 
 use App\Http\Resources\JsonFeedbackResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserViewResource extends JsonResource
+class UserRowsResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [...new JsonFeedbackResource()->toArray($request), ...[
-            'content' => UserResource::make($this->resource),
+            'content' => UserResource::collection($this->resource),
         ]];
     }
 }

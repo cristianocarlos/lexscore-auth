@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ward;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JsonResponseResource;
-use App\Http\Resources\ward\RoleRouteRowsResource;
+use App\Http\Resources\ward\roleRoute\RoleRouteRowsResource;
 use App\Queries\ward\RbacRouteQuery;
 use Illuminate\Http\JsonResponse;
 

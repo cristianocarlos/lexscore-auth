@@ -9,6 +9,7 @@ use App\Casts\ward\UserPersDataCast;
 use App\Custom\Cast;
 use App\Enums\YiiEnum;
 use App\Traits\ModelSysLogTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -121,5 +122,11 @@ class User extends Authenticatable implements JWTSubject
                 'password_last_update_date_hour' => Cast::nowTimestamp(),
             ]);
         }
+    }
+
+    public function emailChangeTokenRelation(): HasMany {
+        return $this->hasMany(UserToken::class, 'ustk_user')
+            ->whereNotNull('ustk_mail')
+            ->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
     }
 }

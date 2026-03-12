@@ -6,6 +6,7 @@ use App\Http\Controllers\ward\ProfileController as WardProfileController;
 use App\Http\Controllers\ward\RoleController as WardRoleController;
 use App\Http\Controllers\ward\RouteController as WardRouteController;
 use App\Http\Controllers\ward\UserController as WardUserController;
+use App\Http\Controllers\ward\UserTokenController as WardUserTokenController;
 use App\Models\ward\User as WardUser;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,12 @@ Route::prefix('ward')->group(function () {
         Route::get('/user/index', [WardUserController::class, 'index']);
         Route::put('/user/update/{model}', [WardUserController::class, 'update']);
         Route::get('/user/view/{model?}', [WardUserController::class, 'view']);
+        //
+        Route::post('/user-token/email-change-resend', [WardUserTokenController::class, 'emailChangeResend']);
+        Route::post('/user-token/email-change-confirm', [WardUserTokenController::class, 'emailChangeConfirm']);
+        Route::post('/user-token/password-reset-ask', [WardUserTokenController::class, 'passwordResetAsk']);
+        Route::post('/user-token/password-reset-confirm', [WardUserTokenController::class, 'passwordResetConfirm']);
+        Route::post('/user-token/password-reset-send', [WardUserTokenController::class, 'passwordResetSend']);
         //
         Route::put('/profile/personal-info-update', [WardProfileController::class, 'personalInfoUpdate']);
         Route::put('/profile/preferences-update', [WardProfileController::class, 'preferencesUpdate']);

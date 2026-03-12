@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\ward;
+namespace App\Http\Resources\ward\user;
 
 use App\Models\Type;
 use App\Models\ward\User as WardUser;
@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'email' => $this->whenNotNull($this->user_mail),
             'has_password' => (bool) $this->user_pass,
             'name' => $this->user_name,
+            'pending_email' => $this->whenNotNull($this->emailChangeTokenRelation()->first()?->ustk_mail),
             'personal_data' => $this->whenNotNull($this->user_pers_data),
             'photo' => $this->whenNotNull($this->user_phot),
             'preferences' => $this->whenNotNull($this->user_pref_data),
