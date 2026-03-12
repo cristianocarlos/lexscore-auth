@@ -86,18 +86,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function resolveAttributes(Request $request): void {
         $this->user_code = $request->input('id');
+        $this->user_cpf = $request->input('cpf');
         $this->user_mail = $request->input('email');
         $this->user_name = $request->input('name');
-        $this->user_stat = $request->input('status_id');
         $this->user_pers_data = $request->input('personal_data');
-        $this->user_cpf = $request->input('cpf');
         $this->user_phot = $request->input('photo');
+        $this->user_stat = $request->input('status_id');
         $this->resolvePasswordAttributes($request);
     }
 
     public function resolveProfileAttributes(Request $request): void {
+        $this->user_cpf = $request->input('cpf');
         $this->user_mail = $request->input('email');
-        $this->resolvePasswordAttributes($request);
+        $this->user_name = $request->input('name');
+        $this->user_pers_data = $request->input('personal_data');
+        $this->user_phot = $request->input('photo');
     }
 
     public function getNextSequence(): ?int {

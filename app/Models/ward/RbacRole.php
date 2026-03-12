@@ -41,12 +41,14 @@ class RbacRole extends Model
         RbacRoleRoute::insert($batch);
     }
 
-    public function roleAssignmentSave(?array $values): void {
-        RbacUserRole::where('usro_user', $this->role_code)->delete();
+    public static function roleAssignmentSave(?array $values, int $userId): void {
+        RbacUserRole::where('usro_user', $userId)
+            ->whereRaw('usro_user != usro_role') // A própria role precisa estar sempre atribuída
+            ->delete();
         if (empty($values)) return;
         $batch = [];
         foreach ($values as $value) {
-            $batch[] = ['usro_user' => $this->role_code, 'usro_role' => $value];
+            $batch[] = ['usro_user' => $userId, 'usro_role' => $value];
         }
         RbacUserRole::insert($batch);
     }

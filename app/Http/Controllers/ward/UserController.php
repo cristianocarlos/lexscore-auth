@@ -8,6 +8,7 @@ use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\ward\UserRowsResource;
 use App\Http\Resources\ward\UserSaveResource;
 use App\Http\Resources\ward\UserViewResource;
+use App\Models\ward\RbacRole;
 use App\Models\ward\User as WardUser;
 use Illuminate\Http\JsonResponse;
 
@@ -18,6 +19,7 @@ class UserController extends Controller
         $model = new WardUser;
         $model->resolveAttributes(request());
         $model->save();
+        RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->user_code);
         return response()->json(new UserSaveResource($model));
     }
 
@@ -34,6 +36,7 @@ class UserController extends Controller
         $request->validated();
         $model->resolveAttributes(request());
         $model->save();
+        RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->user_code);
         return response()->json(new UserSaveResource($model));
     }
 

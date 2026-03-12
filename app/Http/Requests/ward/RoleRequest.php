@@ -15,8 +15,8 @@ class RoleRequest extends FormRequest
             'name' => 'required|string',
             'description' => 'nullable|string',
             // 'route_asignment' => 'required', // Não é obrigatorio
-            // 'role_assignment' => 'required', // Não é obrigatorio
             'route_asignment.*' => 'required|integer', // Quando existir precisa ser no formato [1=>1]
+            // 'role_assignment' => 'required', // Não é obrigatorio
             'role_assignment.*' => 'required|integer', // Quando existir precisa ser no formato [1=>1]
         ];
     }

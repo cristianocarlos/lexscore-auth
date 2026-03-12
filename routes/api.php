@@ -40,7 +40,8 @@ Route::prefix('ward')->group(function () {
         Route::put('/user/update/{model}', [WardUserController::class, 'update']);
         Route::get('/user/view/{model?}', [WardUserController::class, 'view']);
         //
-        Route::put('/profile/update', [WardProfileController::class, 'update']);
+        Route::put('/profile/personal-info-update', [WardProfileController::class, 'personalInfoUpdate']);
+        Route::put('/profile/preferences-update', [WardProfileController::class, 'preferencesUpdate']);
         Route::get('/profile/view', [WardProfileController::class, 'view']);
     });
 });

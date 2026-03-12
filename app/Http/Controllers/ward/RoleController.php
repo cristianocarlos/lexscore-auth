@@ -22,8 +22,8 @@ class RoleController extends Controller
             $model = new RbacRole;
             $model->resolveAttributes($request);
             $model->save();
-            $model->routeAssignmentSave(request()->post('route_assignment'));
-            $model->roleAssignmentSave(request()->post('role_assignment'));
+            $model->routeAssignmentSave(request()->input('route_assignment'));
+            RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->role_code);
             return $model;
         });
         return response()->json(new RoleSaveResource($model));
@@ -53,8 +53,8 @@ class RoleController extends Controller
         $model = DB::transaction(function () use ($request, $model) {
             $model->resolveAttributes($request);
             $model->save();
-            $model->routeAssignmentSave(request()->post('route_assignment'));
-            $model->roleAssignmentSave(request()->post('role_assignment'));
+            $model->routeAssignmentSave(request()->input('route_assignment'));
+            RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->role_code);
             return $model;
         });
         return response()->json(new RoleSaveResource($model));

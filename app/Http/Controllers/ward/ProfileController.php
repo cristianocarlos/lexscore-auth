@@ -10,10 +10,22 @@ use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
-    public function update(): JsonResponse {
+    public function personalInfoUpdate(): JsonResponse {
         /** @var WardUser $model */
         $model = auth(WardUser::AUTH_GUARD)->user();
-        $model->resolveProfileAttributes(request());
+        $model->user_cpf = request()->input('cpf');
+        $model->user_mail = request()->input('email');
+        $model->user_name = request()->input('name');
+        $model->user_pers_data = request()->input('personal_data');
+        $model->user_phot = request()->input('photo');
+        $model->save();
+        return response()->json(new UserSaveResource($model));
+    }
+
+    public function preferencesUpdate(): JsonResponse {
+        /** @var WardUser $model */
+        $model = auth(WardUser::AUTH_GUARD)->user();
+        $model->user_mail = request()->input('email');
         $model->save();
         return response()->json(new UserSaveResource($model));
     }
