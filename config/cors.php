@@ -5,6 +5,7 @@
 return [
     'allowed_origins' => [
         'http://ward.lexscore-com.test',
+        'https://ward.lexscore-com.test',
     ],
 
     'allowed_methods' => [

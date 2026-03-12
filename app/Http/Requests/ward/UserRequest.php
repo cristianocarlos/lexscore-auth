@@ -31,6 +31,7 @@ class UserRequest extends FormRequest
                 'personal_data.birth_date' => ['nullable', new PtBrDateRule],
                 'personal_data.gender' => 'nullable|integer',
                 'personal_data.phone_rows' => ['nullable', 'array', new PhoneRowsRule],
+                'photo' => 'nullable|string', // TODO: validar string precisa conter "data:"
             ];
         }
         return [
