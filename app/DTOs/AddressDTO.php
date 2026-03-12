@@ -17,7 +17,8 @@ final class AddressDTO
         public ?string $zip_code,
     ) {}
 
-    public static function fromArray(array $data): self {
+    public static function fromArray(?array $data): ?self {
+        if (empty($data['city_desc']) && empty($data['line1']) && empty($data['zip_code'])) return null;
         return new self(
             city: $data['city'] ?? null,
             city_desc: $data['city_desc'] ?? null,

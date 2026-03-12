@@ -18,7 +18,8 @@ final class PhoneDTO
         public ?string $type_desc,
     ) {}
 
-    public static function fromArray(array $data): self {
+    public static function fromArray(?array $data): ?self {
+        if (empty($data['number']) && empty($data['type_desc'])) return null;
         return new self(
             country_data: CountryDTO::fromArray($data['country_data'] ?? null),
             extension: $data['extension'] ?? null,

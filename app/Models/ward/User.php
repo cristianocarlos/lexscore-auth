@@ -2,6 +2,7 @@
 
 namespace App\Models\ward;
 
+use App\Casts\Base64FileCast;
 use App\Casts\CpfCast;
 use App\Casts\SysLogCast;
 use App\Casts\ward\UserPersDataCast;
@@ -29,8 +30,9 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'sys_log' => SysLogCast::class,
         'user_cpf' => CpfCast::class,
-        'user_pers_data' => UserPersDataCast::class,
         'user_pass' => 'hashed',
+        'user_pers_data' => UserPersDataCast::class,
+        'user_phot' => Base64FileCast::class,
     ];
     protected $attributes = [
         'user_stat' => YiiEnum::STATUS_OK->value,
@@ -40,9 +42,10 @@ class User extends Authenticatable implements JWTSubject
         'user_mail',
         'user_name',
         'user_pass',
-        'user_stat',
+        'user_phot',
         'user_pers_data',
         'user_pref_data',
+        'user_stat',
         'sys_log',
     ];
     protected $hidden = [
@@ -88,6 +91,7 @@ class User extends Authenticatable implements JWTSubject
         $this->user_stat = $request->input('status_id');
         $this->user_pers_data = $request->input('personal_data');
         $this->user_cpf = $request->input('cpf');
+        $this->user_phot = $request->input('photo');
         $this->resolvePasswordAttributes($request);
     }
 
