@@ -6,17 +6,17 @@ use App\Http\Controllers\ward\ProfileController as WardProfileController;
 use App\Http\Controllers\ward\RoleController as WardRoleController;
 use App\Http\Controllers\ward\RouteController as WardRouteController;
 use App\Http\Controllers\ward\UserController as WardUserController;
-use App\Http\Controllers\ward\UserTokenController as WardUserTokenController;
+use App\Http\Controllers\ward\UserEmailChangeController as WardUserEmailChangeController;
+use App\Http\Controllers\ward\UserPasswordResetController as WardUserPasswordResetController;
 use App\Models\ward\User as WardUser;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('ward')->group(function () {
     Route::post('/login', [WardAuthController::class, 'login'])->middleware('throttle:6,1');
     Route::post('/refresh', [WardAuthController::class, 'refresh']);
-    Route::patch('/user-token/email-change-confirm/{token}', [WardUserTokenController::class, 'emailChangeConfirm']);
-    Route::get('/user-token/password-reset-ask', [WardUserTokenController::class, 'passwordResetAsk']);
-    Route::patch('/user-token/password-reset-confirm/{token}', [WardUserTokenController::class, 'passwordResetConfirm']);
-    Route::patch('/user-token/password-reset-send/{token}', [WardUserTokenController::class, 'passwordResetSend']);
+    Route::patch('/user-email-change/confirm/{token}', [WardUserEmailChangeController::class, 'confirm']);
+    Route::patch('/user-password-reset/ask', [WardUserPasswordResetController::class, 'ask'])->middleware('throttle:1,1');
+    Route::patch('/user-password-reset/confirm/{token}', [WardUserPasswordResetController::class, 'confirm']);
     Route::middleware('auth:' . WardUser::AUTH_GUARD)->group(function () {
         Route::post('/logout', [WardAuthController::class, 'logout']);
         //
@@ -49,6 +49,6 @@ Route::prefix('ward')->group(function () {
         Route::put('/user/update/{model}', [WardUserController::class, 'update']);
         Route::get('/user/view/{model?}', [WardUserController::class, 'view']);
         //
-        Route::patch('/user-token/email-change-resend', [WardUserTokenController::class, 'emailChangeResend']);
+        Route::patch('/user-email-change/ask', [WardUserEmailChangeController::class, 'ask'])->middleware('throttle:1,1');
     });
 });

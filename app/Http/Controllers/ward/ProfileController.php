@@ -9,6 +9,7 @@ use App\Http\Resources\ward\user\UserSaveResource;
 use App\Http\Resources\ward\user\UserViewResource;
 use App\Models\ward\User as WardUser;
 use App\Models\ward\UserToken;
+use App\Services\EmailService;
 use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
@@ -26,13 +27,14 @@ class ProfileController extends Controller
         return response()->json(new UserSaveResource($model));
     }
 
-    public function preferencesUpdate(): JsonResponse {
+    public function preferencesUpdate(EmailService $emailService): JsonResponse {
         $authUser = JwtHelper::getAuthUser();
         $model = WardUser::find($authUser->id);
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request()->input('email')) {
             try {
-                UserToken::tokenSaveAndMail(userId: $authUser->id, email: request()->input('email'));
+                $model = UserToken::tokenSave(userId: $authUser->id, email: request()->input('email'));
+                $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail);
             } catch (\Exception $e) {
                 // Se der ruim aqui tanto faz, o usuário pode clicar no resend
             }

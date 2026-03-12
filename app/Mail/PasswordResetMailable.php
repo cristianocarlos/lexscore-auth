@@ -28,7 +28,7 @@ class PasswordResetMailable extends Mailable
     public function envelope(): Envelope {
         return new Envelope(
             replyTo: [
-                new Address($this->data['email'], $this->data['name']),
+                new Address($this->data['email']),
             ],
             subject: $this->data['subject'],
         );
