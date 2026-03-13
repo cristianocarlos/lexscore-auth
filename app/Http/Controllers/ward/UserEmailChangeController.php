@@ -30,6 +30,6 @@ class UserEmailChangeController extends Controller
         $userModel->user_mail = $model->ustk_mail;
         $userModel->save();
         $model->delete();
-        return response()->json(new JsonFeedbackResource('E-mail confirmado!'));
+        return response()->json(new JsonFeedbackResource);
     }
 }

@@ -38,6 +38,6 @@ class UserPasswordResetController extends Controller
             $userModel->user_pass = request()->input('password');
             $userModel->save();
         });
-        return response()->json(new JsonFeedbackResource('Senha alterada!'));
+        return response()->json(new JsonFeedbackResource);
     }
 }

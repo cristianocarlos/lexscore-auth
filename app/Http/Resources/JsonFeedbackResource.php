@@ -11,7 +11,7 @@ class JsonFeedbackResource extends JsonResource
     private array $errors;
     private mixed $exception;
 
-    public function __construct(string $message = '=^.^=', $success = true, $errors = [], mixed $exception = null) {
+    public function __construct(string $message = '', $success = true, $errors = [], mixed $exception = null) {
         parent::__construct($message);
         $this->success = empty($errors) ? $success : false;
         $this->errors = $errors;
