@@ -24,7 +24,7 @@ class UserRequest extends FormRequest
             // sometimes // [nada] -- roda os validators seguintes
             return [
                 'name' => ['required', new FullNameRule],
-                'email' => 'required|email',
+                'email' => 'nullable|email',
                 'cpf' => ['nullable', new CpfRule],
                 'personal_data' => 'array',
                 'personal_data.address' => ['nullable', 'array', new PtBrAddressRule],
@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
         }
         return [
             'name' => ['required', new FullNameRule],
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'cpf' => ['nullable', new CpfRule],
             'personal_data' => 'array',
             'personal_data.address' => ['nullable', 'array', new PtBrAddressRule],
