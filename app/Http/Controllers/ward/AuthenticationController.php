@@ -5,13 +5,13 @@ namespace App\Http\Controllers\ward;
 use App\Custom\Cast;
 use App\Custom\JwtHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ward\LoginRequest;
 use App\Http\Resources\JsonFeedbackResource;
 use App\Models\ward\User as WardUser;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthController extends Controller
+class AuthenticationController extends Controller
 {
     const string REFRESH_TOKEN_NAME = JwtHelper::REFRESH_TOKEN_NAME;
 

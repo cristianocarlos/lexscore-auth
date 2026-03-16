@@ -29,7 +29,7 @@ class UserToken extends Model
     }
 
     public static function notExpiredBuilder(): Builder {
-        return static::where('ustk_daho', '>', UserToken::getExpiryTimestamp());
+        return static::where('ustk_daho', '>', static::getExpiryTimestamp());
     }
 
     public static function tokenSave(int $userId, ?string $email = null): static {

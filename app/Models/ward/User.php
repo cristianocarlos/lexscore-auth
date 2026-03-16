@@ -96,14 +96,6 @@ class User extends Authenticatable implements JWTSubject
         $this->resolvePasswordAttributes($request);
     }
 
-    public function resolveProfileAttributes(Request $request): void {
-        $this->user_cpf = $request->input('cpf');
-        $this->user_mail = $request->input('email');
-        $this->user_name = $request->input('name');
-        $this->user_pers_data = $request->input('personal_data');
-        $this->user_phot = $request->input('photo');
-    }
-
     public function getNextSequence(): ?int {
         $rows = DB::select("SELECT NEXTVAL('public.main_code_seq')");
         if (!empty($rows)) return $rows[0]->nextval;

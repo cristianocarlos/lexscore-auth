@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ward\AuthController as WardAuthController;
+use App\Http\Controllers\ward\AuthenticationController as WardAuthenticationController;
 use App\Http\Controllers\ward\MenuController as WardMenuController;
 use App\Http\Controllers\ward\ProfileController as WardProfileController;
 use App\Http\Controllers\ward\RoleController as WardRoleController;
@@ -12,13 +12,13 @@ use App\Models\ward\User as WardUser;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('ward')->group(function () {
-    Route::post('/login', [WardAuthController::class, 'login'])->middleware('throttle:6,1');
-    Route::post('/refresh', [WardAuthController::class, 'refresh']);
+    Route::post('/login', [WardAuthenticationController::class, 'login'])->middleware('throttle:6,1');
+    Route::post('/refresh', [WardAuthenticationController::class, 'refresh']);
     Route::patch('/user-email-change/confirm/{token}', [WardUserEmailChangeController::class, 'confirm']);
     Route::patch('/user-password-reset/ask', [WardUserPasswordResetController::class, 'ask'])->middleware('throttle:1,1');
     Route::patch('/user-password-reset/confirm/{token}', [WardUserPasswordResetController::class, 'confirm']);
     Route::middleware('auth:' . WardUser::AUTH_GUARD)->group(function () {
-        Route::post('/logout', [WardAuthController::class, 'logout']);
+        Route::post('/logout', [WardAuthenticationController::class, 'logout']);
         //
         Route::post('/menu/create', [WardMenuController::class, 'create']);
         Route::delete('/menu/delete/{model}', [WardMenuController::class, 'delete']);

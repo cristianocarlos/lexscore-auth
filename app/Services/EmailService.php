@@ -11,8 +11,8 @@ class EmailService
     public function userEmailChangeSend(string $token, string $email): void {
         $mailable = new EmailChangeMailable([
             'email' => $email,
-            'link' => "http://ward.lexscore-com.test/user-email-change/confirm/{$token}", // TODO: hardcoded
-            'subject' => 'Agora mail',
+            'link' => app('url') . "/user-email-change/confirm/{$token}",
+            'subject' => 'Confirmação de e-mail ' . app('name'),
         ]);
         Mail::to($email)->queue($mailable);
     }
@@ -20,8 +20,8 @@ class EmailService
     public function userPasswordResetSend(string $token, string $email): void {
         $mailable = new PasswordResetMailable([
             'email' => $email,
-            'link' => "http://ward.lexscore-com.test/user-password-reset/confirm/{$token}", // TODO: hardcoded
-            'subject' => 'Agora pass',
+            'link' =>  app('url') . "/user-password-reset/confirm/{$token}",
+            'subject' => 'Solicitação de recuperação de senha ' . app('name'),
         ]);
         Mail::to($email)->queue($mailable);
     }
