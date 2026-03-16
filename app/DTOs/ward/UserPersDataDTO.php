@@ -37,7 +37,7 @@ final class UserPersDataDTO
     public function toDb(): ?array {
         return array_filter([
             'address' => $this->address?->toDb(),
-            'birth_date' => Cast::date($this->birth_date),
+            'birth_date' => Cast::fromPtBrDate($this->birth_date),
             'gender' => Cast::integer($this->gender),
             'phone_rows' => PhoneDTO::collectionToDb($this->phone_rows),
         ]) ?: null;

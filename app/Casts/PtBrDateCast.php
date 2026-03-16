@@ -16,6 +16,6 @@ class PtBrDateCast implements CastsAttributes
 
     public function set(Model $model, string $key, mixed $value, array $attributes): ?string {
         if (is_null($value)) return null;
-        return Cast::date($value);
+        return Cast::fromPtBrDate($value);
     }
 }

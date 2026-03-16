@@ -3,6 +3,7 @@
 namespace App\Custom;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 
 class Cast
 {
@@ -48,19 +49,32 @@ class Cast
         return preg_replace('/[^0-9]/', '', $value);
     }
 
-    public static function date(?string $value): ?string {
+    private static function resolveCarbon(string|CarbonInterface $value, ?string $format = null): CarbonInterface {
+        if ($format) return Carbon::createFromFormat($format, $value);
+        if ($value instanceof CarbonInterface) return $value;
+        return Carbon::parse($value);
+    }
+
+    public static function fromPtBrDate(?string $value): ?string {
         if (blank($value)) return null;
-        return Carbon::parse($value)->format('Y-m-d');
+        $carbon = static::resolveCarbon($value, 'd/m/Y');
+        return $carbon->format('Y-m-d');
+    }
+
+    public static function fromPtBrTimestamp(?string $value, $tz = true): ?string {
+        if (blank($value)) return null;
+        $carbon = static::resolveCarbon($value, 'd/m/Y H:i');
+        return $tz ? $carbon->format('Y-m-d H:i:sT') : $carbon->format('Y-m-d H:i:s');
     }
 
     public static function timestamp(?string $value, $tz = true): ?string {
         if (blank($value)) return null;
-        if ($tz) return Carbon::parse($value)->format('Y-m-d H:i:sT');
-        return Carbon::parse($value)->format('Y-m-d H:i:s');
+        $carbon = static::resolveCarbon($value);
+        return $tz ? $carbon->format('Y-m-d H:i:sT') : $carbon->format('Y-m-d H:i:s');
     }
 
     public static function nowTimestamp($tz = true): string {
-        if ($tz) return now()->format('Y-m-d H:i:sT');
-        return now()->format('Y-m-d H:i:s');
+        $carbon = static::resolveCarbon(now());
+        return $tz ? $carbon->format('Y-m-d H:i:sT') : $carbon->format('Y-m-d H:i:s');
     }
 }
