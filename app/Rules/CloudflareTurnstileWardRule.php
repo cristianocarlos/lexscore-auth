@@ -26,7 +26,7 @@ class CloudflareTurnstileWardRule implements ValidationRule
                 ->post(config('services.cloudflare_turnstile_ward.verify_url'), [
                     'secret' => config('services.cloudflare_turnstile_ward.secret_key'),
                     // 'response' => $value,
-                    'response' => request()->input('cf-turnstile-response'), // xunxo pq é usado o campo cf_turnstile_response pra aparecer o erro do validate na tela
+                    'response' => request('cf-turnstile-response'), // xunxo pq é usado o campo cf_turnstile_response pra aparecer o erro do validate na tela
                     'remoteip' => request()->ip(),
                 ]);
 

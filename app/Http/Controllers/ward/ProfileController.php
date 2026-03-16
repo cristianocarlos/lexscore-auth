@@ -18,11 +18,11 @@ class ProfileController extends Controller
         $request->validated();
         $authUser = JwtHelper::getAuthUser();
         $model = WardUser::find($authUser->id);
-        $model->user_cpf = request()->input('cpf');
-        $model->user_mail = request()->input('email');
-        $model->user_name = request()->input('name');
-        $model->user_pers_data = request()->input('personal_data');
-        $model->user_phot = request()->input('photo');
+        $model->user_cpf = request('cpf');
+        $model->user_mail = request('email');
+        $model->user_name = request('name');
+        $model->user_pers_data = request('personal_data');
+        $model->user_phot = request('photo');
         $model->save();
         return response()->json(new UserSaveResource($model));
     }
@@ -31,9 +31,9 @@ class ProfileController extends Controller
         $authUser = JwtHelper::getAuthUser();
         $model = WardUser::find($authUser->id);
         $oldEmail = $model->user_mail;
-        if ($oldEmail !== request()->input('email')) {
+        if ($oldEmail !== request('email')) {
             try {
-                $model = UserToken::tokenSave(userId: $authUser->id, email: request()->input('email'));
+                $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
                 $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail);
             } catch (\Exception $e) {
                 // Se der ruim aqui tanto faz, o usuário pode clicar no resend

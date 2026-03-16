@@ -17,7 +17,7 @@ class UserEmailChangeController extends Controller
             'email' => 'required|email',
         ]);
         $authUser = JwtHelper::getAuthUser();
-        $model = UserToken::tokenSave(userId: $authUser->id, email: request()->input('email'));
+        $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
         $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail);
         return response()->json(new JsonFeedbackResource);
     }

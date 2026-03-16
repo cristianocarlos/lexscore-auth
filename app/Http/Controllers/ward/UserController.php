@@ -19,7 +19,7 @@ class UserController extends Controller
         $model = new WardUser;
         $model->resolveAttributes(request());
         $model->save();
-        RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->user_code);
+        RbacRole::roleAssignmentSave(request('role_assignment'), $model->user_code);
         return response()->json(new UserSaveResource($model));
     }
 
@@ -36,7 +36,7 @@ class UserController extends Controller
         $request->validated();
         $model->resolveAttributes(request());
         $model->save();
-        RbacRole::roleAssignmentSave(request()->input('role_assignment'), $model->user_code);
+        RbacRole::roleAssignmentSave(request('role_assignment'), $model->user_code);
         return response()->json(new UserSaveResource($model));
     }
 

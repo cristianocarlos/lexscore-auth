@@ -17,7 +17,7 @@ class UserPasswordResetController extends Controller
             'email' => 'required|email',
         ]);
         /** @var WardUser $userModel */
-        $userModel = WardUser::where('user_mail', request()->input('email'))->first();
+        $userModel = WardUser::where('user_mail', request('email'))->first();
         if (!empty($userModel)) {
             $model = UserToken::tokenSave(userId: $userModel->user_code);
             $emailService->userPasswordResetSend($model->ustk_toke, $userModel->user_mail);
@@ -35,7 +35,7 @@ class UserPasswordResetController extends Controller
         DB::transaction(function () use ($model) {
             $model->delete();
             $userModel = WardUser::find($model->ustk_user);
-            $userModel->user_pass = request()->input('password');
+            $userModel->user_pass = request('password');
             $userModel->save();
         });
         return response()->json(new JsonFeedbackResource);
