@@ -30,7 +30,8 @@ class UserEmailChangeController extends Controller
         $userModel = WardUser::find($model->ustk_user);
         $userModel->user_mail = $model->ustk_mail;
         $userModel->save();
-        $model->delete();
+        // Exclui todas as solicitações deste usuário, caso isso não aconteça pode ficar uma solicitação dupla pendurada eternamente
+        UserToken::where('ustk_user', $model->ustk_user)->delete();
         return response()->json(new JsonFeedbackResource);
     }
 }

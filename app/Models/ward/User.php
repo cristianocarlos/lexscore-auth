@@ -83,7 +83,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function emailChangeTokenRelation(): HasMany {
         return $this->hasMany(UserToken::class, 'ustk_user')
-            ->whereNotNull('ustk_mail')
             ->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
     }
 

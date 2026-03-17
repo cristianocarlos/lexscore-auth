@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
     public function index(): JsonResponse {
-        return response()->json(new UserRowsResource(WardUser::all()));
+        return response()->json(new UserRowsResource(WardUser::limit(10)->get()));
     }
 
     public function update(UserRequest $request, WardUser $model): JsonResponse {

@@ -37,8 +37,8 @@ class ProfileController extends Controller
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request('email')) {
             try {
-                $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
-                $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail, request('host'));
+                $userTokenModel = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
+                $emailService->userEmailChangeSend($userTokenModel->ustk_toke, $userTokenModel->ustk_mail, request('host'));
             } catch (\Exception $e) {
                 // Se der ruim aqui tanto faz, o usuário pode clicar no resend
             }
