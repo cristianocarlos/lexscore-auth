@@ -77,12 +77,28 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    // ////
+    // ////
+    // ////
+
+    public function emailChangeTokenRelation(): HasMany {
+        return $this->hasMany(UserToken::class, 'ustk_user')
+            ->whereNotNull('ustk_mail')
+            ->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
+    }
+
     public static function findByUsername(string $username): ?static {
         $columnName = str_contains($username, '@') ? 'user_mail' : 'user_code';
         return static::where([
             $columnName => $username,
             'user_stat' => YiiEnum::STATUS_OK->value,
         ])->first();
+    }
+
+    public function getNextSequence(): ?int {
+        $rows = DB::select("SELECT NEXTVAL('public.main_code_seq')");
+        if (!empty($rows)) return $rows[0]->nextval;
+        return null;
     }
 
     public function resolveAttributes(Request $request): void {
@@ -96,16 +112,6 @@ class User extends Authenticatable implements JWTSubject
         $this->resolvePasswordAttributes($request);
     }
 
-    public function getNextSequence(): ?int {
-        $rows = DB::select("SELECT NEXTVAL('public.main_code_seq')");
-        if (!empty($rows)) return $rows[0]->nextval;
-        return null;
-    }
-
-    public function resolveSysLog(array $newProps): void {
-        $this->sys_log = array_merge((array) $this->sys_log, $newProps);
-    }
-
     public function resolvePasswordAttributes(Request $request): void {
         if ($request->input('password')) {
             // Uma vez existente, não pode mais ser vazio, apenas uma nova senha
@@ -116,9 +122,7 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function emailChangeTokenRelation(): HasMany {
-        return $this->hasMany(UserToken::class, 'ustk_user')
-            ->whereNotNull('ustk_mail')
-            ->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
+    public function resolveSysLog(array $newProps): void {
+        $this->sys_log = array_merge((array) $this->sys_log, $newProps);
     }
 }

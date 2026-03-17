@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailService
 {
-    public function userEmailChangeSend(string $token, string $email): void {
+    public function userEmailChangeSend(string $token, string $email, string $host): void {
         $mailable = new EmailChangeMailable([
             'email' => $email,
-            'link' => app('url') . "/user-email-change/confirm/{$token}",
-            'subject' => 'Confirmação de e-mail ' . app('name'),
+            'link' => "{$host}/user-email-change/confirm/{$token}",
+            'subject' => 'Confirmação de e-mail ' . config('mail.from.name'),
         ]);
         Mail::to($email)->queue($mailable);
     }
 
-    public function userPasswordResetSend(string $token, string $email): void {
+    public function userPasswordResetSend(string $token, string $email, string $host): void {
         $mailable = new PasswordResetMailable([
             'email' => $email,
-            'link' =>  app('url') . "/user-password-reset/confirm/{$token}",
-            'subject' => 'Solicitação de recuperação de senha ' . app('name'),
+            'link' =>  "{$host}/user-password-reset/confirm/{$token}",
+            'subject' => 'Solicitação de recuperação de senha ' . config('mail.from.name'),
         ]);
         Mail::to($email)->queue($mailable);
     }

@@ -28,13 +28,17 @@ class ProfileController extends Controller
     }
 
     public function preferencesUpdate(EmailService $emailService): JsonResponse {
+        request()->validate([
+            'email' => 'required|email',
+            'host' => 'required|string',
+        ]);
         $authUser = JwtHelper::getAuthUser();
         $model = WardUser::find($authUser->id);
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request('email')) {
             try {
                 $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
-                $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail);
+                $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail, request('host'));
             } catch (\Exception $e) {
                 // Se der ruim aqui tanto faz, o usuário pode clicar no resend
             }

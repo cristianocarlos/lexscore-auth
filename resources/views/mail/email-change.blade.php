@@ -8,13 +8,13 @@
   <body>
     Olá,
     <br /><br />
-    Este e-mail foi informado para uso no MDMED, por favor confirme.
+    Este e-mail foi informado para acessar a {{ config('mail.from.name') }}, por favor confirme.
     <br /><br />
     <a href="{{$link}}" target="_blank" class="button">Confirmar</a>
     <br /><br />
     Ou, cole este link no seu navegador: {{$link}}
     <br /><br />
     Atenciosamente,<br /><br />
-    Lexscore<br />www.lexscore.com
+    {{ config('mail.from.name') }}
   </body>
 </html>

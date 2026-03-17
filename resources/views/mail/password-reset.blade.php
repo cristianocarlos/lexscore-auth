@@ -8,7 +8,7 @@
   <body>
     Olá,
     <br /><br />
-    Houve uma solicitação de recuperação de senha para sua conta no MDMED.
+    Houve uma solicitação de recuperação de senha para sua conta da {{ config('mail.from.name') }}.
     <br /><br />
     Se você fez esta solicitação, clique no link abaixo para configurar uma nova senha.
     Caso contrário, desconsidere esta mensagem.
@@ -16,6 +16,6 @@
     <a href="{{$link}}" target="_blank">{{$link}}</a>
     <br /><br />
     Atenciosamente,<br /><br />
-    Lexscore<br />www.lexscore.com
+    {{ config('mail.from.name') }}
   </body>
 </html>
