@@ -8,23 +8,24 @@ use App\Casts\SysLogCast;
 use App\Casts\ward\UserPersDataCast;
 use App\Custom\Cast;
 use App\Enums\YiiEnum;
-use App\Traits\ModelSysLogTrait;
+use App\Observers\SysLogObserver;
+use App\Observers\ward\CrudUserObserver;
+use App\Scopes\ward\CrudUserScope;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @mixin IdeHelperUser
  */
-class User extends Authenticatable implements JWTSubject
+#[ScopedBy([CrudUserScope::class])]
+#[ObservedBy([CrudUserObserver::class])]
+#[ObservedBy([SysLogObserver::class])]
+class CrudUser extends Model
 {
-    use ModelSysLogTrait;
-
-    const string AUTH_GUARD = 'ward';
-
     protected $table = 'admin.user';
     protected $primaryKey = 'user_code';
     public $timestamps = false;
@@ -53,45 +54,8 @@ class User extends Authenticatable implements JWTSubject
         'user_pass',
     ];
 
-    public function getAuthPassword(): string {
-        return $this->user_pass;
-    }
-
-    // Override the default password field name
-    public function getAuthPasswordName(): string {
-        return 'user_pass';
-    }
-
-    public function validatePassword($plainPassword): string {
-        return Hash::check($plainPassword, $this->user_pass);
-    }
-
-    public function getJWTIdentifier() {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims(): array {
-        return [
-            'name' => $this->user_mail,
-            'email' => $this->user_mail,
-        ];
-    }
-
-    // ////
-    // ////
-    // ////
-
-    public function emailChangeTokenRelation(): HasMany {
-        return $this->hasMany(UserToken::class, 'ustk_user')
-            ->where('ustk_daho', '>', UserToken::getExpiryTimestamp());
-    }
-
-    public static function findByUsername(string $username): ?static {
-        $columnName = str_contains($username, '@') ? 'user_mail' : 'user_code';
-        return static::where([
-            $columnName => $username,
-            'user_stat' => YiiEnum::STATUS_OK->value,
-        ])->first();
+    public function notExpiredEmailChangeTokenRelation(): HasMany {
+        return $this->hasMany(UserToken::class, 'ustk_user')->notExpiredEmailChange();
     }
 
     public function getNextSequence(): ?int {

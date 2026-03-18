@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\UserRequest;
 use App\Http\Resources\ward\user\UserSaveResource;
 use App\Http\Resources\ward\user\UserViewResource;
-use App\Models\ward\User as WardUser;
+use App\Models\ward\CrudUser as WardCrudUser;
 use App\Models\ward\UserToken;
 use App\Services\EmailService;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function personalInfoUpdate(UserRequest $request): JsonResponse {
         $request->validated();
         $authUser = JwtHelper::getAuthUser();
-        $model = WardUser::find($authUser->id);
+        $model = WardCrudUser::find($authUser->id);
         $model->user_cpf = request('cpf');
         $model->user_mail = request('email');
         $model->user_name = request('name');
@@ -33,7 +33,7 @@ class ProfileController extends Controller
             'host' => 'required|string',
         ]);
         $authUser = JwtHelper::getAuthUser();
-        $model = WardUser::find($authUser->id);
+        $model = WardCrudUser::find($authUser->id);
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request('email')) {
             try {
@@ -49,7 +49,7 @@ class ProfileController extends Controller
 
     public function view(): JsonResponse {
         $authUser = JwtHelper::getAuthUser();
-        $model = WardUser::find($authUser->id);
+        $model = WardCrudUser::find($authUser->id);
         return response()->json(new UserViewResource($model));
     }
 }

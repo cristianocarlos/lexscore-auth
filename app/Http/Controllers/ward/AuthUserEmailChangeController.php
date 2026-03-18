@@ -5,12 +5,12 @@ namespace App\Http\Controllers\ward;
 use App\Custom\JwtHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JsonFeedbackResource;
-use App\Models\ward\User as WardUser;
+use App\Models\ward\AuthUser as WardAuthUser;
 use App\Models\ward\UserToken;
 use App\Services\EmailService;
 use Illuminate\Http\JsonResponse;
 
-class UserEmailChangeController extends Controller
+class AuthUserEmailChangeController extends Controller
 {
     public function ask(EmailService $emailService): JsonResponse {
         request()->validate([
@@ -27,7 +27,7 @@ class UserEmailChangeController extends Controller
         /** @var UserToken $model */
         $model = UserToken::notExpiredBuilder()->where('ustk_toke', $token)->first();
         if (!$model) return response()->json(new JsonFeedbackResource('Token expirado', false));
-        $userModel = WardUser::find($model->ustk_user);
+        $userModel = WardAuthUser::find($model->ustk_user);
         $userModel->user_mail = $model->ustk_mail;
         $userModel->save();
         // Exclui todas as solicitações deste usuário, caso isso não aconteça pode ficar uma solicitação dupla pendurada eternamente

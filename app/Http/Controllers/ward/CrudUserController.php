@@ -8,31 +8,31 @@ use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\ward\user\UserRowsResource;
 use App\Http\Resources\ward\user\UserSaveResource;
 use App\Http\Resources\ward\user\UserViewResource;
+use App\Models\ward\CrudUser as WardCrudUser;
 use App\Models\ward\RbacRole;
-use App\Models\ward\User as WardUser;
 use Illuminate\Http\JsonResponse;
 
-class UserController extends Controller
+class CrudUserController extends Controller
 {
     public function create(UserRequest $request): JsonResponse {
         $request->validated();
-        $model = new WardUser;
+        $model = new WardCrudUser;
         $model->resolveAttributes(request());
         $model->save();
         RbacRole::roleAssignmentSave(request('role_assignment'), $model->user_code);
         return response()->json(new UserSaveResource($model));
     }
 
-    public function delete(WardUser $model): JsonResponse {
+    public function delete(WardCrudUser $model): JsonResponse {
         $model->delete();
         return response()->json(new JsonFeedbackResource('delete'));
     }
 
     public function index(): JsonResponse {
-        return response()->json(new UserRowsResource(WardUser::limit(10)->get()));
+        return response()->json(new UserRowsResource(WardCrudUser::limit(10)->get()));
     }
 
-    public function update(UserRequest $request, WardUser $model): JsonResponse {
+    public function update(UserRequest $request, WardCrudUser $model): JsonResponse {
         $request->validated();
         $model->resolveAttributes(request());
         $model->save();
@@ -40,7 +40,7 @@ class UserController extends Controller
         return response()->json(new UserSaveResource($model));
     }
 
-    public function view(WardUser $model): JsonResponse {
+    public function view(WardCrudUser $model): JsonResponse {
         return response()->json(new UserViewResource($model));
     }
 }

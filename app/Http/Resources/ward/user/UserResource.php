@@ -3,12 +3,12 @@
 namespace App\Http\Resources\ward\user;
 
 use App\Models\Type;
-use App\Models\ward\User as WardUser;
+use App\Models\ward\CrudUser as WardCrudUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin WardUser
+ * @mixin WardCrudUser
  */
 class UserResource extends JsonResource
 {
@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'email' => $this->whenNotNull($this->user_mail),
             'has_password' => (bool) $this->user_pass,
             'name' => $this->user_name,
-            'pending_email' => $this->whenNotNull($this->emailChangeTokenRelation()->first()?->ustk_mail),
+            'pending_email' => $this->whenNotNull($this->notExpiredEmailChangeTokenRelation()->first()?->ustk_mail),
             'personal_data' => $this->whenNotNull($this->user_pers_data),
             'photo' => $this->whenNotNull($this->user_phot),
             'preferences' => $this->whenNotNull($this->user_pref_data),

@@ -7,7 +7,7 @@ use App\Custom\JwtHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\LoginRequest;
 use App\Http\Resources\JsonFeedbackResource;
-use App\Models\ward\User as WardUser;
+use App\Models\ward\AuthUser as WardAuthUser;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -17,7 +17,7 @@ class AuthenticationController extends Controller
 
     public function login(LoginRequest $request): JsonResponse {
         $request->validated(); // nem precisaria, o LoginRequest já resolve
-        $userModel = WardUser::findByUsername($request->input('LoginForm.username'));
+        $userModel = WardAuthUser::findByUsername($request->input('LoginForm.username'));
         if (!$userModel or !$userModel->validatePassword($request->input('LoginForm.password'))) {
             return response()->json(
                 new JsonFeedbackResource(errors: ['LoginForm.password' => ['Credenciais de acesso incorretas']]),
@@ -39,19 +39,19 @@ class AuthenticationController extends Controller
             $userModel,
             $refreshToken,
             static::REFRESH_TOKEN_NAME,
-            WardUser::AUTH_GUARD,
+            WardAuthUser::GUARD,
         );
     }
 
     public function refresh(): JsonResponse {
         try {
             $payload = JwtHelper::getRefreshTokenPayload();
-            $userModel = WardUser::find($payload->get('sub'));
+            $userModel = WardAuthUser::find($payload->get('sub'));
             if (!$userModel) {
                 throw new \Exception('User not found');
             }
 
-            $newAccessToken = auth(WardUser::AUTH_GUARD)->login($userModel);
+            $newAccessToken = auth(WardAuthUser::GUARD)->login($userModel);
             $newRefreshToken = JwtHelper::refreshTokenGenerate($userModel->user_code, static::REFRESH_TOKEN_NAME);
 
             return JwtHelper::responseJsonWithAccessTokenAndCookie(
@@ -59,7 +59,7 @@ class AuthenticationController extends Controller
                 $userModel,
                 $newRefreshToken,
                 static::REFRESH_TOKEN_NAME,
-                WardUser::AUTH_GUARD,
+                WardAuthUser::GUARD,
             );
 
         } catch (\Exception $e) {
@@ -71,7 +71,7 @@ class AuthenticationController extends Controller
     }
 
     public function logout(): JsonResponse {
-        auth(WardUser::AUTH_GUARD)->logout();
+        auth(WardAuthUser::GUARD)->logout();
         return JwtHelper::responseJsonLogout(
             'Successfully logged out',
             static::REFRESH_TOKEN_NAME,

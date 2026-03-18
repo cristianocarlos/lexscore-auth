@@ -20,7 +20,7 @@ class EmailService
     public function userPasswordResetSend(string $token, string $email, string $host): void {
         $mailable = new PasswordResetMailable([
             'email' => $email,
-            'link' =>  "{$host}/user-password-reset/confirm/{$token}",
+            'link' => "{$host}/user-password-reset/confirm/{$token}",
             'subject' => 'Solicitação de recuperação de senha ' . config('mail.from.name'),
         ]);
         Mail::to($email)->queue($mailable);

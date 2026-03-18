@@ -23,6 +23,13 @@ class Query
     }
 
     /**
+     * @return object{'filters': array, 'bindings': array}
+     */
+    public static function getScopeFilter(): object {
+        return literal(filters: [], bindings: []);
+    }
+
+    /**
      * @return object{'filters': array, 'bindings': array, 'orders': array}
      */
     public static function resolveRequestFilter(?object $params = null): object {

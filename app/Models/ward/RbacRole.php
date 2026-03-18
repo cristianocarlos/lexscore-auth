@@ -3,17 +3,22 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
-use App\Traits\ModelSysLogTrait;
+use App\Observers\SysLogObserver;
+use App\Observers\ward\RbacRoleObserver;
+use App\Scopes\ward\RbacRoleScope;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 /**
  * @mixin IdeHelperRbacRole
  */
+#[ScopedBy([RbacRoleScope::class])]
+#[ObservedBy([RbacRoleObserver::class])]
+#[ObservedBy([SysLogObserver::class])]
 class RbacRole extends Model
 {
-    use ModelSysLogTrait;
-
     protected $table = 'admin.rbac_role';
     protected $primaryKey = 'role_code';
     public $timestamps = false;

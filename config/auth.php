@@ -40,7 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        \App\Models\ward\User::AUTH_GUARD => [
+        \App\Models\ward\AuthUser::GUARD => [
             'driver' => 'jwt',
             'provider' => 'ward_users',
         ],
@@ -70,7 +70,7 @@ return [
         ],
         'ward_users' => [
             'driver' => 'eloquent',
-            'model' => \App\Models\ward\User::class,
+            'model' => \App\Models\ward\AuthUser::class,
             'table' => 'admin.user',
         ],
         // 'users' => [
