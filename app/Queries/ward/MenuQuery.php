@@ -52,7 +52,7 @@ class MenuQuery extends \App\Queries\Query
         SQL;
         $sql .= parent::resolveAdditionalSql(
             filters: $filters,
-            orderBy: ' menu_orde, F_CI(menu_name)',
+            orderBy: 'menu_orde, F_CI(menu_name)',
             filterPrefix: 'WHERE',
         );
         return DB::select($sql, $bindings);

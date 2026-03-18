@@ -97,14 +97,11 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
@@ -120,6 +117,98 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperUser {}
+}
+
+namespace App\Models\ward{
+/**
+ * @property int $user_code Main sequential
+ * @property string|null $user_mail E-mail
+ * @property string|null $user_pass Password
+ * @property int $user_stat Status (type: status)
+ * @property string|null $user_pref_data
+ * @property array|null $sys_log JSON log: {
+ *         insert_date_hour: timestamp,
+ *         insert_who_id: number,
+ *         insert_who_name: string,
+ *         last_login_date_hour: timestamp,
+ *         last_update_date_hour: timestamp,
+ *         last_update_who_id: number,
+ *         last_update_who_name: string,
+ *         login_count: number
+ *       }
+ * @property string $user_name Name
+ * @property int|null $user_cpf CPF number
+ * @property string|null $user_pers_data Personal data: {
+ *   gender: number;
+ *   address: AddressDTO;
+ *   birth_date: string;
+ *   phone_rows: Array<PhoneDTO>;
+ * }
+ * @property string|null $user_phot Photo
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereSysLog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserCpf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserMail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserPass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserPersData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserPhot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserPrefData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AuthUser whereUserStat($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperAuthUser {}
+}
+
+namespace App\Models\ward{
+/**
+ * @property int $user_code Main sequential
+ * @property string|null $user_mail E-mail
+ * @property string|null $user_pass Password
+ * @property int $user_stat Status (type: status)
+ * @property string|null $user_pref_data
+ * @property array|null $sys_log JSON log: {
+ *         insert_date_hour: timestamp,
+ *         insert_who_id: number,
+ *         insert_who_name: string,
+ *         last_login_date_hour: timestamp,
+ *         last_update_date_hour: timestamp,
+ *         last_update_who_id: number,
+ *         last_update_who_name: string,
+ *         login_count: number
+ *       }
+ * @property string $user_name Name
+ * @property string|null $user_cpf CPF number
+ * @property array|null $user_pers_data Personal data: {
+ *   gender: number;
+ *   address: AddressDTO;
+ *   birth_date: string;
+ *   phone_rows: Array<PhoneDTO>;
+ * }
+ * @property string|null $user_phot Photo
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ward\UserToken> $notExpiredEmailChangeTokenRelation
+ * @property-read int|null $not_expired_email_change_token_relation_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereSysLog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserCpf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserMail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserPass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserPersData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserPhot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserPrefData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CrudUser whereUserStat($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCrudUser {}
 }
 
 namespace App\Models\ward{
@@ -238,63 +327,22 @@ namespace App\Models\ward{
 
 namespace App\Models\ward{
 /**
- * @property int $user_code Main sequential
- * @property string|null $user_mail E-mail
- * @property string|null $user_pass Password
- * @property int $user_stat Status (type: status)
- * @property string|null $user_pref_data
- * @property array|null $sys_log JSON log: {
- *         insert_date_hour: timestamp,
- *         insert_who_id: number,
- *         insert_who_name: string,
- *         last_login_date_hour: timestamp,
- *         last_update_date_hour: timestamp,
- *         last_update_who_id: number,
- *         last_update_who_name: string,
- *         login_count: number
- *       }
- * @property string $user_name Name
- * @property string|null $user_cpf CPF number
- * @property array|null $user_pers_data Personal data: {
- *   gender: number;
- *   address: AddressDTO;
- *   birth_date: string;
- *   phone_rows: Array<PhoneDTO>;
- * }
- * @property string|null $user_phot Photo
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSysLog($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserCpf($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserMail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPass($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPersData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPhot($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserPrefData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserStat($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperUser {}
-}
-
-namespace App\Models\ward{
-/**
  * @property int $ustk_code Sequential code
  * @property int $ustk_user User (FK)
  * @property string $ustk_toke Reset password/Change e-mail: token
  * @property string $ustk_daho Reset password/Change e-mail: date hour for expiry control porpouses
- * @property string|null $ustk_mail Change e-mail: new e-mail to be updated on user when confirmed
+ * @property string $ustk_mail Change e-mail: new e-mail to be updated on user when confirmed
+ * @property int $ustk_type Type (type: userToken)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken notExpiredEmailChange()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken notExpiredPasswordReset()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkDaho($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkMail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkToke($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserToken whereUstkUser($value)
  * @mixin \Eloquent
  */

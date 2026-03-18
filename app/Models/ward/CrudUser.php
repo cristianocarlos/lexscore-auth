@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @mixin IdeHelperUser
+ * @mixin IdeHelperCrudUser
  */
 #[ScopedBy([CrudUserScope::class])]
 #[ObservedBy([CrudUserObserver::class])]

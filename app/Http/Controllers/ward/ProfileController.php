@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ward;
 
 use App\Custom\JwtHelper;
+use App\Enums\YiiEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\UserRequest;
 use App\Http\Resources\ward\user\UserSaveResource;
@@ -37,7 +38,7 @@ class ProfileController extends Controller
         $oldEmail = $model->user_mail;
         if ($oldEmail !== request('email')) {
             try {
-                $userTokenModel = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
+                $userTokenModel = UserToken::tokenSave(userId: $authUser->id, email: request('email'), typeId: YiiEnum::USER_TOKEN_EMAIL_CHANGE->value);
                 $emailService->userEmailChangeSend($userTokenModel->ustk_toke, $userTokenModel->ustk_mail, request('host'));
             } catch (\Exception $e) {
                 // Se der ruim aqui tanto faz, o usuário pode clicar no resend

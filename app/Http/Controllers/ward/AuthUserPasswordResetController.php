@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ward;
 
+use App\Enums\YiiEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JsonFeedbackResource;
 use App\Models\ward\AuthUser as WardAuthUser;
@@ -21,7 +22,7 @@ class AuthUserPasswordResetController extends Controller
         /** @var WardAuthUser $userModel */
         $userModel = WardAuthUser::where('user_mail', request('email'))->first();
         if (!empty($userModel)) {
-            $model = UserToken::tokenSave(userId: $userModel->user_code, email: request('email'));
+            $model = UserToken::tokenSave(userId: $userModel->user_code, email: request('email'), typeId: YiiEnum::USER_TOKEN_PASSWORD_RESET->value);
             $emailService->userPasswordResetSend($model->ustk_toke, $userModel->user_mail, request('host'));
         }
         return response()->json(new JsonFeedbackResource);
@@ -32,7 +33,7 @@ class AuthUserPasswordResetController extends Controller
             'password' => 'required|confirmed',
         ]);
         /** @var UserToken $model */
-        $model = UserToken::notExpiredBuilder()->where('ustk_toke', $token)->first();
+        $model = UserToken::notExpiredPasswordReset()->where('ustk_toke', $token)->first();
         if (!$model) return response()->json(new JsonFeedbackResource('Token expirado', false));
         DB::transaction(function () use ($model) {
             $model->delete();

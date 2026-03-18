@@ -14,7 +14,7 @@ class EmailService
             'link' => "{$host}/user-email-change/confirm/{$token}",
             'subject' => 'Confirmação de e-mail ' . config('mail.from.name'),
         ]);
-        Mail::to($email)->queue($mailable);
+        Mail::to($email)->send($mailable);
     }
 
     public function userPasswordResetSend(string $token, string $email, string $host): void {
@@ -23,6 +23,6 @@ class EmailService
             'link' => "{$host}/user-password-reset/confirm/{$token}",
             'subject' => 'Solicitação de recuperação de senha ' . config('mail.from.name'),
         ]);
-        Mail::to($email)->queue($mailable);
+        Mail::to($email)->send($mailable);
     }
 }

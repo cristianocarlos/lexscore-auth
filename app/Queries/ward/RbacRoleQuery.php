@@ -20,8 +20,13 @@ class RbacRoleQuery extends \App\Queries\Query
                 ON usro_role = role_code
                AND usro_user = :usro_user
              WHERE role_user IS NULL
-             ORDER BY F_CI(role_name)
         SQL;
-        return DB::select($sql, ['usro_user' => $userId]);
+        $scopeFilter = static::getScopeFilter();
+        $sql .= parent::resolveAdditionalSql(
+            filters: $scopeFilter->filters,
+            orderBy: 'F_CI(role_name)',
+            filterPrefix: 'AND',
+        );
+        return DB::select($sql, [...$scopeFilter->bindings, ...['usro_user' => $userId]]);
     }
 }

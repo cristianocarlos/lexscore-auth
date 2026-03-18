@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ward;
 
 use App\Custom\JwtHelper;
+use App\Enums\YiiEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JsonFeedbackResource;
 use App\Models\ward\AuthUser as WardAuthUser;
@@ -18,14 +19,14 @@ class AuthUserEmailChangeController extends Controller
             'host' => 'required|string',
         ]);
         $authUser = JwtHelper::getAuthUser();
-        $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'));
+        $model = UserToken::tokenSave(userId: $authUser->id, email: request('email'), typeId: YiiEnum::USER_TOKEN_EMAIL_CHANGE->value);
         $emailService->userEmailChangeSend($model->ustk_toke, $model->ustk_mail, request('host'));
         return response()->json(new JsonFeedbackResource);
     }
 
     public function confirm(string $token): JsonResponse {
         /** @var UserToken $model */
-        $model = UserToken::notExpiredBuilder()->where('ustk_toke', $token)->first();
+        $model = UserToken::notExpiredEmailChange()->where('ustk_toke', $token)->first();
         if (!$model) return response()->json(new JsonFeedbackResource('Token expirado', false));
         $userModel = WardAuthUser::find($model->ustk_user);
         $userModel->user_mail = $model->ustk_mail;

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @mixin IdeHelperUser
+ * @mixin IdeHelperAuthUser
  */
 class AuthUser extends Authenticatable implements JWTSubject
 {
@@ -22,10 +22,11 @@ class AuthUser extends Authenticatable implements JWTSubject
         'sys_log' => SysLogCast::class,
         'user_pass' => 'hashed',
     ];
+    protected $attributes = [];
     protected $fillable = [
+        'sys_log',
         'user_mail',
         'user_pass',
-        'sys_log',
     ];
     protected $hidden = [
         'user_pass',
@@ -50,7 +51,7 @@ class AuthUser extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims(): array {
         return [
-            'name' => $this->user_mail,
+            'name' => $this->user_name ?: $this->user_code,
             'email' => $this->user_mail,
         ];
     }
