@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 class RouteController extends Controller
 {
     public function roleRows(int $roleId): JsonResponse {
-        return response()->json(new RoleRouteRowsResource(RbacRouteQuery::getRoleRows($roleId)));
+        return response()->json(new RoleRouteRowsResource(RbacRouteQuery::getRoleRows($roleId, request('version'))));
     }
 
     public function suggest(): JsonResponse {

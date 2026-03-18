@@ -9,7 +9,7 @@ class RbacRouteQuery extends \App\Queries\Query
     /**
      * Lista das rotas com as respectivas atribuições a role
      */
-    public static function getRoleRows(int $roleId): array {
+    public static function getRoleRows(int $roleId, ?int $version): array {
         $sql = <<<SQL
             WITH cte_role_assigned AS (
                 SELECT roro_rout AS assigned_route_id
