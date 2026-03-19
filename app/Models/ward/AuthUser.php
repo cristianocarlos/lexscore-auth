@@ -52,7 +52,7 @@ class AuthUser extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array {
         return [
             'name' => $this->user_name ?: $this->user_code,
-            'email' => $this->user_mail,
+            'email' => $this->user_mail ?: $this->user_code,
         ];
     }
 
