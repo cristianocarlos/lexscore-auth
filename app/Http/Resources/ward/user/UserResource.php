@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\ward\user;
 
-use App\Models\Type;
 use App\Models\ward\CrudUser as WardCrudUser;
+use App\Models\ward\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ward;
 
+use App\Models\IdeHelperFile;
 use Illuminate\Database\Eloquent\Model;
 
 /**

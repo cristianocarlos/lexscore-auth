@@ -11,7 +11,7 @@
  */
 
 
-namespace App\Models{
+namespace App\Models{use App\Models\ward\File;
 /**
  * @property int $file_code Sequential code
  * @property string $file_name Name
@@ -67,7 +67,7 @@ namespace App\Models{
 	class IdeHelperFile {}
 }
 
-namespace App\Models{
+namespace App\Models{use App\Models\ward\Type;
 /**
  * @property int $type_code Code
  * @property string $type_name Name

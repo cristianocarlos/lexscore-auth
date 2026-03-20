@@ -3,8 +3,8 @@
 namespace App\Models\ward;
 
 use App\Casts\SysLogCast;
-use App\Observers\SysLogObserver;
 use App\Observers\ward\RbacRoleObserver;
+use App\Observers\ward\SysLogObserver;
 use App\Scopes\ward\RbacRoleScope;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;

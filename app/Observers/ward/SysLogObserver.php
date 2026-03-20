@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\ward;
 
 use App\Custom\Cast;
 use App\Models\ward\AuthUser as ClinicAuthUser;
