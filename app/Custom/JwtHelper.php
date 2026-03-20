@@ -100,7 +100,7 @@ class JwtHelper
             throw new \Exception('Refresh token not found');
         }
         try {
-            $payload = JwtHelper::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
+            $payload = static::refreshTokenValidate($refreshToken, static::REFRESH_TOKEN_NAME);
         } catch (\Exception $e) {
             throw new \Exception('Invalid refresh token. ' . $e->getMessage());
         }
