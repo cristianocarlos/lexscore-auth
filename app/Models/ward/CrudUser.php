@@ -52,6 +52,7 @@ class CrudUser extends Model
     ];
     protected $hidden = [
         'user_pass',
+        'user_phot', // binary da xabu ao retornar no json
     ];
 
     public function notExpiredEmailChangeTokenRelation(): HasMany {

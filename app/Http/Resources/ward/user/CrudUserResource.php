@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin WardCrudUser
  */
-class UserResource extends JsonResource
+class CrudUserResource extends JsonResource
 {
     public function toArray(Request $request): array {
         return [

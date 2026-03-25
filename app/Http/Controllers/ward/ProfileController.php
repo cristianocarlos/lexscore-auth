@@ -6,8 +6,8 @@ use App\Custom\JwtHelper;
 use App\Enums\YiiEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\UserRequest;
-use App\Http\Resources\ward\user\UserSaveResource;
-use App\Http\Resources\ward\user\UserViewResource;
+use App\Http\Resources\ward\user\CrudUserSaveResource;
+use App\Http\Resources\ward\user\CrudUserViewResource;
 use App\Models\ward\CrudUser as WardCrudUser;
 use App\Models\ward\UserToken;
 use App\Services\EmailService;
@@ -15,6 +15,9 @@ use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
+    public function passwordUpdate(): JsonResponse {
+    }
+
     public function personalInfoUpdate(UserRequest $request): JsonResponse {
         $request->validated();
         $authUser = JwtHelper::getAuthUser();
@@ -25,7 +28,7 @@ class ProfileController extends Controller
         $model->user_pers_data = request('personal_data');
         $model->user_phot = request('photo');
         $model->save();
-        return response()->json(new UserSaveResource($model));
+        return response()->json(new CrudUserSaveResource($model));
     }
 
     public function preferencesUpdate(EmailService $emailService): JsonResponse {
@@ -45,12 +48,12 @@ class ProfileController extends Controller
             }
         }
         $model->save();
-        return response()->json(new UserSaveResource($model));
+        return response()->json(new CrudUserSaveResource($model));
     }
 
     public function view(): JsonResponse {
         $authUser = JwtHelper::getAuthUser();
         $model = WardCrudUser::find($authUser->id);
-        return response()->json(new UserViewResource($model));
+        return response()->json(new CrudUserViewResource($model));
     }
 }

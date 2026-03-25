@@ -9,7 +9,7 @@ class JsonResponseResource extends JsonResource
 {
     public JsonFeedbackResource $feedbackResource;
 
-    public function __construct(array|object $resource, ?JsonFeedbackResource $feedbackResource = null) {
+    public function __construct(array|object|string $resource, ?JsonFeedbackResource $feedbackResource = null) {
         parent::__construct($resource);
         $this->feedbackResource = $feedbackResource ?: new JsonFeedbackResource;
     }

@@ -30,6 +30,7 @@ class AuthUser extends Authenticatable implements JWTSubject
     ];
     protected $hidden = [
         'user_pass',
+        'user_phot', // binary da xabu ao retornar no json
     ];
 
     public function getAuthPassword(): string {
