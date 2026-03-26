@@ -52,7 +52,7 @@ final class PhoneDTO
     }
 
     /**
-     * @return array<PhoneDTO>|null
+     * @return array<static>|null
      */
     public static function collectionFromArray(?array $rows): ?array {
         if (empty($rows)) return null;
@@ -60,7 +60,7 @@ final class PhoneDTO
     }
 
     /**
-     * @param  array<PhoneDTO>|null  $rows
+     * @param  array<static>|null  $rows
      */
     public static function collectionToForm(?array $rows): ?array {
         if (empty($rows)) return null;
@@ -68,7 +68,7 @@ final class PhoneDTO
     }
 
     /**
-     * @param  array<PhoneDTO>|null  $rows
+     * @param  array<static>|null  $rows
      */
     public static function collectionToDb(?array $rows): ?array {
         if (empty($rows)) return null;

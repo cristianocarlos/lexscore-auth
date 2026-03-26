@@ -6,6 +6,7 @@ use App\Casts\Base64FileCast;
 use App\Casts\CpfCast;
 use App\Casts\SysLogCast;
 use App\Casts\ward\UserPersDataCast;
+use App\Casts\ward\UserPrefDataCast;
 use App\Custom\Cast;
 use App\Enums\YiiEnum;
 use App\Observers\ward\CrudUserObserver;
@@ -34,6 +35,7 @@ class CrudUser extends Model
         'user_cpf' => CpfCast::class,
         'user_pass' => 'hashed',
         'user_pers_data' => UserPersDataCast::class,
+        'user_pref_data' => UserPrefDataCast::class,
         'user_phot' => Base64FileCast::class,
     ];
     protected $attributes = [

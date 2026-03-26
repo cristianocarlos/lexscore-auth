@@ -23,6 +23,7 @@ Route::prefix('ward')->group(function () {
         //
         Route::patch('/profile/password-update', [ward\ProfileController::class, 'passwordUpdate']);
         Route::put('/profile/personal-info-update', [ward\ProfileController::class, 'personalInfoUpdate']);
+        Route::get('/profile/preferences-load/{model}', [ward\ProfileController::class, 'preferencesLoad']);
         Route::patch('/profile/preferences-update', [ward\ProfileController::class, 'preferencesUpdate']);
         Route::get('/profile/view', [ward\ProfileController::class, 'view']);
         //
@@ -40,7 +41,7 @@ Route::prefix('ward')->group(function () {
         Route::post('/user/create', [ward\CrudUserController::class, 'create']);
         Route::delete('/user/delete/{model}', [ward\CrudUserController::class, 'delete']);
         Route::get('/user/index', [ward\CrudUserController::class, 'index']);
-        Route::get('/user/photo-load', [ward\CrudUserController::class, 'photoLoad']);
+        Route::get('/user/photo-load/{model}', [ward\CrudUserController::class, 'photoLoad']);
         Route::put('/user/update/{model}', [ward\CrudUserController::class, 'update']);
         Route::get('/user/view/{model?}', [ward\CrudUserController::class, 'view']);
         //

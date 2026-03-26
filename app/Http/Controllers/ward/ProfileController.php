@@ -7,6 +7,7 @@ use App\Enums\YiiEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ward\UserRequest;
 use App\Http\Resources\JsonFeedbackResource;
+use App\Http\Resources\JsonResponseResource;
 use App\Http\Resources\ward\user\CrudUserSaveResource;
 use App\Http\Resources\ward\user\CrudUserViewResource;
 use App\Models\ward\AuthUser as WardAuthUser;
@@ -46,6 +47,10 @@ class ProfileController extends Controller
         $model->user_phot = request('photo');
         $model->save();
         return response()->json(new CrudUserSaveResource($model));
+    }
+
+    function preferencesLoad(WardCrudUser $model) {
+        return response()->json(new JsonResponseResource($model->user_pref_data));
     }
 
     public function preferencesUpdate(EmailService $emailService): JsonResponse {
