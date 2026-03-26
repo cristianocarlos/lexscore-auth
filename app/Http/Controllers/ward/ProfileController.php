@@ -25,13 +25,13 @@ class ProfileController extends Controller
         ]);
         $authUser = JwtHelper::getAuthUser();
         $model = WardAuthUser::find($authUser->id);
-        if (!$model->validatePassword(request()->input('current_password'))) {
+        if (!$model->validatePassword(request('current_password'))) {
             return response()->json(
                 new JsonFeedbackResource(errors: ['current_password' => ['Senha incorreta']]),
                 JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
-        $model->user_pass = request()->input('new_password');
+        $model->user_pass = request('new_password');
         $model->save();
         return response()->json(new JsonFeedbackResource('save'));
     }

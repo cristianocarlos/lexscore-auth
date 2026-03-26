@@ -12,7 +12,7 @@ final class UserPreferenceShortcutDataDTO
         public string $url_path,
         public ?string $shortcut_name,
         /** @var `TSvgMapNames`|null */
-        public ?string $shortcut_icon_name,
+        public string $shortcut_icon_name,
     ) {}
 
     public static function fromArray(?array $data): ?self {
