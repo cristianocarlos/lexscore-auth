@@ -5,7 +5,6 @@ namespace App\Custom;
 use App\DTOs\AuthUserDTO;
 use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\JsonResponseResource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Cookie as SymfonyCookie;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -72,7 +71,7 @@ class JwtHelper
 
     public static function responseJsonWithAccessTokenAndCookie(
         string $accessToken,
-        Model $userModel,
+        int $userId,
         string $refreshToken,
         string $cookieName,
         string $guard,
@@ -81,7 +80,7 @@ class JwtHelper
             'access_token' => $accessToken,
             'token_type' => 'bearer',
             'expires_in' => auth($guard)->factory()->getTTL() * 60,
-            'user_data' => $userModel,
+            'user_id' => $userId,
         ];
         if (!app()->isProduction()) {
             $content = array_merge($content, [

@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
 
         return JwtHelper::responseJsonWithAccessTokenAndCookie(
             $accessToken,
-            $userModel,
+            $userModel->user_code,
             $refreshToken,
             static::REFRESH_TOKEN_NAME,
             WardAuthUser::GUARD,
@@ -56,7 +56,7 @@ class AuthenticationController extends Controller
 
             return JwtHelper::responseJsonWithAccessTokenAndCookie(
                 $newAccessToken,
-                $userModel,
+                $userModel->user_code,
                 $newRefreshToken,
                 static::REFRESH_TOKEN_NAME,
                 WardAuthUser::GUARD,
