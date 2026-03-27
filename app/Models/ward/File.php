@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class File extends Model
 {
-    protected $table = 'misc.file';
+    protected $table = 'public.file';
     protected $primaryKey = 'file_code';
 
     public function profilePhotoSave(?string $value): void {}

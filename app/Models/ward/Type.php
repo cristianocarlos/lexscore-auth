@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Type extends Model
 {
-    protected $table = 'misc.type';
+    protected $table = 'public.type';
     protected $primaryKey = 'type_code';
 
     public static function getName(?int $id) {
