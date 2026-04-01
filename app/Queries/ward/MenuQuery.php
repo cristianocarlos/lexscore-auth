@@ -48,7 +48,7 @@ class MenuQuery extends \App\Queries\Query
             FROM admin.menu
             LEFT OUTER
             JOIN admin.rbac_route
-              ON rout_code = menu_rout
+              ON rout_code = menu_acti
         SQL;
         $sql .= parent::resolveAdditionalSql(
             filters: $filters,

@@ -215,12 +215,12 @@ namespace App\Models\ward{
 /**
  * @property int $menu_code Sequential code
  * @property string $menu_name Name
- * @property int|null $menu_rout RbacRoute (FK) sem constraint por causa do refatoramento action/route
+ * @property int|null $menu_acti RbacRoute (FK) sem constraint por causa do refatoramento action/route
  * @property int $menu_orde Order
  * @property int|null $menu_menu Menu (FK) sem constraint because chato pra caralho
  * @property array|null $menu_shcu_data Shortcut data: {icon_name: text, name: text}
  * @property-read mixed $menu_menu_desc
- * @property-read mixed $menu_rout_desc
+ * @property-read mixed $menu_acti_desc
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu query()

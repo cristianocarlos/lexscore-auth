@@ -17,8 +17,8 @@ class MenuResource extends JsonResource
             'name' => $this->menu_name,
             'parent_id' => $this->whenNotNull($this->menu_menu),
             'parent_id_desc' => $this->whenNotNull($this->menu_menu_desc),
-            'route_id' => $this->whenNotNull($this->menu_rout),
-            'route_id_desc' => $this->whenNotNull($this->menu_rout_desc),
+            'route_id' => $this->whenNotNull($this->menu_acti),
+            'route_id_desc' => $this->whenNotNull($this->menu_acti_desc),
             'shortcut_data' => $this->whenNotNull($this->menu_shcu_data),
         ];
     }

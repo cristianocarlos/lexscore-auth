@@ -19,19 +19,19 @@ class Menu extends Model
     ];
     protected $fillable = [
         'menu_name',
-        'menu_rout',
+        'menu_acti',
         'menu_menu',
         'menu_shcu_data',
     ];
 
     public function resolveAttributes(Request $request): void {
         $this->menu_name = $request->input('name');
-        $this->menu_rout = $request->input('route_id');
+        $this->menu_acti = $request->input('route_id');
         $this->menu_menu = $request->input('parent_id');
         $this->menu_shcu_data = $request->input('shortcut_data');
     }
 
-    protected $appends = ['menu_menu_desc', 'menu_rout_desc'];
+    protected $appends = ['menu_menu_desc', 'menu_acti_desc'];
 
     public static function getName(?int $id) {
         if (!$id) return null;
@@ -42,7 +42,7 @@ class Menu extends Model
         return static::getName($this->menu_menu);
     }
 
-    public function getMenuRoutDescAttribute() {
-        return RbacRoute::getName($this->menu_rout);
+    public function getMenuActiDescAttribute() {
+        return RbacRoute::getName($this->menu_acti);
     }
 }
