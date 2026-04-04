@@ -29,7 +29,7 @@ class Mask
         return str_replace('.', ',', (string) $value); // pt_br
     }
 
-    public static function Integer(?string $value): ?string {
+    public static function integer(?string $value): ?string {
         if (!is_numeric($value)) return $value;
         return number_format($value, 0, '', '.'); // pt_br
     }
